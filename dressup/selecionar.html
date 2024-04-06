@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site De Mangás Em Alta Qualidade!">
+    <link rel="stylesheet" href="/header.css">
+    <meta name="theme-color" content="#181818">
+    <link rel="stylesheet" href="/dressup/selecionar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>AniHotel+</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/index.html">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info/info.html">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="nav-text">Info</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-envelope"></i>
+                            <span class="nav-text">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>    
+    <!-- Container para o volume selecionado -->
+    <div class="volume-container">
+        <!-- Imagem da capa do volume selecionado -->
+        <img id="volume-cover" src="" alt="Capa do Volume Selecionado" class="volume-cover">
+        
+        <!-- Seletor de volumes -->
+        <label for="volume">Escolha o Capítulo</label>
+        <select id="volume" name="volume">
+        </select>
+    </div>
+
+    <script src="/favicons.js"></script>
+    <script src="/caso_icones.js"></script>
+    <script>
+        const intervals = [
+            { start: 1, end: 7 },
+            { start: 8, end: 15 },
+            { start: 16, end: 23 },
+            { start: 24, end: 31 },
+            { start: 32, end: 39 },
+            { start: 40, end: 47 },
+            { start: 48, end: 55 },
+            { start: 56, end: 63 },
+            { start: 64, end: 71 },
+            { start: 72, end: 79 },
+            { start: 80, end: 87 },
+            { start: 88, end: 101 }
+        ];
+
+        function atualizarCapaVolume() {
+            const selectedChapter = parseInt(document.getElementById("volume").value);
+            let selectedCover;
+            for (let i = 0; i < intervals.length; i++) {
+                if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
+                    selectedCover = i + 1;
+                    break;
+                }
+            }
+            const imagePath = "/dressup/capas/volume_" + selectedCover + ".png";
+            const volumeCover = document.getElementById("volume-cover");
+            volumeCover.src = imagePath;
+            volumeCover.onclick = function() {
+                window.location.href = "/dressup_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+            };
+            const pageIdentifier = window.location.pathname;
+            localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+        }
+
+        document.getElementById("volume").addEventListener("change", function() {
+            atualizarCapaVolume();
+        });
+
+        const volumeContainer = document.querySelector(".volume-container");
+        let touchStartX;
+        let touchEndX;
+        volumeContainer.addEventListener("touchstart", function(event) {
+            touchStartX = event.touches[0].clientX;
+        });
+        volumeContainer.addEventListener("touchend", function(event) {
+            touchEndX = event.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            if (diff > 25) {
+                let currentChapter = parseInt(document.getElementById("volume").value);
+                let nextChapter = currentChapter + 1;
+                if (nextChapter > 101) {
+                    nextChapter = 1;
+                }
+                document.getElementById("volume").value = nextChapter;
+                atualizarCapaVolume();
+            } else if (diff < -25) {
+                let currentChapter = parseInt(document.getElementById("volume").value);
+                let prevChapter = currentChapter - 1;
+                if (prevChapter < 1) {
+                    prevChapter = 101;
+                }
+                document.getElementById("volume").value = prevChapter;
+                atualizarCapaVolume();
+            }
+        });
+
+        window.onload = function() {
+            const pageIdentifier = window.location.pathname;
+            const storedChapter = localStorage.getItem("selectedChapter_" + pageIdentifier);
+            if (storedChapter) {
+                document.getElementById("volume").value = storedChapter;
+            } else {
+                document.getElementById("volume").value = "1";
+            }
+            atualizarCapaVolume();
+        }
+
+        const select = document.getElementById("volume");
+        for (let i = 1; i <= 101; i++) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.text = "Capítulo " + i;
+            select.appendChild(option);
+        }
+    </script>
+</body>
+</html>
