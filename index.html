@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site De Mangás Em Alta Qualidade!">
+<meta name="msapplication-TileImage" content="/favicons/bachira.png">
+<meta name="msapplication-square70x70logo" content="/favicons/bachira.png">
+<meta name="msapplication-square150x150logo" content="/favicons/bachira.png">
+<meta name="msapplication-wide310x150logo" content="/favicons/bachira.png">
+<meta name="msapplication-square310x310logo" content="/favicons/bachira.png">
+<meta name="theme-color" content="#181818">
+<link rel="apple-touch-icon" href="/favicons/bachira.png">
+<link rel="apple-touch-icon-precomposed" href="/favicons/bachira.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/favicons/bachira.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicons/bachira.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicons/bachira.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicons/bachira.png">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/favicons/bachira.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/favicons/bachira.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/favicons/bachira.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicons/bachira.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta property="og:image" content="/favicons/bachira.png">
+<meta name="twitter:image" content="/favicons/bachira.png">
+<meta property="og:image:whatsapp" content="/favicons/bachira.png">
+<meta property="og:image:url" content="/favicons/bachira.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+    <title>AniHotel+</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Adiciona um cursor indicando que a imagem pode ser arrastada */
+        .slideshow-container {
+            cursor: grab;
+            touch-action: pan-y; /* Permitir arrastamento apenas na direção y */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="info/info.html">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="nav-text">Info</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-envelope"></i>
+                            <span class="nav-text">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="slideshow-container" id="slideshow-container">
+        <div class="mySlides fade">
+            <a href="/hokkaido/selecionar.html">
+            <img src="img/hokkaido.png" alt="Hokkaido Gals Are Super Adorable!">
+        </div>
+    </a>
+    <a href="/dressup/selecionar.html">
+        <div class="mySlides fade">
+            <img src="img/sonobisque.jpg" alt="My Dress-Up Darling">
+        </div>
+    </a>
+    <a href="/bluelock/selecionar.html">
+        <div class="mySlides fade">
+            <img src="img/bluelock.jpg" alt="Blue Lock">
+        </div>
+    </a>
+    </div>
+    <div class="dots">
+        <span class="dot" onclick="currentSlide(0)"></span> 
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span> 
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <script src="favicons.js"></script>
+    <script src="caso_icones.js"></script>
+    <script>
+        $(document).ready(function(){
+            var container = $("#slideshow-container");
+            var startX;
+            container.on("touchstart", function(event) {
+                startX = event.originalEvent.touches[0].pageX;
+            });
+            container.on("touchend", function(event) {
+                var endX = event.originalEvent.changedTouches[0].pageX;
+                var diffX = endX - startX;
+                if (diffX > 50) {
+                    plusSlides(-1); // Slide para a esquerda
+                } else if (diffX < -50) {
+                    plusSlides(1); // Slide para a direita
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+body {
+    -webkit-user-select: none;
+    user-select: none;
+    color: white;
+    background: #181818;
+}
+
+.biografia {
+    position: relative;
+    bottom: -70px;
+    margin-top: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.biografia:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.biografia h2 {
+    animation: neonGlow 2s infinite alternate;
+    transition: color 0.3s ease;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.biografia h3 {
+    animation: neonGlow 2s infinite alternate;
+    transition: color 0.3s ease;
+    margin-top: 30px;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.biografia p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+    color: white;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.biografia {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes neonGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+#day {
+    position: relative;
+    top: 30px;
+}
+
+@font-face {
+    font-family: 'Edu NSW ACT Foundation';
+    src: url('Fonts/Edu.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Galada';
+    src: url('Fonts/Galada-Regular.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Kalam';
+    src: url('Fonts/Kalam-Regular.ttf') format('truetype');
+  }

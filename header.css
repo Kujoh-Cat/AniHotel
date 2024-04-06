@@ -1,0 +1,133 @@
+/* Estilos para o header */
+header {
+    background: linear-gradient(to right, #181818, #222831);
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0; /* Adicionando left: 0 para garantir que a header ocupe toda a largura */
+    z-index: 1000;
+    border-bottom: 2.5px solid #5a22ff;
+    margin: 0; /* Removendo margem para garantir que a header cubra totalmente a largura da página */
+    transition: background-color 0.3s ease; /* Transição suave para mudança de cor de fundo */
+}
+
+/* Estilos para o container do header */
+.container {
+    max-width: 100%;
+    padding: 0 10px;
+}
+
+/* Estilos para o logo */
+.logo {
+    margin-left: 3px;
+    position: relative;
+    top: 25px;
+    right: -5px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease; /* Transição suave para transformação */
+}
+
+@keyframes neonGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.logo h1 {
+    font-family: 'Kalam', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+    animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
+    transition: color 0.3s ease; /* Transição suave para mudança de cor */
+}
+
+/* Estilos para o ícone do logo */
+.logo i {
+    animation: neonGlow 2s infinite alternate;
+    transition: color 0.3s ease; 
+    font-size: 32px;
+    color: rgb(255, 255, 255);
+}
+
+/* Estilos para a navegação */
+nav {
+    float: right;
+}
+
+/* Estilos para a lista de navegação */
+nav ul {
+    margin-right: 3px;
+    position: relative;
+    left: -10px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para cada item da lista de navegação */
+nav ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+/* Estilos para os links da lista de navegação */
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease; /* Transição suave para mudança de cor */
+}
+
+/* Efeito de hover para os links da lista de navegação */
+nav ul li a:hover {
+    animation: neonGlow 2s infinite alternate;
+    transition: color 0.3s ease; 
+}
+
+/* Efeito de hover para o logo */
+.logo:hover {
+    transform: translateY(-5px); /* Movendo o logo para cima ao passar o mouse */
+}
+
+/* Efeito de hover para o título do logo */
+.logo h1:hover {
+    color: #e3e3e3; /* Mudando a cor do título do logo ao passar o mouse */
+}
+
+@font-face {
+    font-family: 'Edu NSW ACT Foundation';
+    src: url('Fonts/Edu.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Galada';
+    src: url('Fonts/Galada-Regular.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Kalam';
+    src: url('Fonts/Kalam-Regular.ttf') format('truetype');
+  }
+
+  .nav-text {
+    display: none; /* Oculta os textos alternativos por padrão */
+}
+
+nav a i {
+    display: inline; /* Garante que os ícones sejam exibidos em linha */
+}
+
+nav a img {
+    display: none; /* Oculta as imagens de backup */
+}

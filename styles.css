@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: 'Kalam', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #181818;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.slideshow-container {
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-top: 98px;
+}
+
+.mySlides {
+    display: none;
+    text-align: center;
+    animation: fade 1s;
+}
+
+.mySlides img {
+    max-width: 100%;
+    height: auto;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 2s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #906bff;
+    border-radius: 37%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: white;
+}
+  
+@font-face {
+    font-family: 'Edu NSW ACT Foundation';
+    src: url('Fonts/Edu.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Galada';
+    src: url('Fonts/Galada-Regular.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Kalam';
+    src: url('Fonts/Kalam-Regular.ttf') format('truetype');
+  }
+
+  @media (orientation: landscape) {
+    .mySlides img {
+        max-width: 100%;
+        max-height: 325px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+  }
+  
