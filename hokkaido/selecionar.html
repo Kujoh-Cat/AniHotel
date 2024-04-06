@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site De Mangás Em Alta Qualidade!">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/hokkaido/selecionar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>AniHotel+</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/index.html">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info/info.html">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="nav-text">Info</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-envelope"></i>
+                            <span class="nav-text">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>    
+    <!-- Container para o volume selecionado -->
+    <div class="volume-container">
+        <!-- Imagem da capa do volume selecionado -->
+        <img id="volume-cover" src="" alt="Capa do Volume Selecionado" class="volume-cover">
+        
+        <!-- Seletor de volumes -->
+        <label for="volume">Escolha o Capítulo</label>
+        <select id="volume" name="volume">
+            <!-- Options serão adicionadas dinamicamente pelo JavaScript -->
+        </select>
+
+    <script src="/favicons.js"></script>
+    <script src="/caso_icones.js"></script>
+    <script>
+        // Definição dos intervalos de capítulos para cada capa
+const intervals = [
+    { start: 0, end: 7 },
+    { start: 8, end: 16 },
+    { start: 17, end: 26 },
+    { start: 27, end: 35 },
+    { start: 36, end: 47 },
+    { start: 48, end: 56 },
+    { start: 57, end: 65 },
+    { start: 66, end: 75 },
+    { start: 76, end: 83 },
+    { start: 84, end: 91 },
+    { start: 92, end: 98 },
+    { start: 99, end: 103 }
+];
+
+// Função para atualizar a capa do volume selecionado
+function atualizarCapaVolume() {
+    const selectedChapter = parseInt(document.getElementById("volume").value);
+
+    // Encontrando a capa correspondente ao capítulo selecionado
+    let selectedCover = 1;
+    for (let i = 0; i < intervals.length; i++) {
+        if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
+            selectedCover = i + 1; // As capas começam do número 1
+            break;
+        }
+    }
+
+    // Monta o caminho da imagem da capa com base na capa selecionada
+    const imagePath = "/hokkaido/capas/volume_" + selectedCover + ".png";
+    // Atualiza a imagem da capa do volume
+    document.getElementById("volume-cover").src = imagePath;
+
+    // Adiciona o link para a página do mangá
+    document.getElementById("volume-cover").onclick = function() {
+        window.location.href = "/hokkaido_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+    };
+
+    // Armazena o capítulo selecionado no localStorage
+    const pageIdentifier = window.location.pathname; // Obtém o caminho da URL da página
+    localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+}
+
+// Adiciona um ouvinte de eventos para o seletor de volumes
+document.getElementById("volume").addEventListener("change", atualizarCapaVolume);
+
+// Adiciona um ouvinte de eventos para permitir arrastar a capa para o próximo e o volume anterior
+const volumeContainer = document.querySelector(".volume-container");
+let touchStartX;
+let touchEndX;
+volumeContainer.addEventListener("touchstart", function(event) {
+    touchStartX = event.touches[0].clientX;
+});
+volumeContainer.addEventListener("touchend", function(event) {
+    touchEndX = event.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 25) { // Defina a sensibilidade do arrasto para o próximo volume
+        // Avançar para o próximo volume
+        let currentChapter = parseInt(document.getElementById("volume").value);
+        currentChapter++;
+        if (currentChapter > 103) {
+            currentChapter = 0; // Volta para o primeiro capítulo
+        }
+        document.getElementById("volume").value = currentChapter;
+        atualizarCapaVolume();
+    } else if (diff < -25) { // Defina a sensibilidade do arrasto para o volume anterior
+        // Voltar para o volume anterior
+        let currentChapter = parseInt(document.getElementById("volume").value);
+        currentChapter--;
+        if (currentChapter < 0) {
+            currentChapter = 103; // Vai para o último capítulo
+        }
+        document.getElementById("volume").value = currentChapter;
+        atualizarCapaVolume();
+    }
+});
+
+// Chama a função para atualizar a capa do volume quando a página carregar
+window.onload = function() {
+    // Verifica se há um capítulo selecionado armazenado no localStorage para esta página específica
+    const pageIdentifier = window.location.pathname; // Obtém o caminho da URL da página
+    const storedChapter = localStorage.getItem("selectedChapter_" + pageIdentifier);
+    if (storedChapter) {
+        // Define o capítulo selecionado no seletor de volumes
+        document.getElementById("volume").value = storedChapter;
+    } else {
+        // Caso não haja nada salvo, o capítulo padrão será o Capítulo 1
+        document.getElementById("volume").value = "0";
+    }
+    // Atualiza a capa do volume
+    atualizarCapaVolume();
+}
+
+// Obtém o elemento select
+const select = document.getElementById("volume");
+
+// Loop para adicionar as opções de 1 a 103
+for (let i = 0; i <= 103; i++) {
+    // Cria um novo elemento option
+    const option = document.createElement("option");
+    // Define o valor e o texto da opção como o número do capítulo
+    option.value = i;
+    option.text = "Capítulo " + i;
+    // Adiciona a opção ao select
+    select.appendChild(option);
+}
+    </script>
+</body>
+</html>
