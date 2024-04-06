@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site De Mangás Em Alta Qualidade!">
+    <meta name="theme-color" content="#181818">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/bluelock/selecionar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>AniHotel+</title>
+    <style>
+        .volume-container {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .volume-cover {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/index.html">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/info/info.html">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="nav-text">Info</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-envelope"></i>
+                            <span class="nav-text">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>    
+    <!-- Container para o volume selecionado -->
+    <div class="volume-container" id="volume-container">
+        <!-- Imagem da capa do volume selecionado -->
+        <img id="volume-cover" src="" alt="Capa do Volume Selecionado" class="volume-cover">
+        
+        <!-- Seletor de volumes -->
+        <label for="volume">Escolha o Capítulo</label>
+        <select id="volume" name="volume">
+        </select>             
+
+    <script src="/favicons.js"></script>
+    <script src="/arrastar_capa.js"></script>
+    <script src="/caso_icones.js"></script>
+    <script>
+          const intervals = [
+            { start: 1, end: 4 },
+            { start: 5, end: 13 },
+            { start: 14, end: 22 },
+            { start: 23, end: 31 },
+            { start: 32, end: 40 },
+            { start: 41, end: 49 },
+            { start: 50, end: 58 },
+            { start: 59, end: 67 },
+            { start: 68, end: 76 },
+            { start: 77, end: 85 },
+            { start: 86, end: 94 },
+            { start: 95, end: 103 },
+            { start: 104, end: 112 },
+            { start: 113, end: 121 },
+            { start: 122, end: 131 },
+            { start: 132, end: 140 },
+            { start: 141, end: 149 },
+            { start: 150, end: 158 },
+            { start: 159, end: 167 },
+            { start: 168, end: 176 },
+            { start: 177, end: 185 },
+            { start: 186, end: 194 },
+            { start: 195, end: 203 },
+            { start: 204, end: 212 },
+            { start: 213, end: 221 },
+            { start: 222, end: 230 },
+            { start: 231, end: 239 },
+            { start: 240, end: 256 }
+        ];
+
+        function atualizarCapaVolume() {
+            const selectedChapter = parseInt(document.getElementById("volume").value);
+            let selectedCover;
+            for (let i = 0; i < intervals.length; i++) {
+                if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
+                    selectedCover = i + 1;
+                    break;
+                }
+            }
+            const imagePath = "/bluelock/capas/volume_" + selectedCover + ".png";
+            const volumeCover = document.getElementById("volume-cover");
+            volumeCover.src = imagePath;
+            volumeCover.onclick = function() {
+                window.location.href = "/bluelock_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+            };
+            const pageIdentifier = window.location.pathname;
+            localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+        }
+
+        document.getElementById("volume").addEventListener("change", function() {
+            atualizarCapaVolume();
+        });
+
+        const volumeContainer = document.querySelector(".volume-container");
+        let touchStartX;
+        let touchEndX;
+        volumeContainer.addEventListener("touchstart", function(event) {
+            touchStartX = event.touches[0].clientX;
+        });
+        volumeContainer.addEventListener("touchend", function(event) {
+            touchEndX = event.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            if (diff > 25) {
+                let currentChapter = parseInt(document.getElementById("volume").value);
+                let nextChapter = currentChapter + 1;
+                if (nextChapter > 256) {
+                    nextChapter = 1;
+                }
+                document.getElementById("volume").value = nextChapter;
+                atualizarCapaVolume();
+            } else if (diff < -25) {
+                let currentChapter = parseInt(document.getElementById("volume").value);
+                let prevChapter = currentChapter - 1;
+                if (prevChapter < 1) {
+                    prevChapter = 256;
+                }
+                document.getElementById("volume").value = prevChapter;
+                atualizarCapaVolume();
+            }
+        });
+
+        window.onload = function() {
+            const pageIdentifier = window.location.pathname;
+            const storedChapter = localStorage.getItem("selectedChapter_" + pageIdentifier);
+            if (storedChapter) {
+                document.getElementById("volume").value = storedChapter;
+            } else {
+                document.getElementById("volume").value = "1";
+            }
+            atualizarCapaVolume();
+        }
+
+        const select = document.getElementById("volume");
+        for (let i = 1; i <= 256; i++) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.text = "Capítulo " + i;
+            select.appendChild(option);
+        }
+    </script>
+</body>
+</html>
