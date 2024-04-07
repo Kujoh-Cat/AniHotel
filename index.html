@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="continue-lendo.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="adicionados.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* Adiciona um cursor indicando que a imagem pode ser arrastada */
@@ -59,12 +60,6 @@
                         <a href="info/info.html">
                             <i class="fas fa-info-circle"></i>
                             <span class="nav-text">Info</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-envelope"></i>
-                            <span class="nav-text">Feedback</span>
                         </a>
                     </li>
                 </ul>
@@ -95,12 +90,21 @@
     </div>
 
 <div class="continuar-lendo">
-    <div class="continue-lendo"><h1>Continue Lendo</h1></div>
+    <div class="continue-lendo"><h1>Continue a Ler</h1></div>
     <a href="" id="continue-lendo-link">
         <div class="capa-miniatura"></div>
         </a>
    <div class="nome-manga"></div>
    <div class="capitulo_manga"></div>
+</div>
+
+ <div class="adicionados">
+    <div class="adicionados-h1">Recomendados</div>
+    <div class="adicionados-mangas">
+           <img src="/img/berserk-cover.png" alt="Berserk">
+           <h2>Berserk</h2>
+           <p>375 Capítulos</p>
+    </div>
 </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -125,6 +129,28 @@
             });
         });
     </script>
+
+<script>
+    // Função para verificar se a página foi rolada para o topo
+function isPageScrolledToTop() {
+    return $(window).scrollTop() === 0;
+}
+
+// Função para invocar a animação quando a página for rolada até o final
+function animateOnScrollToBottom() {
+    if (isPageScrolledToBottom()) {
+        $('.adicionados').addClass('animate-on-scroll'); // Adiciona classe para animação
+    } else {
+        $('.adicionados').removeClass('animate-on-scroll'); // Remove classe de animação
+    }
+}
+
+// Chama a função de animação quando a página é rolada
+$(window).on('scroll', function() {
+    animateOnScrollToBottom();
+});
+
+</script>
 
 <script>
     // Função para definir e atualizar o conteúdo do "Continue Lendo" com base nos dados do localStorage

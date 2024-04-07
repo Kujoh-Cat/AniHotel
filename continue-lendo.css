@@ -19,8 +19,8 @@
     color: white;
     font-size: 15px;
     margin-bottom: 10px;
-    animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
-    transition: color 0.3s ease; /* Transição suave para mudança de cor */
+    animation: neonGlow 2s infinite alternate;
+    transition: color 0.3s ease; 
 }
 
 .capa-miniatura {

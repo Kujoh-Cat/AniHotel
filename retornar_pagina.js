@@ -97,15 +97,17 @@ $(document).ready(function() {
         saveScrollPosition(scrollTop);
     });
 
-    // Limpa a posição de rolagem ao sair da página
     $(window).on('beforeunload', function() {
         calculateMaxScrollPosition();
+        if (lastScrollTop === maxScrollPosition) {
+            localStorage.removeItem('continueLendo');
+        }
         if (lastScrollTop === 0 || lastScrollTop === maxScrollPosition) {
             localStorage.removeItem(getStorageKey());
         } else if (lastScrollTop !== undefined) {
             localStorage.setItem(getStorageKey(), encryptData(lastScrollTop.toString()));
         }
-    });
+    });    
 
     // Recalcula a posição máxima de rolagem ao redimensionar a janela
     $(window).on('resize', function() {

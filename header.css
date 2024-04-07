@@ -1,4 +1,13 @@
 /* Estilos para o header */
+@keyframes rainbow {
+    0% { border-color: red; }
+    20% { border-color: orange; }
+    40% { border-color: yellow; }
+    60% { border-color: green; }
+    80% { border-color: blue; }
+    100% { border-color: purple; }
+}
+
 header {
     background: linear-gradient(to right, #181818, #222831);
     color: #fff;
@@ -8,10 +17,16 @@ header {
     top: 0;
     left: 0; /* Adicionando left: 0 para garantir que a header ocupe toda a largura */
     z-index: 1000;
-    border-bottom: 2.5px solid #5a22ff;
+    text-align:center;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, rgba(255,249,34), rgba(255,0,128), rgba(56,2,155,0));
+    border-image-slice: 1;
+    width: 100%;
     margin: 0; /* Removendo margem para garantir que a header cubra totalmente a largura da página */
     transition: background-color 0.3s ease; /* Transição suave para mudança de cor de fundo */
+    animation: rainbow 5s infinite;
 }
+
 
 /* Estilos para o container do header */
 .container {
@@ -21,12 +36,12 @@ header {
 
 /* Estilos para o logo */
 .logo {
+    display: flex;
+    justify-content: center;
     margin-left: 3px;
     position: relative;
-    top: 25px;
+    top: 30px;
     right: -5px;
-    display: flex;
-    align-items: center;
     transition: transform 0.3s ease; /* Transição suave para transformação */
 }
 
