@@ -30,6 +30,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
     <title>AniHotel+</title>
+    <link rel="stylesheet" href="continue-lendo.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -38,6 +39,10 @@
         .slideshow-container {
             cursor: grab;
             touch-action: pan-y; /* Permitir arrastamento apenas na direção y */
+        }
+
+        .continuar-lendo {
+            opacity:0;
         }
     </style>
 </head>
@@ -69,7 +74,7 @@
     <div class="slideshow-container" id="slideshow-container">
         <div class="mySlides fade">
             <a href="/hokkaido/selecionar.html">
-            <img src="img/hokkaido.png" alt="Hokkaido Gals Are Super Adorable!">
+            <img src="img/Hokkaido-1.jpg" alt="Hokkaido Gals Are Super Adorable!">
         </div>
     </a>
     <a href="/dressup/selecionar.html">
@@ -89,6 +94,14 @@
         <span class="dot" onclick="currentSlide(2)"></span> 
     </div>
 
+<div class="continuar-lendo">
+    <div class="continue-lendo"><h1>Continue Lendo</h1></div>
+    <a href="" id="continue-lendo-link">
+        <div class="capa-miniatura"></div>
+        </a>
+   <div class="nome-manga"></div>
+   <div class="capitulo_manga"></div>
+</div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="script.js"></script>
@@ -112,5 +125,103 @@
             });
         });
     </script>
+
+<script>
+    // Função para definir e atualizar o conteúdo do "Continue Lendo" com base nos dados do localStorage
+function atualizarContinueLendo() {
+    // Obter os dados do localStorage
+    var continueLendoData = localStorage.getItem('continueLendo');
+
+    // Verificar se existem dados salvos
+    if (continueLendoData) {
+        // Converter os dados para objeto JavaScript
+        var continueLendo = JSON.parse(continueLendoData);
+
+        // Atualizar a exibição do "Continue Lendo" com os dados obtidos
+        var continuarLendoDiv = document.querySelector('.continuar-lendo');
+        continuarLendoDiv.classList.add('show'); // Adicionar a classe "show" para exibir a div
+        continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<a href="' + obterLinkManga(continueLendo.nomeManga, continueLendo.capitulo) + '"><img src="' + continueLendo.capa + '" alt="Capa"></a>';
+        continuarLendoDiv.querySelector('.nome-manga').textContent = continueLendo.nomeManga;
+        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + continueLendo.capitulo;
+    } else {
+        // Se não houver dados salvos, ocultar a div "Continue Lendo"
+        var continuarLendoDiv = document.querySelector('.continuar-lendo');
+        continuarLendoDiv.classList.remove('opacity'); // Remover a classe "show" para ocultar a div
+    }
+}
+
+        // Função para obter o link do mangá com base no nome do mangá e no número do capítulo
+function obterLinkManga(nomeManga, capitulo) {
+    var linkBase = '';
+    switch (nomeManga) {
+        case 'Hokkaido Gals':
+            linkBase = '/hokkaido_capitulos/Capitulo_';
+            break;
+        case 'Blue Lock':
+            linkBase = '/bluelock_capitulos/Capitulo_';
+            break;
+        case 'My Dress-Up Darling':
+            linkBase = '/dressup_capitulos/Capitulo_';
+            break;
+        default:
+            console.error('Nome de manga desconhecido:', nomeManga);
+            break;
+    }
+    return linkBase + capitulo + '/ler.html';
+}
+
+        // Chamar a função para atualizar o "Continue Lendo" ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarContinueLendo();
+        });
+
+        // Função para definir a opacidade da div "Continue Lendo" com base na presença do localStorage "continueLendo"
+function ajustarOpacidadeContinueLendo() {
+    var continuarLendoDiv = document.querySelector('.continuar-lendo');
+    var continueLendoData = localStorage.getItem('continueLendo');
+
+    // Verificar se o localStorage "continueLendo" existe
+    if (continueLendoData) {
+        // Se existir, definir a opacidade como 100%
+        continuarLendoDiv.style.opacity = '100%';
+    } else {
+        // Se não existir, definir a opacidade como 0%
+        continuarLendoDiv.style.opacity = '0%';
+    }
+}
+
+// Chamar a função ao carregar a página para ajustar a opacidade inicialmente
+document.addEventListener('DOMContentLoaded', function() {
+    ajustarOpacidadeContinueLendo();
+});
+
+
+    // Função para carregar o estado do capítulo e atualizar o "Continue Lendo"
+    function carregarEstadoCapitulo() {
+        var todosEstados = localStorage.getItem('todosEstados');
+
+        if (todosEstados) {
+            todosEstados = JSON.parse(todosEstados);
+
+            for (var i = 0; i < todosEstados.length; i++) {
+                var estadoManga = todosEstados[i];
+
+                var manga = estadoManga.manga;
+                var capitulo = estadoManga.capitulo;
+                var capa = estadoManga.capa;
+
+                // Atualizar o "Continue Lendo"
+                atualizarContinueLendo(capa, manga, capitulo);
+            }
+        }
+    }
+
+    // Chamar a função para carregar o estado do capítulo ao carregar a página
+    $(document).ready(function() {
+        carregarEstadoCapitulo();
+    });
+
+</script>
+
 </body>
 </html>
