@@ -98,18 +98,34 @@
                 }
             }
             const imagePath = "/jujutsu/capas/volume_" + selectedCover + ".png";
-            const volumeCover = document.getElementById("volume-cover");
-            volumeCover.src = imagePath;
-            volumeCover.onclick = function() {
-                window.location.href = "/jujutsu_capitulos/Capitulo_" + selectedChapter + "/ler.html";
-            };
-            const pageIdentifier = window.location.pathname;
-            localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
-        }
+    const volumeCover = document.getElementById("volume-cover");
+    volumeCover.src = imagePath;
+    volumeCover.onclick = function() {
+        const nextPagePath = "/jujutsu_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+        // Verificar se o próximo caminho existe
+        fetch(nextPagePath)
+            .then(response => {
+                // Se o caminho existe, redirecione para ele
+                if (response.ok) {
+                    window.location.href = nextPagePath;
+                } else {
+                    // Caso contrário, redirecione para /index.html
+                    window.location.href = "/index.html";
+                }
+            })
+            .catch(error => {
+                // Se houver algum erro, redirecione para /index.html
+                console.error("Erro ao verificar o caminho:", error);
+                window.location.href = "/index.html";
+            });
+    };
+    const pageIdentifier = window.location.pathname;
+    localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+}
 
-        document.getElementById("volume").addEventListener("change", function() {
-            atualizarCapaVolume();
-        });
+document.getElementById("volume").addEventListener("change", function() {
+    atualizarCapaVolume();
+});
 
         const volumeContainer = document.querySelector(".volume-container");
         let touchStartX;
