@@ -1,0 +1,211 @@
+body {
+    overflow-x: hidden;
+    overflow-y: scroll; /* Habilita a rolagem vertical */
+    scrollbar-width: none; /* Esconde a barra de rolagem */
+    background: linear-gradient(to right, #181818, #000000);
+    animation: gradientAnimation 1s ease infinite alternate;
+    padding-bottom: 125px;
+}
+
+body::-webkit-scrollbar {
+    display: none; /* Esconde a barra de rolagem para navegadores baseados em WebKit (Chrome, Safari, etc.) */
+}
+
+/* CSS para fazer o cabeçalho "grudar" na parte superior da tela */
+header {
+    position: fixed; /* Fixa o cabeçalho na tela */
+    top: -10px; /* Coloca o cabeçalho no topo da tela */
+    width: 100%; /* Define a largura do cabeçalho como 100% da largura da tela */
+    z-index: 1000; /* Define a ordem de empilhamento para garantir que o cabeçalho esteja sempre acima do conteúdo */
+    transition: top 0.3s; /* Adiciona uma transição suave para a propriedade 'top' */
+}
+
+/* Adiciona um espaçamento na parte inferior do conteúdo para evitar que ele seja cortado pelo cabeçalho fixo */
+.content {
+    padding-top: 100px; /* Ajuste conforme necessário para garantir que o conteúdo não seja cortado */
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+nav #logo {
+    position: relative;
+    max-width: 100%;
+    width: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    bottom: -85px;
+    right: 30px;
+    opacity: 0; /* Começa invisível */
+    animation: logoFadeIn 1s ease forwards; /* Adiciona a animação de entrada */
+}
+
+@keyframes logoFadeIn {
+    0% {
+        opacity: 0; /* Inicia com opacidade 0 */
+        transform: translateY(-20px); /* Desce um pouco */
+    }
+    100% {
+        opacity: 1; /* Termina com opacidade 1 */
+        transform: translateY(0); /* Retorna à posição original */
+    }
+}
+
+.content-below-logo {
+    margin-top: 20px; /* Margem para evitar que toque na logo */
+    opacity: 0; /* Começa invisível */
+    animation: fadeInContent 1s ease forwards; /* Adiciona a animação de entrada */
+}
+
+@keyframes fadeInContent {
+    0% {
+        opacity: 0; /* Inicia com opacidade 0 */
+        transform: translateY(-20px); /* Desce um pouco */
+    }
+    100% {
+        opacity: 1; /* Termina com opacidade 1 */
+        transform: translateY(0); /* Retorna à posição original */
+    }
+}
+
+nav {
+    text-align: center;
+    margin-top: 20px;
+}
+
+nav .navigation-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    right: -32px;
+    margin-top: 35px;
+}
+
+nav .navigation-icons a {
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    bottom: -65px;
+    right: -30px;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 24px;
+    opacity: 0; /* Começa invisível */
+    transform: translateY(20px); /* Começa um pouco abaixo */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    padding: 10px 20px;
+    background-color: #202020;
+    border-radius: 10px;
+}
+
+nav .navigation-icons a:hover {
+    animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
+    transition: color 0.3s ease;
+    color: #5a22ff; /* Cor do ícone ao passar o mouse */
+    background: white;
+}
+
+nav .navigation-icons a:nth-child(1) {
+    animation: fadeInIcon1 1s ease forwards;
+}
+
+nav .navigation-icons a:nth-child(2) {
+    animation: fadeInIcon2 1s ease forwards;
+}
+
+nav .navigation-icons a:nth-child(3) {
+    animation: fadeInIcon3 1s ease forwards;
+}
+
+@keyframes fadeInIcon1 {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInIcon2 {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInIcon3 {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Adicionando regras de mídia para telas de celular */
+@media screen and (max-width: 480px) {
+    nav #logo {
+        right: -0px;
+        max-width: 90%; /* Reduzindo um pouco para melhorar a aparência em telas pequenas */
+        bottom: -70px; /* Ajustando a posição para evitar sobreposição com os botões */
+    }
+
+    nav .navigation-icons a {
+        position: relative;
+        margin-top: 2px;
+        max-width: 70%;
+        max-height: auto;
+        right: -0px;
+        bottom: -50px; /* Ajustando a posição para evitar sobreposição com o conteúdo */
+    }
+}
+
+@keyframes neonGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Adicionando regras de mídia para telas deitadas */
+@media screen and (max-width: 950px) and (orientation: landscape) {
+    nav #logo {
+        position: relative;
+        width: 50%; /* Reduz a largura da logo para telas deitadas */
+        bottom: -50px; /* Ajusta a posição para evitar sobreposição com os botões */
+    }
+}
+
+.capitulo img {
+    margin: 0 auto;
+    border-radius: 6px;
+    position: relative;
+    right: -0px;
+    margin-top: 10px;
+    margin-bottom: -4.5px;
+    bottom: -90px;
+    max-width: 100%;
+    height: auto; /* Adiciona esta propriedade para manter a proporção da imagem */
+}
+
+
