@@ -99,15 +99,22 @@ $(document).ready(function() {
 
     $(window).on('beforeunload', function() {
         calculateMaxScrollPosition();
-        if (lastScrollTop === maxScrollPosition) {
+        var marginBeforeMax = 400; // Margem antes da posição máxima de rolagem
+        var nearMaxScrollPosition = lastScrollTop >= (maxScrollPosition - marginBeforeMax);
+        
+        if (lastScrollTop === maxScrollPosition || nearMaxScrollPosition) {
             localStorage.removeItem('continueLendo');
+            localStorage.removeItem(getStorageKey()); // Remove o localStorage específico deste site
         }
+        
         if (lastScrollTop === 0 || lastScrollTop === maxScrollPosition) {
             localStorage.removeItem(getStorageKey());
-        } else if (lastScrollTop !== undefined) {
+        } else if (lastScrollTop !== undefined && !nearMaxScrollPosition) {
             localStorage.setItem(getStorageKey(), encryptData(lastScrollTop.toString()));
         }
-    });    
+    });
+    
+         
 
     // Recalcula a posição máxima de rolagem ao redimensionar a janela
     $(window).on('resize', function() {

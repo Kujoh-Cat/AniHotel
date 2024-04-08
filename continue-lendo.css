@@ -12,7 +12,7 @@
     max-width: 90%;
     margin: 0 auto;
     margin-bottom: 210px;
-    border-bottom: 2px solid #5a22ff;
+    border-bottom: 2px solid #8667ff;
 }
 
 .continue-lendo {
@@ -25,14 +25,15 @@
 
 .capa-miniatura {
     width: 100%;
-    max-width: 200px;
+    max-width: 210px;
     border-radius: 15px;
     overflow: hidden;
+    height: auto;
     margin-bottom: 5px;
 }
 
 .capa-miniatura img {
-    width: 100%;
+    max-width: 210px;
     height: auto;
     border-radius: 15px;
 }
@@ -40,7 +41,7 @@
 .nome-manga {
     font-weight: 500;
     font-family: 'Galada';
-    font-size: 18.5px;
+    font-size: 21px;
     margin-bottom: 1.5px;
     color: white;
     text-align: center;
@@ -52,7 +53,7 @@
     font-style: italic;
     font-weight: 520;
     font-family: 'Edu NSW ACT Foundation';
-    font-size: 17.5px;
+    font-size: 19px;
     margin-bottom: 5px;
     color: #888;
     text-align: center;

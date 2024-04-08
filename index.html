@@ -45,6 +45,11 @@
         .continuar-lendo {
             opacity:0;
         }
+
+        .secao.visivel {
+            opacity: 1;
+            transition: opacity 0.5s ease; /* Adiciona uma transição suave para a opacidade */
+        }
     </style>
 </head>
 <body>
@@ -55,15 +60,22 @@
                 <h1>AniHotel+</h1>
             </div>
             <nav>
-                <ul>
-                    <li>
-                        <a href="info/info.html">
-                            <i class="fas fa-info-circle"></i>
-                            <span class="nav-text">Info</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+    <ul>
+        <li>
+            <a href="catalogo/catalogo.html">
+                <i class="fas fa-bars"></i>
+                <span class="nav-text">Catálogo</span>
+            </a>
+        </li>
+        <li>
+            <a href="info/info.html">
+                <i class="fas fa-info-circle"></i>
+                <span class="nav-text">Info</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
         </div>
     </header>
     <div class="slideshow-container" id="slideshow-container">
@@ -98,12 +110,10 @@
    <div class="capitulo_manga"></div>
 </div>
 
- <div class="adicionados">
+<div class="adicionados">
     <div class="adicionados-h1">Recomendados</div>
-    <div class="adicionados-mangas">
-           <img src="/img/berserk-cover.png" alt="Berserk">
-           <h2>Berserk</h2>
-           <p>375 Capítulos</p>
+    <div class="adicionados-mangas" id="adicionados-mangas">
+        <!-- Os mangás recomendados serão adicionados aqui via JavaScript -->
     </div>
 </div>
 
@@ -121,9 +131,9 @@
             container.on("touchend", function(event) {
                 var endX = event.originalEvent.changedTouches[0].pageX;
                 var diffX = endX - startX;
-                if (diffX > 50) {
+                if (diffX > 25) {
                     plusSlides(-1); // Slide para a esquerda
-                } else if (diffX < -50) {
+                } else if (diffX < -25) {
                     plusSlides(1); // Slide para a direita
                 }
             });
@@ -131,25 +141,150 @@
     </script>
 
 <script>
-    // Função para verificar se a página foi rolada para o topo
-function isPageScrolledToTop() {
-    return $(window).scrollTop() === 0;
-}
+    document.addEventListener('DOMContentLoaded', function() {
+        var mangasRecomendados = [
+            {
+                id: 'berserk',
+                imagem: '/img/berserk-cover.png',
+                titulo: 'Berserk',
+                url: '/berserk/selecionar.html',
+                capitulos: '375 Capítulos'
+            },
+            {
+                id: 'jujutsu',
+                imagem: getRandomImageUrl('/jujutsu/capas', 'volume_', 0, 26, 'png'),
+                titulo: 'Jujutsu Kaisen',
+                url: '/jujutsu/selecionar.html',
+                capitulos: '256 Capítulos'
+            },
+            {
+                id: 'chainsaw',
+                imagem: getRandomImageUrl('/chainsaw/capas', 'volume_', 1, 17, 'png'),
+                titulo: 'Chainsaw Man',
+                url: '/chainsaw/selecionar.html',
+                capitulos: '116 Capítulos'
+            },
+            {
+                id: 'hokkaido',
+                imagem: getRandomImageUrl('/hokkaido/capas', 'volume_', 1, 12, 'png'),
+                titulo: 'Hokkaido Gals',
+                url: '/hokkaido/selecionar.html',
+                capitulos: '103 Capítulos'
+            },
+            {
+                id: 'dressup',
+                imagem: getRandomImageUrl('/dressup/capas', 'volume_', 1, 12, 'png'),
+                titulo: 'My Dress-Up Darling',
+                url: '/dressup/selecionar.html',
+                capitulos: '102 Capítulos'
+            },
+            {
+                id: 'blue_lock',
+                imagem: getRandomImageUrl('/bluelock/capas', 'volume_', 1, 28, 'png'),
+                titulo: 'Blue Lock',
+                url: '/bluelock/selecionar.html',
+                capitulos: '256 Capítulos'
+            }
+            // Adicione mais mangás recomendados conforme necessário
+        ];
 
-// Função para invocar a animação quando a página for rolada até o final
-function animateOnScrollToBottom() {
-    if (isPageScrolledToBottom()) {
-        $('.adicionados').addClass('animate-on-scroll'); // Adiciona classe para animação
-    } else {
-        $('.adicionados').removeClass('animate-on-scroll'); // Remove classe de animação
+        var adicionadosMangas = document.getElementById('adicionados-mangas');
+
+        // Função para obter um número inteiro aleatório entre min e max (incluindo min e max)
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Função para obter uma URL de imagem aleatória da pasta
+        function getRandomImageUrl(basePath, prefix, minNumber, maxNumber, extension) {
+            // Gera um número aleatório entre minNumber e maxNumber (inclusive)
+            var randomNumber = getRandomInt(minNumber, maxNumber);
+            // Retorna a URL completa da imagem aleatória
+            return basePath + '/' + prefix + randomNumber + '.' + extension;
+        }
+
+        // Função para exibir um mangá recomendado aleatoriamente
+        function exibirMangaAleatorio() {
+            var mangaAleatorio;
+
+            // Seleciona aleatoriamente um mangá da lista
+            mangaAleatorio = mangasRecomendados[getRandomInt(0, mangasRecomendados.length - 1)];
+
+            // Verifica se o mangá recomendado é o mesmo em leitura contínua
+            var continueLendo = localStorage.getItem('continueLendo');
+            if (continueLendo) {
+                var mangaEmLeitura = JSON.parse(continueLendo);
+                if (mangaEmLeitura.nomeManga === mangaAleatorio.titulo) {
+                    // Se for o mesmo, seleciona outro aleatoriamente
+                    exibirMangaAleatorio();
+                    return;
+                }
+            }
+
+            // Cria os elementos HTML para exibir o mangá
+            var divManga = document.createElement('div');
+            divManga.classList.add('manga');
+            divManga.id = mangaAleatorio.id;
+
+            var img = document.createElement('img');
+            img.src = mangaAleatorio.imagem;
+            img.alt = mangaAleatorio.titulo;
+
+            // Adiciona o evento de clique à imagem para redirecionar para a URL do manga
+            img.addEventListener('click', function() {
+                window.location.href = mangaAleatorio.url;
+            });
+
+            var h2 = document.createElement('h2');
+            h2.textContent = mangaAleatorio.titulo;
+
+            var p = document.createElement('p');
+            p.textContent = mangaAleatorio.capitulos;
+
+            divManga.appendChild(img);
+            divManga.appendChild(h2);
+            divManga.appendChild(p);
+
+            // Limpa o conteúdo existente e adiciona o mangá aleatório
+            adicionadosMangas.innerHTML = '';
+            adicionadosMangas.appendChild(divManga);
+        }
+
+        // Exibe um mangá aleatório ao carregar a página
+        exibirMangaAleatorio();
+    });
+</script>
+
+<script>
+    // Função para verificar se uma seção está totalmente fora da visão do usuário
+    function isSectionOutsideView(section) {
+        var rect = section.getBoundingClientRect();
+        return (
+            rect.bottom < 0 || rect.top > window.innerHeight
+        );
     }
-}
 
-// Chama a função de animação quando a página é rolada
-$(window).on('scroll', function() {
-    animateOnScrollToBottom();
-});
+    // Função para exibir seções visíveis na janela de visualização e ocultar as seções fora da visão
+    function showVisibleSections() {
+        var sections = document.querySelectorAll('.secao'); // Seletor das seções de conteúdo
+        sections.forEach(function(section) {
+            if (isSectionOutsideView(section)) {
+                section.classList.remove('visivel'); // Remove a classe para ocultar a seção
+            } else {
+                section.classList.add('visivel'); // Adiciona uma classe para exibir a seção
+            }
+        });
+    }
 
+    // Chama a função para exibir seções visíveis ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+        showVisibleSections();
+    });
+
+    // Chama a função para exibir seções visíveis quando a página é rolada
+    window.addEventListener('scroll', function() {
+        showVisibleSections();
+    });
 </script>
 
 <script>
@@ -168,7 +303,7 @@ function atualizarContinueLendo() {
         continuarLendoDiv.classList.add('show'); // Adicionar a classe "show" para exibir a div
         continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<a href="' + obterLinkManga(continueLendo.nomeManga, continueLendo.capitulo) + '"><img src="' + continueLendo.capa + '" alt="Capa"></a>';
         continuarLendoDiv.querySelector('.nome-manga').textContent = continueLendo.nomeManga;
-        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + continueLendo.capitulo;
+        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capitulo " + continueLendo.capitulo;
     } else {
         // Se não houver dados salvos, ocultar a div "Continue Lendo"
         var continuarLendoDiv = document.querySelector('.continuar-lendo');

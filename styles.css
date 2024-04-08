@@ -4,6 +4,7 @@ body {
     background-color: #181818;
     user-select: none;
     -webkit-user-select: none;
+    padding-bottom: -10px;
 }
 
 .slideshow-container {

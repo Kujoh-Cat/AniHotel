@@ -1,0 +1,172 @@
+/* Estilos gerais */
+body {
+    overflow: hidden;
+    background: #181818;
+    color: white;
+    font-family: 'Galada'; /* Utiliza a fonte Kalam para todo o corpo do texto */
+    margin: 0; /* Remove margens padrão do corpo */
+    padding: 0; /* Remove preenchimentos padrão do corpo */
+}
+
+/* Estilo para o seletor de volume */
+select {
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #272727;
+    color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 80%; /* Define a largura do seletor */
+    max-width: 300px; /* Define a largura máxima do seletor */
+    margin: 20px auto; /* Centraliza o seletor na tela */
+}
+
+/* Estilo para as opções do seletor de volume */
+select option {
+    background-color: #272727;
+    color: #fff;
+    text-align: center;
+}
+
+/* Estilo para o botão */
+button {
+    font-family: 'Kalam';
+    padding: 10px 50px;
+    font-size: 16px;
+    background-color: #5a22ff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    display: block; /* Faz o botão ocupar toda a largura disponível */
+    margin: 20px auto; /* Centraliza o botão na tela e adiciona uma margem inferior */
+    transition: background-color 0.3s ease; /* Adiciona uma transição suave de cor de fundo */
+}
+
+/* Estilo para o botão ao passar o mouse */
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para o container do volume */
+.volume-container {
+    position: relative;
+    bottom: -60px;
+    height: 900px;
+    text-align: center;
+    margin-top: 10%; /* Centraliza o container verticalmente */
+}
+
+/* Estilo para a capa do volume */
+.volume-cover {
+    position: relative;
+    max-width: 50%;
+    max-height: 50%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra à capa */
+    transition: transform 0.3s ease-in-out; /* Adiciona uma transição suave de transformação */
+    margin-top: 20px; /* Adiciona uma margem superior para a capa */
+}
+
+/* Estilo para o texto de escolha */
+.choose-text {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo para o texto ao lado do seletor */
+.volume-container label {
+    position: relative;
+    display: block;
+    font-size: 25px;
+    bottom: -10px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+/* Estilo para tornar a página responsiva em telas menores */
+@media screen and (max-width: 768px) {
+    select, button {
+        font-size: 14px;
+    }
+
+    .volume-cover {
+        max-width: 90%; /* Ajusta a largura máxima da capa para telas menores */
+    }
+}
+
+/* Estilo para telas deitadas */
+@media screen and (orientation: landscape) {
+    body {
+        overflow: auto;
+    }
+
+    .volume-container {
+        bottom: -120px;
+        margin: 0;
+        position: relative;
+        max-width: 450px;
+        margin-top: 13%; /* Ajusta a margem superior para telas deitadas */
+    }
+
+    .volume-cover {
+        position: relative;
+        margin: 0;
+        margin-top: -10px;
+        top: -105px;
+        max-width: 40%; /* Ajusta a largura máxima da capa para telas deitadas */
+    }
+
+    .choose-text {
+        margin-top: 2px;
+        position: relative;
+        right: 50px;
+        font-size: 50px; /* Reduz o tamanho do texto de escolha para telas deitadas */
+    }
+
+    .volume-container label {
+        margin-bottom: 2px;
+        margin-top: 2px;
+        position: relative;
+        right: -270px;
+        font-size: 25px;
+        top: -330px;
+    }
+
+    select {
+        margin-bottom: 20px;
+        margin-top: 2px;
+        position: relative;
+        right: -270px;
+        font-size: 16px;
+        top: -330px;
+    }
+
+    button {
+        margin-bottom: 2px;
+        margin-top: 2px;
+        position: relative;
+        right: -270px;
+        top: -330px;
+    }
+}
+
+@font-face {
+    font-family: 'Edu NSW ACT Foundation';
+    src: url('/Fonts/Edu.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Galada';
+    src: url('/Fonts/Galada-Regular.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Kalam';
+    src: url('/Fonts/Kalam-Regular.ttf') format('truetype');
+  }
