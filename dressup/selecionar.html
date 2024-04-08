@@ -20,21 +20,15 @@
             <nav>
                 <ul>
                     <li>
+                        <a href="/catalogo/catalogo.html">
+                            <i class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/index.html">
                             <i class="fas fa-home"></i>
                             <span class="nav-text">Início</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info/info.html">
-                            <i class="fas fa-info-circle"></i>
-                            <span class="nav-text">Info</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-envelope"></i>
-                            <span class="nav-text">Feedback</span>
                         </a>
                     </li>
                 </ul>
@@ -67,7 +61,7 @@
             { start: 64, end: 71 },
             { start: 72, end: 79 },
             { start: 80, end: 87 },
-            { start: 88, end: 101 }
+            { start: 88, end: 102 }
         ];
 
         function atualizarCapaVolume() {
@@ -80,18 +74,34 @@
                 }
             }
             const imagePath = "/dressup/capas/volume_" + selectedCover + ".png";
-            const volumeCover = document.getElementById("volume-cover");
-            volumeCover.src = imagePath;
-            volumeCover.onclick = function() {
-                window.location.href = "/dressup_capitulos/Capitulo_" + selectedChapter + "/ler.html";
-            };
-            const pageIdentifier = window.location.pathname;
-            localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
-        }
+    const volumeCover = document.getElementById("volume-cover");
+    volumeCover.src = imagePath;
+    volumeCover.onclick = function() {
+        const nextPagePath = "/dressup_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+        // Verificar se o próximo caminho existe
+        fetch(nextPagePath)
+            .then(response => {
+                // Se o caminho existe, redirecione para ele
+                if (response.ok) {
+                    window.location.href = nextPagePath;
+                } else {
+                    // Caso contrário, redirecione para /index.html
+                    window.location.href = "/index.html";
+                }
+            })
+            .catch(error => {
+                // Se houver algum erro, redirecione para /index.html
+                console.error("Erro ao verificar o caminho:", error);
+                window.location.href = "/index.html";
+            });
+    };
+    const pageIdentifier = window.location.pathname;
+    localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+}
 
-        document.getElementById("volume").addEventListener("change", function() {
-            atualizarCapaVolume();
-        });
+document.getElementById("volume").addEventListener("change", function() {
+    atualizarCapaVolume();
+});
 
         const volumeContainer = document.querySelector(".volume-container");
         let touchStartX;
@@ -102,19 +112,19 @@
         volumeContainer.addEventListener("touchend", function(event) {
             touchEndX = event.changedTouches[0].clientX;
             const diff = touchStartX - touchEndX;
-            if (diff > 25) {
+            if (diff > 1) {
                 let currentChapter = parseInt(document.getElementById("volume").value);
                 let nextChapter = currentChapter + 1;
-                if (nextChapter > 101) {
+                if (nextChapter > 102) {
                     nextChapter = 1;
                 }
                 document.getElementById("volume").value = nextChapter;
                 atualizarCapaVolume();
-            } else if (diff < -25) {
+            } else if (diff < -1) {
                 let currentChapter = parseInt(document.getElementById("volume").value);
                 let prevChapter = currentChapter - 1;
                 if (prevChapter < 1) {
-                    prevChapter = 101;
+                    prevChapter = 102;
                 }
                 document.getElementById("volume").value = prevChapter;
                 atualizarCapaVolume();
@@ -133,7 +143,7 @@
         }
 
         const select = document.getElementById("volume");
-        for (let i = 1; i <= 101; i++) {
+        for (let i = 1; i <= 102; i++) {
             const option = document.createElement("option");
             option.value = i;
             option.text = "Capítulo " + i;

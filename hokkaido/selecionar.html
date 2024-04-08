@@ -19,21 +19,15 @@
             <nav>
                 <ul>
                     <li>
+                        <a href="/catalogo/catalogo.html">
+                            <i class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/index.html">
                             <i class="fas fa-home"></i>
                             <span class="nav-text">Início</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info/info.html">
-                            <i class="fas fa-info-circle"></i>
-                            <span class="nav-text">Info</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-envelope"></i>
-                            <span class="nav-text">Feedback</span>
                         </a>
                     </li>
                 </ul>
@@ -83,23 +77,35 @@ function atualizarCapaVolume() {
         }
     }
 
-    // Monta o caminho da imagem da capa com base na capa selecionada
     const imagePath = "/hokkaido/capas/volume_" + selectedCover + ".png";
-    // Atualiza a imagem da capa do volume
-    document.getElementById("volume-cover").src = imagePath;
-
-    // Adiciona o link para a página do mangá
-    document.getElementById("volume-cover").onclick = function() {
-        window.location.href = "/hokkaido_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+    const volumeCover = document.getElementById("volume-cover");
+    volumeCover.src = imagePath;
+    volumeCover.onclick = function() {
+        const nextPagePath = "/hokkaido_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+        // Verificar se o próximo caminho existe
+        fetch(nextPagePath)
+            .then(response => {
+                // Se o caminho existe, redirecione para ele
+                if (response.ok) {
+                    window.location.href = nextPagePath;
+                } else {
+                    // Caso contrário, redirecione para /index.html
+                    window.location.href = "/index.html";
+                }
+            })
+            .catch(error => {
+                // Se houver algum erro, redirecione para /index.html
+                console.error("Erro ao verificar o caminho:", error);
+                window.location.href = "/index.html";
+            });
     };
-
-    // Armazena o capítulo selecionado no localStorage
-    const pageIdentifier = window.location.pathname; // Obtém o caminho da URL da página
+    const pageIdentifier = window.location.pathname;
     localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
 }
 
-// Adiciona um ouvinte de eventos para o seletor de volumes
-document.getElementById("volume").addEventListener("change", atualizarCapaVolume);
+document.getElementById("volume").addEventListener("change", function() {
+    atualizarCapaVolume();
+});
 
 // Adiciona um ouvinte de eventos para permitir arrastar a capa para o próximo e o volume anterior
 const volumeContainer = document.querySelector(".volume-container");
@@ -111,7 +117,7 @@ volumeContainer.addEventListener("touchstart", function(event) {
 volumeContainer.addEventListener("touchend", function(event) {
     touchEndX = event.changedTouches[0].clientX;
     const diff = touchStartX - touchEndX;
-    if (diff > 25) { // Defina a sensibilidade do arrasto para o próximo volume
+    if (diff > 1) { // Defina a sensibilidade do arrasto para o próximo volume
         // Avançar para o próximo volume
         let currentChapter = parseInt(document.getElementById("volume").value);
         currentChapter++;
@@ -120,7 +126,7 @@ volumeContainer.addEventListener("touchend", function(event) {
         }
         document.getElementById("volume").value = currentChapter;
         atualizarCapaVolume();
-    } else if (diff < -25) { // Defina a sensibilidade do arrasto para o volume anterior
+    } else if (diff < -1) { // Defina a sensibilidade do arrasto para o volume anterior
         // Voltar para o volume anterior
         let currentChapter = parseInt(document.getElementById("volume").value);
         currentChapter--;
