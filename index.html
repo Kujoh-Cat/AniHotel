@@ -101,6 +101,15 @@
     <script src="favicons.js"></script>
     <script src="caso_icones.js"></script>
 
+    <script>
+        window.onload = function() {
+    window.onerror = function() {
+        window.location.href = "/index.html";
+        return false; // Impede que o navegador exiba a mensagem de erro padrão
+    };
+};
+    </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var mangasRecomendados = [
