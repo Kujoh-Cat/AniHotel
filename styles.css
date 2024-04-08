@@ -5,9 +5,14 @@ body {
     user-select: none;
     -webkit-user-select: none;
     padding-bottom: -10px;
+    justify-content: center;
+    max-width: 100%;
 }
 
 .slideshow-container {
+    display: flex;
+    justify-content: center;
+    max-height: auto;
     max-width: 100%;
     position: relative;
     overflow: hidden;
@@ -21,6 +26,9 @@ body {
 }
 
 .mySlides img {
+    display: flex;
+    justify-content: center;  
+    max-height: auto;
     max-width: 100%;
     height: auto;
     border-bottom-left-radius: 20px;
@@ -39,26 +47,6 @@ body {
     to {
         opacity: 1;
     }
-}
-
-.dots {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.dot {
-    height: 15px;
-    width: 15px;
-    margin: 0 5px;
-    background-color: #906bff;
-    border-radius: 37%;
-    display: inline-block;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.dot.active {
-    background-color: white;
 }
   
 @font-face {
@@ -85,3 +73,46 @@ body {
     }
   }
   
+  /* Estilo para tornar o slideshow responsivo */
+#slideshow-container {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.mySlides img {
+    max-width: 100%;
+    max-height: auto;
+}
+
+/* Adiciona um pouco de espaço entre as imagens */
+.mySlides {
+    margin-right: 15px;
+}
+
+/* Adaptação do tamanho do slideshow para telas menores */
+@media screen and (max-width: 768px) {
+    .mySlides {
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 900px) {
+
+    #slideshow-container {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        max-width: 100%;
+        overflow: hidden;
+        max-height: auto;
+    }
+    
+    .mySlides img {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        max-height: auto;
+    }
+}
+

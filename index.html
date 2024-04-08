@@ -78,28 +78,8 @@
 
         </div>
     </header>
-    <div class="slideshow-container" id="slideshow-container">
-        <div class="mySlides fade">
-            <a href="/hokkaido/selecionar.html">
-            <img src="img/Hokkaido-1.jpg" alt="Hokkaido Gals Are Super Adorable!">
-        </div>
-    </a>
-    <a href="/dressup/selecionar.html">
-        <div class="mySlides fade">
-            <img src="img/sonobisque.jpg" alt="My Dress-Up Darling">
-        </div>
-    </a>
-    <a href="/bluelock/selecionar.html">
-        <div class="mySlides fade">
-            <img src="img/bluelock.jpg" alt="Blue Lock">
-        </div>
-    </a>
-    </div>
-    <div class="dots">
-        <span class="dot" onclick="currentSlide(0)"></span> 
-        <span class="dot" onclick="currentSlide(1)"></span> 
-        <span class="dot" onclick="currentSlide(2)"></span> 
-    </div>
+
+    <div class="slideshow-container" id="slideshow-container"> </div>
 
 <div class="continuar-lendo">
     <div class="continue-lendo"><h1>Continue a Ler</h1></div>
@@ -113,7 +93,6 @@
 <div class="adicionados">
     <div class="adicionados-h1">Recomendados</div>
     <div class="adicionados-mangas" id="adicionados-mangas">
-        <!-- Os mangás recomendados serão adicionados aqui via JavaScript -->
     </div>
 </div>
 
@@ -121,24 +100,6 @@
     <script src="script.js"></script>
     <script src="favicons.js"></script>
     <script src="caso_icones.js"></script>
-    <script>
-        $(document).ready(function(){
-            var container = $("#slideshow-container");
-            var startX;
-            container.on("touchstart", function(event) {
-                startX = event.originalEvent.touches[0].pageX;
-            });
-            container.on("touchend", function(event) {
-                var endX = event.originalEvent.changedTouches[0].pageX;
-                var diffX = endX - startX;
-                if (diffX > 25) {
-                    plusSlides(-1); // Slide para a esquerda
-                } else if (diffX < -25) {
-                    plusSlides(1); // Slide para a direita
-                }
-            });
-        });
-    </script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -323,6 +284,15 @@ function obterLinkManga(nomeManga, capitulo) {
             break;
         case 'My Dress-Up Darling':
             linkBase = '/dressup_capitulos/Capitulo_';
+            break;
+        case 'Chainsaw Man':
+            linkBase = '/chainsaw_capitulos/Capitulo_';
+            break;
+        case 'Jujutsu Kaisen':
+            linkBase = '/jujutsu_capitulos/Capitulo_';
+            break;
+        case 'Berserk':
+            linkBase = '/berserk_capitulos/Capitulo_';
             break;
         default:
             console.error('Nome de manga desconhecido:', nomeManga);
