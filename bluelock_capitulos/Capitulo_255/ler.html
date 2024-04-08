@@ -61,13 +61,14 @@
     <nav>
         <img id="logo" src="" alt="Logo"/>
         <div class="navigation-icons">
-            <a href="/bluelock_capitulos/Capitulo_255/ler.html" id="previous-chapter"><i class="fas fa-backward"></i></a>
+            <a href="/bluelock_capitulos/Capitulo_254/ler.html" id="previous-chapter"><i class="fas fa-backward"></i></a>
             <a href="/bluelock/selecionar.html" id="select-volume"><i class="fas fa-bars"></i></a>
+            <a href="/bluelock_capitulos/Capitulo_256/ler.html" id="next-chapter"><i class="fas fa-forward"></i></a>
         </div>
     </nav>
     <section>
         <div class="capitulo">
-        </div>        
+        </div>
     </section>
 
     <script>
@@ -78,12 +79,12 @@
     // Verifique se o elemento foi encontrado
     if (capituloDiv) {
         // Crie um loop para adicionar imagens de 2.png a 20.png
-        for (var i = 2; i <= 18; i++) {
+        for (var i = 2; i <= 19; i++) {
             // Crie um novo elemento img
             var novaImg = document.createElement('img');
 
             // Defina o atributo src para o caminho da imagem
-            novaImg.src = "/bluelock_capitulos/Capitulo_256/" + i + ".png";
+            novaImg.src = "/bluelock_capitulos/Capitulo_255/" + i + ".png";
 
             // Adicione a nova imagem ao elemento div.capitulo
             capituloDiv.appendChild(novaImg);
@@ -130,7 +131,7 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
     }
 }
 
-atualizarContinueLendo("/bluelock/capas/volume_28.png", "Blue Lock", 256);
+atualizarContinueLendo("/bluelock/capas/volume_28.png", "Blue Lock", 255);
 
 </script>
 
