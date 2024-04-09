@@ -80,11 +80,12 @@ nav {
 }
 
 nav .navigation-icons {
+    min-width: 25px;
     display: flex;
     justify-content: center;
     gap: 20px;
-    right: -32px;
-    margin-top: 35px;
+    right: -0x;
+    margin-top: 20px;
 }
 
 nav .navigation-icons a {
@@ -94,22 +95,20 @@ nav .navigation-icons a {
     justify-content: center;
     bottom: -65px;
     right: -30px;
-    margin-top: 10px;
-    color: #fff;
+    margin-top: 30px;
+    color: white; /* Cor dos ícones */
     font-size: 24px;
     opacity: 0; /* Começa invisível */
     transform: translateY(20px); /* Começa um pouco abaixo */
     transition: opacity 0.5s ease, transform 0.5s ease;
-    padding: 10px 20px;
-    background-color: #202020;
+    padding: 10px 20px; /* Cor do ícone ao passar o mouse */
+    background: linear-gradient(to right, #6330fc, #4118bc); /* Gradiente de fundo branco */
     border-radius: 10px;
 }
 
 nav .navigation-icons a:hover {
-    animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
-    transition: color 0.3s ease;
-    color: #5a22ff; /* Cor do ícone ao passar o mouse */
-    background: white;
+    color: #5f2aff; /* Cor do ícone ao passar o mouse */
+    background: linear-gradient(to right, rgb(255, 255, 255), #d3d3d3); /* Gradiente de fundo branco */
 }
 
 nav .navigation-icons a:nth-child(1) {
@@ -122,6 +121,13 @@ nav .navigation-icons a:nth-child(2) {
 
 nav .navigation-icons a:nth-child(3) {
     animation: fadeInIcon3 1s ease forwards;
+}
+
+#nav_ico-baixo {
+    margin-top: 45px;
+    margin-bottom: 75px;
+    position: relative;
+   left: -87px;
 }
 
 @keyframes fadeInIcon1 {
@@ -167,7 +173,7 @@ nav .navigation-icons a:nth-child(3) {
 
     nav .navigation-icons a {
         position: relative;
-        margin-top: 2px;
+        margin-top: 20px;
         max-width: 70%;
         max-height: auto;
         right: -0px;
