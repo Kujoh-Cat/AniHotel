@@ -81,8 +81,8 @@ function delayAutoSlide() {
         clearTimeout(interval);
         interval = setTimeout(() => {
             plusSlides(1);
-        }, 8000);
-    }, 3000);
+        }, 5000);
+    }, 2500);
 }
 
 // Adicionar tratamento de eventos de arrastar para dispositivos de toque e mouse
