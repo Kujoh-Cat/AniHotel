@@ -139,22 +139,24 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
 
 // Verifique se o elemento foi encontrado
 if (capituloDiv) {
-    // Caminho do diretório atual
-    var diretorioAtual = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
-    
-    // Faz uma solicitação HTTP para o diretório atual
-    fetch(diretorioAtual)
-        .then(response => response.text())
-        .then(html => {
-            // Crie um novo parser de HTML
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(html, "text/html");
-            // Selecione todos os elementos <a> (links) no documento
-            var links = doc.querySelectorAll("a");
-            // Filtrar apenas os links que apontam para arquivos
-            var arquivos = Array.from(links)
-                .filter(link => link.href.lastIndexOf("/") !== link.href.length - 1) // Ignora diretórios
-                .map(link => link.href);
+    // Obtenha o número do capítulo atual
+    var numeroCapituloAtual = obterNumeroCapituloAtual();
+
+    // Construa o caminho das imagens com base no número do capítulo atual
+    var diretorioImagens = "/hokkaido_capitulos/Capitulo_" + numeroCapituloAtual + "/";
+
+    // Crie um loop para adicionar as imagens de 1.jpg a 21.jpg
+    for (var i = 1; i <= 21; i++) {
+        // Crie um novo elemento img
+        var novaImg = document.createElement('img');
+
+        // Defina o atributo src para o caminho da imagem
+        novaImg.src = diretorioImagens + i + ".jpg";
+
+        // Adicione a nova imagem ao elemento div.capitulo
+        capituloDiv.appendChild(novaImg);
+    }
+}
             
             // Filtrar apenas os arquivos de imagem (jpg, png, etc)
             var imagens = arquivos.filter(arquivo => {
