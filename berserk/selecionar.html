@@ -60,7 +60,11 @@
     <script src="/caso_icones.js"></script>
     <script>
           const intervals = [
-            { start: 1, end: 6 },
+            { start: -15, end: -14 },
+            { start: -13, end: -12 },
+            { start: -11, end: -8 },
+            { start: -7, end: -3 },
+            { start: -2, end: 6 },
             { start: 7, end: 16 },
             { start: 17, end: 26 },
             { start: 27, end: 36 },
@@ -101,14 +105,17 @@
         ];
 
         function atualizarCapaVolume() {
-            const selectedChapter = parseInt(document.getElementById("volume").value);
-            let selectedCover;
-            for (let i = 0; i < intervals.length; i++) {
-                if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
-                    selectedCover = i + 5;
-                    break;
+                const selectedChapter = parseInt(document.getElementById("volume").value);
+                let selectedCover;
+
+                // Verifica se o capítulo selecionado está dentro dos intervalos
+                for (let i = 0; i < intervals.length; i++) {
+                    if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
+                        // Ajusta o índice da capa considerando o prólogo
+                        selectedCover = i + 1; // O +5 é para compensar os 5 volumes antes do prólogo
+                        break;
+                    }
                 }
-            }
             
             const imagePath = "/berserk/capas/volume_" + selectedCover + ".png";
     const volumeCover = document.getElementById("volume-cover");
@@ -153,14 +160,14 @@ document.getElementById("volume").addEventListener("change", function() {
                 let currentChapter = parseInt(document.getElementById("volume").value);
                 let nextChapter = currentChapter + 1;
                 if (nextChapter > 375) {
-                    nextChapter = 1;
+                    nextChapter = -15;
                 }
                 document.getElementById("volume").value = nextChapter;
                 atualizarCapaVolume();
             } else if (diff < -1) {
                 let currentChapter = parseInt(document.getElementById("volume").value);
                 let prevChapter = currentChapter - 1;
-                if (prevChapter < 1) {
+                if (prevChapter < -15) {
                     prevChapter = 375;
                 }
                 document.getElementById("volume").value = prevChapter;
@@ -173,23 +180,26 @@ document.getElementById("volume").addEventListener("change", function() {
     let storedChapter = localStorage.getItem("selectedChapter_" + pageIdentifier);
 
     // Verifica se storedChapter existe e é menor que 2
-    if (storedChapter != null && storedChapter !== undefined && parseInt(storedChapter) < 2) {
+    if (storedChapter != null && storedChapter !== undefined && parseInt(storedChapter) < -1) {
         // Remove o item do localStorage
         localStorage.removeItem("selectedChapter_" + pageIdentifier);
         storedChapter = null; // Define como nulo para não salvar
     }
 
-    document.getElementById("volume").value = storedChapter || "1"; // Define o valor padrão como "1" se storedChapter for nulo
+    document.getElementById("volume").value = storedChapter || "-15"; // Define o valor padrão como "1" se storedChapter for nulo
     atualizarCapaVolume();
 }
 
         const select = document.getElementById("volume");
-        for (let i = 1; i <= 375; i++) {
-            const option = document.createElement("option");
-            option.value = i;
-            option.text = "Capítulo " + i;
-            select.appendChild(option);
-        }
+        for (let i = -15; i <= 375; i++) {
+    // Verificar se o capítulo é maior que 0 antes de criar a opção
+    if (i !== 0) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.text = "Capítulo " + i;
+        select.appendChild(option);
+    }
+}
     </script>
 </body>
 </html>
