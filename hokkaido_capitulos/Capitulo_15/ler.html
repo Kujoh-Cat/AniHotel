@@ -97,12 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
-
-    // Atualizar a navegação original
-    atualizarNavigationOriginal();
-
-    // Adicionar a navegação inferior
-    adicionarBottomNavigation();
 });
 
 // Função para preencher com zeros à esquerda até atingir o tamanho especificado
@@ -114,48 +108,11 @@ function padLeft(numero, tamanho) {
     return numeroString;
 }
 
-// Função para atualizar a navegação original
-function atualizarNavigationOriginal() {
-    // Obter o número do capítulo atual da URL
-    var numeroCapituloAtual = obterNumeroCapituloAtual();
-
-    // Obter os links para o capítulo anterior e próximo
-    var linkCapituloAnterior = obterLinkCapitulo(numeroCapituloAtual - 1);
-    var linkCapituloProximo = obterLinkCapitulo(numeroCapituloAtual + 1);
-
-    // Atualizar os links de navegação no HTML
-    document.getElementById("previous-chapter").href = linkCapituloAnterior;
-    document.getElementById("next-chapter").href = linkCapituloProximo;
-}
-
-// Função para obter o link do capítulo anterior ou próximo
-function obterLinkCapitulo(numeroCapitulo) {
-    var diretorioAtual = obterDiretorioAtual();
-    if (numeroCapitulo >= 1 && diretorioAtual) { // Verifica se diretorioAtual não é null ou undefined
-        return diretorioAtual.replace(/Capitulo_\d+/, "Capitulo_" + numeroCapitulo) + "/ler.html";
-    }
-    return null;
-}
-
-// Função para obter o diretório atual
-function obterDiretorioAtual() {
-    var url = window.location.pathname;
-    var partes = url.split('/');
-    // Remove a última parte (o nome do arquivo atual)
-    partes.pop();
-    return partes.join('/');
-}
-
-// Função para obter o número do capítulo atual da URL
-function obterNumeroCapituloAtual() {
-    var url = window.location.href;
-    var numeroCapitulo = url.match(/Capitulo_(\d+)/);
-    if (numeroCapitulo && numeroCapitulo.length > 1) {
-        return parseInt(numeroCapitulo[1]);
-    } else {
-        console.error('Número do capítulo não encontrado na URL.');
-        return null;
-    }
+// Função para extrair o número do nome do arquivo
+function extrairNumeroDoNomeArquivo(nomeArquivo) {
+    var nome = nomeArquivo.substring(nomeArquivo.lastIndexOf("/") + 1).toLowerCase();
+    var numero = parseInt(nome.match(/\d+/)); // Encontra o primeiro número no nome do arquivo
+    return numero;
 }
 
 // Função para adicionar a navegação inferior
@@ -180,8 +137,8 @@ function adicionarBottomNavigation() {
         var linkSelecionarVolume = document.createElement('a');
 
         // Atualiza os hrefs dos links de navegação com os links dos capítulos
-        linkCapituloAnterior.href = obterLinkCapitulo(obterNumeroCapituloAtual() - 1);
-        linkCapituloProximo.href = obterLinkCapitulo(obterNumeroCapituloAtual() + 1);
+        linkCapituloAnterior.href = obterLinkCapituloAnterior();
+        linkCapituloProximo.href = obterLinkCapituloProximo();
         linkSelecionarVolume.href = "/hokkaido/selecionar.html";
 
         // Adiciona os ícones de navegação aos links
@@ -201,6 +158,61 @@ function adicionarBottomNavigation() {
         section.parentNode.insertBefore(bottomNavigation, section.nextSibling);
     } else {
         console.error('Seção não encontrada no documento.');
+    }
+}
+
+// Função para atualizar a navegação original
+function atualizarNavigationOriginal() {
+    // Obter o número do capítulo atual da URL
+    var numeroCapituloAtual = obterNumeroCapituloAtual();
+
+    // Criar os links para o capítulo anterior e próximo
+    var linkCapituloAnterior = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
+    var linkCapituloProximo = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
+
+    // Atualizar os links de navegação no HTML
+    document.getElementById("previous-chapter").href = linkCapituloAnterior;
+    document.getElementById("next-chapter").href = linkCapituloProximo;
+}
+
+// Função para obter o link do capítulo anterior
+function obterLinkCapituloAnterior() {
+    var numeroCapituloAtual = obterNumeroCapituloAtual();
+    var diretorioAtual = obterDiretorioAtual();
+    if (numeroCapituloAtual !== null && numeroCapituloAtual > 1 && diretorioAtual !== null) {
+        return diretorioAtual + "/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
+    }
+    return null;
+}
+
+// Função para obter o link do próximo capítulo
+function obterLinkCapituloProximo() {
+    var numeroCapituloAtual = obterNumeroCapituloAtual();
+    var diretorioAtual = obterDiretorioAtual();
+    if (numeroCapituloAtual !== null && diretorioAtual !== null) {
+        return diretorioAtual + "/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
+    }
+    return null;
+}
+
+// Função para obter o diretório atual
+function obterDiretorioAtual() {
+    var url = window.location.pathname;
+    var partes = url.split('/');
+    // Remove a última parte (o nome do arquivo atual)
+    partes.pop();
+    return partes.join('/');
+}
+
+// Função para obter o número do capítulo atual da URL
+function obterNumeroCapituloAtual() {
+    var url = window.location.href;
+    var numeroCapitulo = url.match(/Capitulo_(\d+)/);
+    if (numeroCapitulo && numeroCapitulo.length > 1) {
+        return parseInt(numeroCapitulo[1]);
+    } else {
+        console.error('Número do capítulo não encontrado na URL.');
+        return null;
     }
 }
 
