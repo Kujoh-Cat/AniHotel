@@ -72,8 +72,9 @@
     
 
 <script>
-// Especifica o intervalo de imagens (de '02' a '20', por exemplo)
-var intervaloImagens = {inicio: '1', fim: '17'};
+// Especifica o intervalo de imagens (de '01' a '20', por exemplo)
+var inicioIntervalo = 1;
+var fimIntervalo = 17;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Atualizar o "Continue Lendo" com o número do capítulo atual
@@ -101,23 +102,38 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verifique se o elemento foi encontrado
     if (capituloDiv) {
         // Iterar sobre o intervalo de imagens
-        for (var i = parseInt(intervaloImagens.inicio); i <= parseInt(intervaloImagens.fim); i++) {
-            // Formata o número da imagem (adiciona zero à esquerda se necessário)
-            var numeroImagem = padLeft(i, 2);
+        for (var i = inicioIntervalo; i <= fimIntervalo; i++) {
             // Caminho para a imagem
-            var caminhoImagem = '/hokkaido_capitulos/Capitulo_15/' + numeroImagem + '.jpg';
+            var caminhoImagem = '/hokkaido_capitulos/Capitulo_15/' + padLeft(i, 2) + '.jpg';
 
-            // Crie um novo elemento img
-            var novaImg = document.createElement('img');
-            // Defina o atributo src para o caminho da imagem
-            novaImg.src = caminhoImagem;
-            // Adicione a nova imagem ao elemento div.capitulo
-            capituloDiv.appendChild(novaImg);
+            // Verifica se a imagem existe
+            verificarExistenciaImagem(caminhoImagem, function(existe, url) {
+                if (existe) {
+                    // Crie um novo elemento img
+                    var novaImg = document.createElement('img');
+                    // Defina o atributo src para o caminho da imagem
+                    novaImg.src = url;
+                    // Adicione a nova imagem ao elemento div.capitulo
+                    capituloDiv.appendChild(novaImg);
+                }
+            });
         }
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
 });
+
+// Função para verificar a existência da imagem
+function verificarExistenciaImagem(url, callback) {
+    fetch(url, { method: 'HEAD' })
+        .then(response => {
+            callback(response.ok, url);
+        })
+        .catch(error => {
+            console.error("Erro ao verificar a existência da imagem:", error);
+            callback(false, url);
+        });
+}
 
 // Função para extrair o número do nome do arquivo
 function extrairNumeroDoNomeArquivo(nomeArquivo) {
