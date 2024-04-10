@@ -79,89 +79,28 @@
 
 // Verifique se o elemento foi encontrado
 if (capituloDiv) {
-    // Caminho do diretório atual
-    var diretorioAtual = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
-    
-    // Faz uma solicitação HTTP para o diretório atual
-    fetch(diretorioAtual)
-        .then(response => response.text())
-        .then(html => {
-            // Crie um novo parser de HTML
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(html, "text/html");
-            // Selecione todos os elementos <a> (links) no documento
-            var links = doc.querySelectorAll("a");
-            // Filtrar apenas os links que apontam para arquivos
-            var arquivos = Array.from(links)
-                .filter(link => link.href.lastIndexOf("/") !== link.href.length - 1) // Ignora diretórios
-                .map(link => link.href);
-            
-            // Filtrar apenas os arquivos de imagem (jpg, png, etc)
-            var imagens = arquivos.filter(arquivo => {
-                var extensao = arquivo.substring(arquivo.lastIndexOf(".") + 1).toLowerCase();
-                return ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(extensao);
-            });
+    // Crie um loop para adicionar imagens de 01.jpg a 21.jpg
+    for (var i = 1; i <= 18; i++) {
+        // Formate o número do capítulo com zero à esquerda se necessário
+        var pagina = i < 10 ? "0" + i : i;
 
-            // Ordenar as imagens
-            imagens.sort(function(a, b) {
-                var nomeA = extrairNumeroDoNomeArquivo(a);
-                var nomeB = extrairNumeroDoNomeArquivo(b);
-                return nomeA - nomeB;
-            });
+        // Crie um novo elemento img
+        var novaImg = document.createElement('img');
 
-            // Iterar sobre as imagens ordenadas
-            imagens.forEach(function(nomeImagem) {
-                // Crie um novo elemento img
-                var novaImg = document.createElement('img');
-                // Defina o atributo src para o caminho da imagem
-                novaImg.src = nomeImagem;
-                // Adicione a nova imagem ao elemento div.capitulo
-                capituloDiv.appendChild(novaImg);
-            });
-        })
-        .catch(error => {
-            console.error("Erro ao buscar imagens:", error);
-        });
+        // Defina o atributo src para o caminho da imagem
+        novaImg.src = "/hokkaido_capitulos/Capitulo_8/" + pagina + ".png";
+
+        // Adicione a nova imagem ao elemento div.capitulo
+        capituloDiv.appendChild(novaImg);
+    }
 } else {
     console.error("Div '.capitulo' não encontrada.");
-}
-
-// Função para extrair o número do nome do arquivo
-function extrairNumeroDoNomeArquivo(nomeArquivo) {
-    var nome = nomeArquivo.substring(nomeArquivo.lastIndexOf("/") + 1);
-    var numero = nome.match(/\d+/); // Encontra o primeiro número no nome do arquivo
-    return parseInt(numero);
 }
         });
     </script>
 
 <script src="/clonar_link.js"></script>
 <script>
-
-// Função para obter o número do capítulo da URL atual
-function obterNumeroCapituloAtual() {
-    // Obter o pathname da URL atual
-    var pathname = window.location.pathname;
-    // Encontrar o índice do texto "Capitulo_" na URL
-    var index = pathname.indexOf("Capitulo_");
-    if (index !== -1) {
-        // Obter o número do capítulo a partir do nome da pasta na URL
-        var numeroCapitulo = parseInt(pathname.substring(index + 9)); // Adiciona 9 para pular o "Capitulo_"
-        return numeroCapitulo;
-    } else {
-        // Se "Capitulo_" não for encontrado na URL, retorne null
-        return null;
-    }
-}
-
-// Atualizar o "Continue Lendo" com o número do capítulo atual
-var numeroCapituloAtual = obterNumeroCapituloAtual();
-if (numeroCapituloAtual !== null) {
-    atualizarContinueLendo("/hokkaido/capas/volume_1.png", "Hokkaido Gals", numeroCapituloAtual);
-} else {
-    console.error("Número do capítulo atual não encontrado na URL.");
-}
-
    // Função para definir e atualizar o conteúdo do "Continue Lendo"
 function atualizarContinueLendo(capa, nomeManga, capitulo) {
     var continuarLendo = {
@@ -184,6 +123,9 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
         console.log("Foda");
     }
 }
+
+atualizarContinueLendo("/hokkaido/capas/volume_1.png", "Hokkaido Gals", 8);
+
 </script>
 
     <script src="/favicons.js"></script> 
