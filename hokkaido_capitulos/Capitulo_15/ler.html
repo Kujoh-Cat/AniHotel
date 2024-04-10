@@ -72,6 +72,8 @@
     
 
 <script>
+// Especifica o intervalo de imagens (de '02' a '20', por exemplo)
+var intervaloImagens = {inicio: '1', fim: '17'};
 
 document.addEventListener('DOMContentLoaded', function() {
     // Atualizar o "Continue Lendo" com o número do capítulo atual
@@ -98,43 +100,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Verifique se o elemento foi encontrado
     if (capituloDiv) {
-        // Caminho do diretório atual
-        var diretorioAtual = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
-        
-        // Faz uma solicitação HTTP para o diretório atual
-        fetch(diretorioAtual)
-            .then(response => response.text())
-            .then(html => {
-                // Crie um novo parser de HTML
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, "text/html");
-                // Selecione todos os elementos <a> (links) no documento
-                var links = doc.querySelectorAll("a");
-                // Filtrar apenas os links que apontam para arquivos de imagem (jpg)
-                var imagens = Array.from(links)
-                    .filter(link => link.href.toLowerCase().endsWith(".jpg"))
-                    .map(link => link.href);
-                
-                // Ordenar as imagens numericamente
-                imagens.sort(function(a, b) {
-                    var numeroA = extrairNumeroDoNomeArquivo(a);
-                    var numeroB = extrairNumeroDoNomeArquivo(b);
-                    return numeroA - numeroB;
-                });
+        // Iterar sobre o intervalo de imagens
+        for (var i = parseInt(intervaloImagens.inicio); i <= parseInt(intervaloImagens.fim); i++) {
+            // Formata o número da imagem (adiciona zero à esquerda se necessário)
+            var numeroImagem = padLeft(i, 2);
+            // Caminho para a imagem
+            var caminhoImagem = '/hokkaido_capitulos/Capitulo_15/' + numeroImagem + '.jpg';
 
-                // Iterar sobre as imagens ordenadas
-                imagens.forEach(function(nomeImagem) {
-                    // Crie um novo elemento img
-                    var novaImg = document.createElement('img');
-                    // Defina o atributo src para o caminho da imagem
-                    novaImg.src = nomeImagem;
-                    // Adicione a nova imagem ao elemento div.capitulo
-                    capituloDiv.appendChild(novaImg);
-                });
-            })
-            .catch(error => {
-                console.error("Erro ao buscar imagens:", error);
-            });
+            // Crie um novo elemento img
+            var novaImg = document.createElement('img');
+            // Defina o atributo src para o caminho da imagem
+            novaImg.src = caminhoImagem;
+            // Adicione a nova imagem ao elemento div.capitulo
+            capituloDiv.appendChild(novaImg);
+        }
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
@@ -199,8 +178,8 @@ function atualizarNavigationOriginal() {
     var numeroCapituloAtual = obterNumeroCapituloAtual();
 
     // Criar os links para o capítulo anterior e próximo
-    var linkCapituloAnterior = obterLinkCapituloAnterior();
-    var linkCapituloProximo = obterLinkCapituloProximo();
+    var linkCapituloAnterior = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
+    var linkCapituloProximo = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
 
     // Atualizar os links de navegação no HTML
     document.getElementById("previous-chapter").href = linkCapituloAnterior;
@@ -210,8 +189,9 @@ function atualizarNavigationOriginal() {
 // Função para obter o link do capítulo anterior
 function obterLinkCapituloAnterior() {
     var numeroCapituloAtual = obterNumeroCapituloAtual();
-    if (numeroCapituloAtual !== null && numeroCapituloAtual > 1) {
-        return "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
+    var diretorioAtual = obterDiretorioAtual();
+    if (numeroCapituloAtual !== null && numeroCapituloAtual > 1 && diretorioAtual !== null) {
+        return diretorioAtual + "/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
     }
     return null;
 }
@@ -219,10 +199,20 @@ function obterLinkCapituloAnterior() {
 // Função para obter o link do próximo capítulo
 function obterLinkCapituloProximo() {
     var numeroCapituloAtual = obterNumeroCapituloAtual();
-    if (numeroCapituloAtual !== null) {
-        return "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
+    var diretorioAtual = obterDiretorioAtual();
+    if (numeroCapituloAtual !== null && diretorioAtual !== null) {
+        return diretorioAtual + "/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
     }
     return null;
+}
+
+// Função para obter o diretório atual
+function obterDiretorioAtual() {
+    var url = window.location.pathname;
+    var partes = url.split('/');
+    // Remove a última parte (o nome do arquivo atual)
+    partes.pop();
+    return partes.join('/');
 }
 
 // Função para obter o número do capítulo atual da URL
@@ -235,6 +225,15 @@ function obterNumeroCapituloAtual() {
         console.error('Número do capítulo não encontrado na URL.');
         return null;
     }
+}
+
+// Função para preencher com zeros à esquerda até atingir o tamanho especificado
+function padLeft(numero, tamanho) {
+    var numeroString = numero.toString();
+    while (numeroString.length < tamanho) {
+        numeroString = '0' + numeroString;
+    }
+    return numeroString;
 }
 
 // Função para definir e atualizar o conteúdo do "Continue Lendo"
