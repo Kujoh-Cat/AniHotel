@@ -72,67 +72,38 @@
     
 
 <script>
-// Especifica o número inicial do intervalo de imagens
-var inicioIntervalo = 1;
-// Especifica o número de imagens a serem carregadas de cada vez
-var imagensPorVez = 5;
-// Especifica o intervalo de tempo (em milissegundos) entre cada carga de imagens
-var intervaloTempo = 1000;
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Atualizar o "Continue Lendo" com o número do capítulo atual
-    var numeroCapituloAtual = obterNumeroCapituloAtual();
-    if (numeroCapituloAtual !== null) {
-        atualizarContinueLendo("/hokkaido/capas/volume_2.png", "Hokkaido Gals", numeroCapituloAtual);
-    } else {
-        console.error("Número do capítulo atual não encontrado na URL.");
-    }
-
-    // Verifica se a navegação inferior já existe no documento
-    var bottomNavigationExists = document.querySelector('.bottom-navigation');
-
-    // Se a navegação inferior não existir, adiciona manualmente abaixo da seção
-    if (!bottomNavigationExists) {
-        adicionarBottomNavigation();
-    }
-
-    // Atualiza a navegação original
-    atualizarNavigationOriginal();
-
     // Localize o elemento div.capitulo
     var capituloDiv = document.querySelector('.capitulo');
 
     // Verifique se o elemento foi encontrado
     if (capituloDiv) {
-        // Construir o caminho base para as imagens
-        var caminhoBaseImagens = '/hokkaido_capitulos/Capitulo_15/';
+        // Especifica o intervalo de imagens (de '1' a '17', por exemplo)
+        var intervaloImagens = { inicio: 1, fim: 17 };
 
-        // Função para carregar um bloco de imagens
-        function carregarBlocoImagens(inicio, fim) {
-            for (var i = inicio; i <= fim; i++) {
-                var numeroImagem = padLeft(i, 2);
-                var caminhoImagem = caminhoBaseImagens + numeroImagem + '.jpg';
-                adicionarImagem(caminhoImagem);
-            }
-        }
+        for (var i = intervaloImagens.inicio; i <= intervaloImagens.fim; i++) {
+            // Formata o número da imagem (adiciona zero à esquerda se necessário)
+            var numeroImagem = padLeft(i, 2);
+            
+            // Crie um novo elemento img
+            var novaImg = document.createElement('img');
 
-        // Carregar as imagens em blocos, com intervalo de tempo entre cada bloco
-        for (var inicio = inicioIntervalo; inicio <= 17; inicio += imagensPorVez) {
-            var fim = Math.min(inicio + imagensPorVez - 1, 17);
-            carregarBlocoImagens(inicio, fim);
+            // Defina o atributo src para o caminho da imagem
+            novaImg.src = "/hokkaido_capitulos/Capitulo_15/" + numeroImagem + ".jpg";
+
+            // Adicione a nova imagem ao elemento div.capitulo
+            capituloDiv.appendChild(novaImg);
         }
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
-});
 
-// Função para adicionar uma imagem ao DOM
-function adicionarImagem(url) {
-    var novaImg = document.createElement('img');
-    novaImg.src = url;
-    var capituloDiv = document.querySelector('.capitulo');
-    capituloDiv.appendChild(novaImg);
-}
+    // Atualizar a navegação original
+    atualizarNavigationOriginal();
+
+    // Adicionar a navegação inferior
+    adicionarBottomNavigation();
+});
 
 // Função para preencher com zeros à esquerda até atingir o tamanho especificado
 function padLeft(numero, tamanho) {
@@ -143,89 +114,25 @@ function padLeft(numero, tamanho) {
     return numeroString;
 }
 
-// Função para extrair o número do nome do arquivo
-function extrairNumeroDoNomeArquivo(nomeArquivo) {
-    var nome = nomeArquivo.substring(nomeArquivo.lastIndexOf("/") + 1).toLowerCase();
-    var numero = parseInt(nome.match(/\d+/)); // Encontra o primeiro número no nome do arquivo
-    return numero;
-}
-
-// Função para adicionar a navegação inferior
-function adicionarBottomNavigation() {
-    // Encontra a seção
-    var section = document.querySelector('section');
-
-    // Verifica se a seção foi encontrada
-    if (section) {
-        // Cria a navegação inferior
-        var bottomNavigation = document.createElement('nav');
-        bottomNavigation.classList.add('bottom-navigation');
-
-        // Cria a div de ícones de navegação
-        var navigationIconsDiv = document.createElement('div');
-        navigationIconsDiv.classList.add('navigation-icons');
-        navigationIconsDiv.id = 'nav_ico-baixo';
-
-        // Cria os links de navegação para o capítulo anterior e próximo
-        var linkCapituloAnterior = document.createElement('a');
-        var linkCapituloProximo = document.createElement('a');
-        var linkSelecionarVolume = document.createElement('a');
-
-        // Atualiza os hrefs dos links de navegação com os links dos capítulos
-        linkCapituloAnterior.href = obterLinkCapituloAnterior();
-        linkCapituloProximo.href = obterLinkCapituloProximo();
-        linkSelecionarVolume.href = "/hokkaido/selecionar.html";
-
-        // Adiciona os ícones de navegação aos links
-        linkCapituloAnterior.innerHTML = '<i class="fas fa-backward"></i>';
-        linkCapituloProximo.innerHTML = '<i class="fas fa-forward"></i>';
-        linkSelecionarVolume.innerHTML = '<i class="fas fa-bars"></i>';
-
-        // Adiciona os links de navegação à div de ícones de navegação
-        navigationIconsDiv.appendChild(linkCapituloAnterior);
-        navigationIconsDiv.appendChild(linkSelecionarVolume);
-        navigationIconsDiv.appendChild(linkCapituloProximo);
-
-        // Adiciona a div de ícones de navegação à navegação inferior
-        bottomNavigation.appendChild(navigationIconsDiv);
-
-        // Insere a navegação inferior após a seção
-        section.parentNode.insertBefore(bottomNavigation, section.nextSibling);
-    } else {
-        console.error('Seção não encontrada no documento.');
-    }
-}
-
 // Função para atualizar a navegação original
 function atualizarNavigationOriginal() {
     // Obter o número do capítulo atual da URL
     var numeroCapituloAtual = obterNumeroCapituloAtual();
 
-    // Criar os links para o capítulo anterior e próximo
-    var linkCapituloAnterior = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
-    var linkCapituloProximo = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
+    // Obter os links para o capítulo anterior e próximo
+    var linkCapituloAnterior = obterLinkCapitulo(numeroCapituloAtual - 1);
+    var linkCapituloProximo = obterLinkCapitulo(numeroCapituloAtual + 1);
 
     // Atualizar os links de navegação no HTML
     document.getElementById("previous-chapter").href = linkCapituloAnterior;
     document.getElementById("next-chapter").href = linkCapituloProximo;
 }
 
-// Função para obter o link do capítulo anterior
-function obterLinkCapituloAnterior() {
-    var numeroCapituloAtual = obterNumeroCapituloAtual();
+// Função para obter o link do capítulo anterior ou próximo
+function obterLinkCapitulo(numeroCapitulo) {
     var diretorioAtual = obterDiretorioAtual();
-    if (numeroCapituloAtual !== null && numeroCapituloAtual > 1 && diretorioAtual !== null) {
-        return diretorioAtual + "/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
-    }
-    return null;
-}
-
-// Função para obter o link do próximo capítulo
-function obterLinkCapituloProximo() {
-    var numeroCapituloAtual = obterNumeroCapituloAtual();
-    var diretorioAtual = obterDiretorioAtual();
-    if (numeroCapituloAtual !== null && diretorioAtual !== null) {
-        return diretorioAtual + "/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
+    if (numeroCapitulo >= 1 && diretorioAtual !== null) {
+        return diretorioAtual.replace(/Capitulo_\d+/, "Capitulo_" + numeroCapitulo) + "/ler.html";
     }
     return null;
 }
@@ -251,13 +158,50 @@ function obterNumeroCapituloAtual() {
     }
 }
 
-// Função para preencher com zeros à esquerda até atingir o tamanho especificado
-function padLeft(numero, tamanho) {
-    var numeroString = numero.toString();
-    while (numeroString.length < tamanho) {
-        numeroString = '0' + numeroString;
+// Função para adicionar a navegação inferior
+function adicionarBottomNavigation() {
+    // Encontra a seção
+    var section = document.querySelector('section');
+
+    // Verifica se a seção foi encontrada
+    if (section) {
+        // Cria a navegação inferior
+        var bottomNavigation = document.createElement('nav');
+        bottomNavigation.classList.add('bottom-navigation');
+
+        // Cria a div de ícones de navegação
+        var navigationIconsDiv = document.createElement('div');
+        navigationIconsDiv.classList.add('navigation-icons');
+        navigationIconsDiv.id = 'nav_ico-baixo';
+
+        // Cria os links de navegação para o capítulo anterior e próximo
+        var linkCapituloAnterior = document.createElement('a');
+        var linkCapituloProximo = document.createElement('a');
+        var linkSelecionarVolume = document.createElement('a');
+
+        // Atualiza os hrefs dos links de navegação com os links dos capítulos
+        linkCapituloAnterior.href = obterLinkCapitulo(obterNumeroCapituloAtual() - 1);
+        linkCapituloProximo.href = obterLinkCapitulo(obterNumeroCapituloAtual() + 1);
+        linkSelecionarVolume.href = "/hokkaido/selecionar.html";
+
+        // Adiciona os ícones de navegação aos links
+        linkCapituloAnterior.innerHTML = '<i class="fas fa-backward"></i>';
+        linkCapituloProximo.innerHTML = '<i class="fas fa-forward"></i>';
+        linkSelecionarVolume.innerHTML = '<i class="fas fa-bars"></i>';
+
+        // Adiciona os links de navegação à div de ícones de navegação
+        navigationIconsDiv.appendChild(linkCapituloAnterior);
+        navigationIconsDiv.appendChild(linkSelecionarVolume);
+        navigationIconsDiv.appendChild(linkCapituloProximo);
+
+        // Adiciona a div de ícones de navegação à navegação inferior
+        bottomNavigation.appendChild(navigationIconsDiv);
+
+        // Insere a navegação inferior após a seção
+        section.parentNode.insertBefore(bottomNavigation, section.nextSibling);
+    } else {
+        console.error('Seção não encontrada no documento.');
     }
-    return numeroString;
 }
 
 // Função para definir e atualizar o conteúdo do "Continue Lendo"
