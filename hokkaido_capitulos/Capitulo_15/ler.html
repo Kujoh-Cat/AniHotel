@@ -131,7 +131,7 @@ function atualizarNavigationOriginal() {
 // Função para obter o link do capítulo anterior ou próximo
 function obterLinkCapitulo(numeroCapitulo) {
     var diretorioAtual = obterDiretorioAtual();
-    if (numeroCapitulo >= 1 && diretorioAtual !== null) {
+    if (numeroCapitulo >= 1 && diretorioAtual) { // Verifica se diretorioAtual não é null ou undefined
         return diretorioAtual.replace(/Capitulo_\d+/, "Capitulo_" + numeroCapitulo) + "/ler.html";
     }
     return null;
