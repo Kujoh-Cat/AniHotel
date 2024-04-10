@@ -72,9 +72,12 @@
     
 
 <script>
-// Especifica o intervalo de imagens (de '01' a '20', por exemplo)
+// Especifica o número inicial do intervalo de imagens
 var inicioIntervalo = 1;
-var fimIntervalo = 17;
+// Especifica o número de imagens a serem carregadas de cada vez
+var imagensPorVez = 5;
+// Especifica o intervalo de tempo (em milissegundos) entre cada carga de imagens
+var intervaloTempo = 1000;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Atualizar o "Continue Lendo" com o número do capítulo atual
@@ -101,38 +104,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Verifique se o elemento foi encontrado
     if (capituloDiv) {
-        // Iterar sobre o intervalo de imagens
-        for (var i = inicioIntervalo; i <= fimIntervalo; i++) {
-            // Caminho para a imagem
-            var caminhoImagem = '/hokkaido_capitulos/Capitulo_15/' + padLeft(i, 2) + '.jpg';
+        // Construir o caminho base para as imagens
+        var caminhoBaseImagens = '/hokkaido_capitulos/Capitulo_15/';
 
-            // Verifica se a imagem existe
-            verificarExistenciaImagem(caminhoImagem, function(existe, url) {
-                if (existe) {
-                    // Crie um novo elemento img
-                    var novaImg = document.createElement('img');
-                    // Defina o atributo src para o caminho da imagem
-                    novaImg.src = url;
-                    // Adicione a nova imagem ao elemento div.capitulo
-                    capituloDiv.appendChild(novaImg);
-                }
-            });
+        // Função para carregar um bloco de imagens
+        function carregarBlocoImagens(inicio, fim) {
+            for (var i = inicio; i <= fim; i++) {
+                var numeroImagem = padLeft(i, 2);
+                var caminhoImagem = caminhoBaseImagens + numeroImagem + '.jpg';
+                adicionarImagem(caminhoImagem);
+            }
+        }
+
+        // Carregar as imagens em blocos, com intervalo de tempo entre cada bloco
+        for (var inicio = inicioIntervalo; inicio <= 17; inicio += imagensPorVez) {
+            var fim = Math.min(inicio + imagensPorVez - 1, 17);
+            carregarBlocoImagens(inicio, fim);
         }
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
 });
 
-// Função para verificar a existência da imagem
-function verificarExistenciaImagem(url, callback) {
-    fetch(url, { method: 'HEAD' })
-        .then(response => {
-            callback(response.ok, url);
-        })
-        .catch(error => {
-            console.error("Erro ao verificar a existência da imagem:", error);
-            callback(false, url);
-        });
+// Função para adicionar uma imagem ao DOM
+function adicionarImagem(url) {
+    var novaImg = document.createElement('img');
+    novaImg.src = url;
+    var capituloDiv = document.querySelector('.capitulo');
+    capituloDiv.appendChild(novaImg);
+}
+
+// Função para preencher com zeros à esquerda até atingir o tamanho especificado
+function padLeft(numero, tamanho) {
+    var numeroString = numero.toString();
+    while (numeroString.length < tamanho) {
+        numeroString = '0' + numeroString;
+    }
+    return numeroString;
 }
 
 // Função para extrair o número do nome do arquivo
