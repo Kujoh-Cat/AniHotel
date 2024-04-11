@@ -73,54 +73,7 @@
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    // Localize o elemento div.capitulo
-    var capituloDiv = document.querySelector('.capitulo');
-
-    // Verifique se o elemento foi encontrado
-    if (capituloDiv) {
-        // Obtenha o nome da pasta atual
-        var nomePastaAtual = obterNomePastaAtual();
-
-        // Se o nome da pasta atual for válido, continue
-        if (nomePastaAtual) {
-            // Crie um loop para adicionar imagens de 01.jpg a 21.jpg
-            for (var i = 1; i <= 17; i++) {
-                // Formate o número da página com zero à esquerda se necessário
-                var pagina = i < 10 ? "0" + i : i;
-
-                // Crie um novo elemento img
-                var novaImg = document.createElement('img');
-
-                // Defina o atributo src para o caminho da imagem com base no nome da pasta atual
-                novaImg.src = "/hokkaido_capitulos/" + nomePastaAtual + "/" + pagina + ".jpg";
-
-                // Adicione a nova imagem ao elemento div.capitulo
-                capituloDiv.appendChild(novaImg);
-            }
-        } else {
-            console.error("Nome da pasta atual não encontrado.");
-        }
-    } else {
-        console.error("Div '.capitulo' não encontrada.");
-    }
-});
-
-// Função para obter o nome da pasta atual
-function obterNomePastaAtual() {
-    var url = window.location.href;
-    var partesUrl = url.split('/');
-    var indexCapitulo = partesUrl.indexOf("hokkaido_capitulos");
-    if (indexCapitulo !== -1 && indexCapitulo < partesUrl.length - 1) {
-        return partesUrl[indexCapitulo + 1]; // O nome da pasta atual é o próximo elemento após "hokkaido_capitulos"
-    } else {
-        console.error("Nome da pasta atual não encontrado na URL.");
-        return null;
-    }
-}
-    </script>
-<script>
-  // Função para obter o número do capítulo atual da URL
+        // Função para obter o número do capítulo da URL atual
 function obterNumeroCapituloAtual() {
     // Obter o pathname da URL atual
     var pathname = window.location.pathname;
@@ -163,12 +116,55 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
         continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + capitulo;
     } else {
         // Se o elemento não existir, criar um novo e adicioná-lo à página
-        console.log("Foda");
+        console.log("Elemento '.continuar-lendo' não encontrado.");
     }
 }
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+
+// Função para obter o nome da pasta atual
+function obterNomePastaAtual() {
+    var url = window.location.href;
+    var partesUrl = url.split('/');
+    var indexCapitulo = partesUrl.indexOf("hokkaido_capitulos");
+    if (indexCapitulo !== -1 && indexCapitulo < partesUrl.length - 1) {
+        return partesUrl[indexCapitulo + 1]; // O nome da pasta atual é o próximo elemento após "hokkaido_capitulos"
+    } else {
+        console.error("Nome da pasta atual não encontrado na URL.");
+        return null;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Localize o elemento div.capitulo
+    var capituloDiv = document.querySelector('.capitulo');
+
+    // Verifique se o elemento foi encontrado
+    if (capituloDiv) {
+        // Obtenha o nome da pasta atual
+        var nomePastaAtual = obterNomePastaAtual();
+
+        // Se o nome da pasta atual for válido, continue
+        if (nomePastaAtual) {
+            // Crie um loop para adicionar imagens de 01.jpg a 21.jpg
+            for (var i = 1; i <= 17; i++) {
+                // Formate o número da página com zero à esquerda se necessário
+                var pagina = i < 10 ? "0" + i : i;
+
+                // Crie um novo elemento img
+                var novaImg = document.createElement('img');
+
+                // Defina o atributo src para o caminho da imagem com base no nome da pasta atual
+                novaImg.src = "/hokkaido_capitulos/" + nomePastaAtual + "/" + pagina + ".jpg";
+
+                // Adicione a nova imagem ao elemento div.capitulo
+                capituloDiv.appendChild(novaImg);
+            }
+        } else {
+            console.error("Nome da pasta atual não encontrado.");
+        }
+    } else {
+        console.error("Div '.capitulo' não encontrada.");
+    }
+
     // Verifica se a navegação superior já existe no documento
     var topNavigationExists = document.querySelector('nav .navigation-icons');
 
@@ -305,7 +301,7 @@ function obterLinkCapituloAnterior() {
     if (numeroCapituloAtual !== null && numeroCapituloAtual > 1) {
         return "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
     }
-    return "/index.html";
+    return null;
 }
 
 // Função para obter o link do próximo capítulo
@@ -314,19 +310,7 @@ function obterLinkCapituloProximo() {
     if (numeroCapituloAtual !== null) {
         return "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
     }
-    return "/index.html";
-}
-
-// Função para obter o número do capítulo atual da URL
-function obterNumeroCapituloAtual() {
-    var url = window.location.href;
-    var numeroCapitulo = url.match(/Capitulo_(\d+)/);
-    if (numeroCapitulo && numeroCapitulo.length > 1) {
-        return parseInt(numeroCapitulo[1]);
-    } else {
-        console.error('Número do capítulo não encontrado na URL.');
-        return null;
-    }
+    return null;
 }
 </script>
 
