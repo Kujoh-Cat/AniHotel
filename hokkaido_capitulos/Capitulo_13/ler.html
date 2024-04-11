@@ -120,7 +120,7 @@ function obterNomePastaAtual() {
 }
     </script>
 <script>
-  // Função para obter o número do capítulo da URL atual
+  // Função para obter o número do capítulo atual da URL
 function obterNumeroCapituloAtual() {
     // Obter o pathname da URL atual
     var pathname = window.location.pathname;
@@ -163,7 +163,38 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
         continuarLendoDiv.querySelector('.nome-manga').textContent = nomeManga;
         continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + capitulo;
     } else {
-        console.log("Foda");
+        // Se o elemento não existir, criar um novo e adicioná-lo à página
+        criarContinueLendo(capa, nomeManga, capitulo);
+    }
+}
+
+// Função para criar o elemento "Continue Lendo" e adicioná-lo à página
+function criarContinueLendo(capa, nomeManga, capitulo) {
+    var continuarLendoDiv = document.createElement('div');
+    continuarLendoDiv.classList.add('continuar-lendo');
+
+    var capaMiniatura = document.createElement('div');
+    capaMiniatura.classList.add('capa-miniatura');
+    capaMiniatura.innerHTML = '<img src="' + capa + '" alt="Capa">';
+
+    var nomeMangaSpan = document.createElement('span');
+    nomeMangaSpan.classList.add('nome-manga');
+    nomeMangaSpan.textContent = nomeManga;
+
+    var capituloMangaSpan = document.createElement('span');
+    capituloMangaSpan.classList.add('capitulo_manga');
+    capituloMangaSpan.textContent = "Capítulo " + capitulo;
+
+    continuarLendoDiv.appendChild(capaMiniatura);
+    continuarLendoDiv.appendChild(nomeMangaSpan);
+    continuarLendoDiv.appendChild(capituloMangaSpan);
+
+    // Adicionar o elemento "Continue Lendo" antes do rodapé da página
+    var footerElement = document.querySelector('footer');
+    if (footerElement) {
+        footerElement.parentNode.insertBefore(continuarLendoDiv, footerElement);
+    } else {
+        console.error("Elemento <footer> não encontrado para adicionar o 'Continue Lendo'.");
     }
 }
 </script>
@@ -211,8 +242,8 @@ function adicionarTopNavigation() {
         linkSelecionarVolume.id = 'select-volume';
 
         // Atualiza os hrefs dos links de navegação com os links dos capítulos
-        linkCapituloAnterior.href = obterLinkCapituloAnterior() || '/index.html';
-        linkCapituloProximo.href = obterLinkCapituloProximo() || '/index.html';
+        linkCapituloAnterior.href = obterLinkCapituloAnterior();
+        linkCapituloProximo.href = obterLinkCapituloProximo();
         linkSelecionarVolume.href = "/hokkaido/selecionar.html";
 
         // Adiciona os ícones de navegação aos links
@@ -259,8 +290,8 @@ function adicionarBottomNavigation() {
         linkSelecionarVolume.classList.add('nav-link');
 
         // Atualiza os hrefs dos links de navegação com os links dos capítulos
-        linkCapituloAnterior.href = obterLinkCapituloAnterior() || '/index.html';
-        linkCapituloProximo.href = obterLinkCapituloProximo() || '/index.html';
+        linkCapituloAnterior.href = obterLinkCapituloAnterior();
+        linkCapituloProximo.href = obterLinkCapituloProximo();
         linkSelecionarVolume.href = "/hokkaido/selecionar.html";
 
         // Adiciona os ícones de navegação aos links
@@ -321,14 +352,6 @@ function obterLinkCapituloProximo() {
     return "/index.html";
 }
 
-// Função para verificar se o link existe
-function linkExiste(link) {
-    var http = new XMLHttpRequest();
-    http.open('HEAD', link, false);
-    http.send();
-    return http.status != 404;
-}
-
 // Função para obter o número do capítulo atual da URL
 function obterNumeroCapituloAtual() {
     var url = window.location.href;
@@ -338,6 +361,16 @@ function obterNumeroCapituloAtual() {
     } else {
         console.error('Número do capítulo não encontrado na URL.');
         return null;
+    }
+}
+
+// Função para verificar se o link existe
+async function linkExiste(link) {
+    try {
+        const response = await fetch(link, { method: 'HEAD' });
+        return response.ok;
+    } catch (error) {
+        return false;
     }
 }
 </script>
