@@ -303,9 +303,7 @@ function atualizarNavigationOriginal() {
 function obterLinkCapituloAnterior() {
     var numeroCapituloAtual = obterNumeroCapituloAtual();
     if (numeroCapituloAtual !== null && numeroCapituloAtual > 1) {
-        var linkAnterior = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
-        // Verifica se o link existe
-        return linkExiste(linkAnterior) ? linkAnterior : "/index.html";
+        return "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual - 1) + "/ler.html";
     }
     return "/index.html";
 }
@@ -314,9 +312,7 @@ function obterLinkCapituloAnterior() {
 function obterLinkCapituloProximo() {
     var numeroCapituloAtual = obterNumeroCapituloAtual();
     if (numeroCapituloAtual !== null) {
-        var linkProximo = "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
-        // Verifica se o link existe
-        return linkExiste(linkProximo) ? linkProximo : "/index.html";
+        return "/hokkaido_capitulos/Capitulo_" + (numeroCapituloAtual + 1) + "/ler.html";
     }
     return "/index.html";
 }
@@ -330,16 +326,6 @@ function obterNumeroCapituloAtual() {
     } else {
         console.error('Número do capítulo não encontrado na URL.');
         return null;
-    }
-}
-
-// Função para verificar se o link existe
-async function linkExiste(link) {
-    try {
-        const response = await fetch(link, { method: 'HEAD' });
-        return response.ok;
-    } catch (error) {
-        return false;
     }
 }
 </script>
