@@ -132,6 +132,7 @@ function obterNumeroCapituloAtual() {
         return numeroCapitulo;
     } else {
         // Se "Capitulo_" não for encontrado na URL, retorne null
+        console.error("Número do capítulo não encontrado na URL.");
         return null;
     }
 }
@@ -140,8 +141,6 @@ function obterNumeroCapituloAtual() {
 var numeroCapituloAtual = obterNumeroCapituloAtual();
 if (numeroCapituloAtual !== null) {
     atualizarContinueLendo("/hokkaido/capas/volume_2.png", "Hokkaido Gals", numeroCapituloAtual);
-} else {
-    console.error("Número do capítulo atual não encontrado na URL.");
 }
 
 // Função para definir e atualizar o conteúdo do "Continue Lendo"
@@ -164,37 +163,7 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
         continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + capitulo;
     } else {
         // Se o elemento não existir, criar um novo e adicioná-lo à página
-        criarContinueLendo(capa, nomeManga, capitulo);
-    }
-}
-
-// Função para criar o elemento "Continue Lendo" e adicioná-lo à página
-function criarContinueLendo(capa, nomeManga, capitulo) {
-    var continuarLendoDiv = document.createElement('div');
-    continuarLendoDiv.classList.add('continuar-lendo');
-
-    var capaMiniatura = document.createElement('div');
-    capaMiniatura.classList.add('capa-miniatura');
-    capaMiniatura.innerHTML = '<img src="' + capa + '" alt="Capa">';
-
-    var nomeMangaSpan = document.createElement('span');
-    nomeMangaSpan.classList.add('nome-manga');
-    nomeMangaSpan.textContent = nomeManga;
-
-    var capituloMangaSpan = document.createElement('span');
-    capituloMangaSpan.classList.add('capitulo_manga');
-    capituloMangaSpan.textContent = "Capítulo " + capitulo;
-
-    continuarLendoDiv.appendChild(capaMiniatura);
-    continuarLendoDiv.appendChild(nomeMangaSpan);
-    continuarLendoDiv.appendChild(capituloMangaSpan);
-
-    // Adicionar o elemento "Continue Lendo" antes do rodapé da página
-    var footerElement = document.querySelector('footer');
-    if (footerElement) {
-        footerElement.parentNode.insertBefore(continuarLendoDiv, footerElement);
-    } else {
-        console.error("Elemento <footer> não encontrado para adicionar o 'Continue Lendo'.");
+        console.log("Foda");
     }
 }
 </script>
