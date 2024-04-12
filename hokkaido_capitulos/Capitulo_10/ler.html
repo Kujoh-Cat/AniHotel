@@ -74,32 +74,6 @@
 
     <script src="/clonar_link.js"></script>
     <script>
-
-        // Função para definir e atualizar o conteúdo do "Continue Lendo"
-function atualizarContinueLendo(capa, nomeManga, capitulo) {
-    var continuarLendo = {
-        capa: capa,
-        nomeManga: nomeManga,
-        capitulo: capitulo
-    };
-
-    // Salvar o estado do capítulo no localStorage
-    localStorage.setItem('continueLendo', JSON.stringify(continuarLendo));
-
-    // Verificar se o elemento .continuar-lendo existe na página
-    var continuarLendoDiv = document.querySelector('.continuar-lendo');
-    if (continuarLendoDiv) {
-        // Atualizar a exibição do "Continue Lendo" apenas se o elemento existir
-        continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<img src="' + capa + '" alt="Capa">';
-        continuarLendoDiv.querySelector('.nome-manga').textContent = nomeManga;
-        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + capitulo;
-    } else {
-        console.log("Foda");
-    }
-}
-
-atualizarContinueLendo("/hokkaido/capas/volume_1.png", "Hokkaido Gals", numeroCapituloAtual);
-
         document.addEventListener('DOMContentLoaded', function() {
     // Localize o elemento div.capitulo
     var capituloDiv = document.querySelector('.capitulo');
@@ -134,16 +108,42 @@ if (capituloDiv) {
         });
 
         // Função para obter o número do capítulo atual da URL
-        function obterNumeroCapituloAtual() {
-            var url = window.location.href;
-            var numeroCapitulo = url.match(/Capitulo_(\d+)/);
-            if (numeroCapitulo && numeroCapitulo.length > 1) {
-                return parseInt(numeroCapitulo[1]);
-            } else {
-                console.error('Número do capítulo não encontrado na URL.');
-                return null;
-            }
-        }
+function obterNumeroCapituloAtual() {
+    var url = window.location.href;
+    var match = url.match(/Capitulo_(\d+)/);
+    if (match && match.length > 1) {
+        return parseInt(match[1]);
+    } else {
+        console.error('Número do capítulo não encontrado na URL.');
+        return null;
+    }
+}
+
+// Função para definir e atualizar o conteúdo do "Continue Lendo"
+function atualizarContinueLendo(capa, nomeManga, capitulo) {
+    var continuarLendo = {
+        capa: capa,
+        nomeManga: nomeManga,
+        capitulo: capitulo
+    };
+
+    // Salvar o estado do capítulo no localStorage
+    localStorage.setItem('continueLendo', JSON.stringify(continuarLendo));
+
+    // Verificar se o elemento .continuar-lendo existe na página
+    var continuarLendoDiv = document.querySelector('.continuar-lendo');
+    if (continuarLendoDiv) {
+        // Atualizar a exibição do "Continue Lendo" apenas se o elemento existir
+        continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<img src="' + capa + '" alt="Capa">';
+        continuarLendoDiv.querySelector('.nome-manga').textContent = nomeManga;
+        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + capitulo;
+    } else {
+        console.log("Foda");
+    }
+}
+
+atualizarContinueLendo("/hokkaido/capas/volume_1.png", "Hokkaido Gals", numeroCapituloAtual);
+
     </script>
 
     <script src="/favicons.js"></script> 
