@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#181818">
+    <link rel="stylesheet" href="/header_vol.css">
+    <link rel="stylesheet" href="/chainsaw_capitulos/cap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/retornar_pagina.js"></script>
+    <title>AniHotel+</title>
+    <style>
+        body {
+            background: #181818;
+        }
+        
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        nav .navigation-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        nav .navigation-icons a {
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/index.html">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/catalogo/catalogo.html">
+                            <i class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <nav>
+        <img id="logo" src="" alt="Logo"/>
+        <div class="navigation-icons">
+            <a href="/chainsaw_capitulos/Capitulo_6/ler.html" id="previous-chapter"><i class="fas fa-backward"></i></a>
+            <a href="/chainsaw/selecionar.html" id="select-volume"><i class="fas fa-bars"></i></a>
+            <a href="/chainsaw_capitulos/Capitulo_8/ler.html" id="next-chapter"><i class="fas fa-forward"></i></a>
+        </div>
+    </nav>
+    <section>
+        <div class="capitulo">
+        </div>        
+    </section>
+
+    <script src="/clonar_link.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Localize o elemento div.capitulo
+    var capituloDiv = document.querySelector('.capitulo');
+
+    // Verifique se o elemento foi encontrado
+    if (capituloDiv) {
+        // Crie um loop para adicionar imagens de 2.png a 20.png
+        for (var i = 3; i <= 21; i++) {
+            // Crie um novo elemento img
+            var novaImg = document.createElement('img');
+
+            // Defina o atributo src para o caminho da imagem
+novaImg.src = "/chainsaw_capitulos/Capitulo_" + obterNumeroCapituloAtual() + "/" + i + ".jpg";
+
+            // Adicione a nova imagem ao elemento div.capitulo
+            capituloDiv.appendChild(novaImg);
+        }
+    } else {
+        console.error("Div '.capitulo' não encontrada.");
+    }
+});
+    
+        // Lista de imagens disponíveis
+        var images = ["/img/chainsaw_logo.png", "/img/chainsaw-yellowlogo.png"];
+
+        // Seleciona aleatoriamente uma imagem da lista
+        var randomIndex = Math.floor(Math.random() * images.length);
+        var selectedImage = images[randomIndex];
+
+        // Define o src da imagem no HTML
+        document.getElementById("logo").src = selectedImage;
+    
+    atualizarContinueLendo("/chainsaw/capas/volume_1.png", "Chainsaw Man", obterNumeroCapituloAtual());
+
+// Função para obter o número do capítulo atual da URL
+function obterNumeroCapituloAtual() {
+    // Obtém o caminho completo do capítulo atual
+    var url = window.location.pathname;
+    
+    // Use uma expressão regular para encontrar o número após "Capitulo_" no nome da pasta atual
+    var match = url.match(/\/Capitulo_([\d]+)\//);
+    
+    // Verifique se houve uma correspondência e retorne o número do capítulo
+    if (match && match.length > 1) {
+        // Remova zeros à esquerda do número do capítulo
+        var numeroCapitulo = parseInt(match[1]);
+        return numeroCapitulo.toString(); // Converta de volta para string para manter a consistência
+    } else {
+        console.error('Número do capítulo não encontrado no nome da pasta.');
+        return null;
+    }
+}
+
+   // Função para definir e atualizar o conteúdo do "Continue Lendo"
+function atualizarContinueLendo(capa, nomeManga, capitulo) {
+    var continuarLendo = {
+        capa: capa,
+        nomeManga: nomeManga,
+        capitulo: capitulo
+    };
+
+    // Salvar o estado do capítulo no localStorage
+    localStorage.setItem('continueLendo', JSON.stringify(continuarLendo));
+
+    // Verificar se o elemento .continuar-lendo existe na página
+    var continuarLendoDiv = document.querySelector('.continuar-lendo');
+    if (continuarLendoDiv) {
+        // Atualizar a exibição do "Continue Lendo" apenas se o elemento existir
+        continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<img src="' + capa + '" alt="Capa">';
+        continuarLendoDiv.querySelector('.nome-manga').textContent = nomeManga;
+        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + capitulo;
+    } else {
+        console.log("Foda.");
+    }
+}
+
+</script>
+
+    <script src="/favicons.js"></script> 
+    <script src="/caso_icones.js"></script>
+</body>
+</html>
