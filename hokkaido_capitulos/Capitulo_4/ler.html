@@ -74,31 +74,8 @@
 
     <script src="/clonar_link.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    // Localize o elemento div.capitulo
-    var capituloDiv = document.querySelector('.capitulo');
 
-    // Verifique se o elemento foi encontrado
-    if (capituloDiv) {
-        // Crie um loop para adicionar imagens de 2.png a 20.png
-        for (var i = 1; i <= 19; i++) {
-            // Crie um novo elemento img
-            var novaImg = document.createElement('img');
-
-            // Defina o atributo src para o caminho da imagem
-            novaImg.src = "/hokkaido_capitulos/Capitulo_4/" + i + ".png";
-
-            // Adicione a nova imagem ao elemento div.capitulo
-            capituloDiv.appendChild(novaImg);
-        }
-    } else {
-        console.error("Div '.capitulo' não encontrada.");
-    }
-});
-    </script>
-
-<script>
-   // Função para definir e atualizar o conteúdo do "Continue Lendo"
+        // Função para definir e atualizar o conteúdo do "Continue Lendo"
 function atualizarContinueLendo(capa, nomeManga, capitulo) {
     var continuarLendo = {
         capa: capa,
@@ -121,9 +98,53 @@ function atualizarContinueLendo(capa, nomeManga, capitulo) {
     }
 }
 
-atualizarContinueLendo("/hokkaido/capas/volume_1.png", "Hokkaido Gals", 4);
+atualizarContinueLendo("/hokkaido/capas/volume_1.png", "Hokkaido Gals", numeroCapituloAtual);
 
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Localize o elemento div.capitulo
+    var capituloDiv = document.querySelector('.capitulo');
+
+// Verifique se o elemento foi encontrado
+if (capituloDiv) {
+    // Obtenha o número do capítulo atual da URL
+    var numeroCapituloAtual = obterNumeroCapituloAtual();
+
+    // Verifique se o número do capítulo atual é válido
+    if (numeroCapituloAtual !== null) {
+        // Crie um loop para adicionar imagens
+        for (var i = 1; i <= 19; i++) {
+            // Formate o número da página com zero à esquerda se necessário
+            var pagina = i < 10 ? "0" + i : i;
+
+            // Crie um novo elemento img
+            var novaImg = document.createElement('img');
+
+            // Defina o atributo src para o caminho da imagem do capítulo atual
+            novaImg.src = "/hokkaido_capitulos/Capitulo_" + numeroCapituloAtual + "/" + pagina + ".png";
+
+            // Adicione a nova imagem ao elemento div.capitulo
+            capituloDiv.appendChild(novaImg);
+        }
+    } else {
+        console.error("Número do capítulo não encontrado na URL.");
+    }
+} else {
+    console.error("Div '.capitulo' não encontrada.");
+}
+        });
+
+        // Função para obter o número do capítulo atual da URL
+        function obterNumeroCapituloAtual() {
+            var url = window.location.href;
+            var numeroCapitulo = url.match(/Capitulo_(\d+)/);
+            if (numeroCapitulo && numeroCapitulo.length > 1) {
+                return parseInt(numeroCapitulo[1]);
+            } else {
+                console.error('Número do capítulo não encontrado na URL.');
+                return null;
+            }
+        }
+    </script>
 
     <script src="/favicons.js"></script> 
     <script src="/caso_icones.js"></script>
