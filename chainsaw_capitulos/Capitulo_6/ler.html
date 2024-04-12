@@ -86,7 +86,7 @@
             var novaImg = document.createElement('img');
 
             // Defina o atributo src para o caminho da imagem
-novaImg.src = "/chainsaw_capitulos/Capitulo_" + obterNumeroCapituloAtual() + "/" + i + ".jpg";
+            novaImg.src = "/chainsaw_capitulos/Capitulo_6/" + i + ".png";
 
             // Adicione a nova imagem ao elemento div.capitulo
             capituloDiv.appendChild(novaImg);
@@ -95,7 +95,8 @@ novaImg.src = "/chainsaw_capitulos/Capitulo_" + obterNumeroCapituloAtual() + "/"
         console.error("Div '.capitulo' não encontrada.");
     }
 });
-    
+    </script>
+    <script>
         // Lista de imagens disponíveis
         var images = ["/img/chainsaw_logo.png", "/img/chainsaw-yellowlogo.png"];
 
@@ -105,27 +106,11 @@ novaImg.src = "/chainsaw_capitulos/Capitulo_" + obterNumeroCapituloAtual() + "/"
 
         // Define o src da imagem no HTML
         document.getElementById("logo").src = selectedImage;
-    
-    atualizarContinueLendo("/chainsaw/capas/volume_1.png", "Chainsaw Man", obterNumeroCapituloAtual());
+    </script>
 
-// Função para obter o número do capítulo atual da URL
-function obterNumeroCapituloAtual() {
-    // Obtém o caminho completo do capítulo atual
-    var url = window.location.pathname;
-    
-    // Use uma expressão regular para encontrar o número após "Capitulo_" no nome da pasta atual
-    var match = url.match(/\/Capitulo_([\d]+)\//);
-    
-    // Verifique se houve uma correspondência e retorne o número do capítulo
-    if (match && match.length > 1) {
-        // Remova zeros à esquerda do número do capítulo
-        var numeroCapitulo = parseInt(match[1]);
-        return numeroCapitulo.toString(); // Converta de volta para string para manter a consistência
-    } else {
-        console.error('Número do capítulo não encontrado no nome da pasta.');
-        return null;
-    }
-}
+
+<script>
+    atualizarContinueLendo("/chainsaw/capas/volume_1.png", "Chainsaw Man", 6);
 
    // Função para definir e atualizar o conteúdo do "Continue Lendo"
 function atualizarContinueLendo(capa, nomeManga, capitulo) {
