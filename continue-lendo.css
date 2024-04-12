@@ -1,7 +1,7 @@
 .continuar-lendo {
     position: relative;
     border-top: 30px;
-    bottom: -75px;
+    bottom: -110px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@
     padding: 15px;
     border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 90%;
+    max-width: 100%;
     margin: 0 auto;
     margin-bottom: 210px;
     border-bottom: 2px solid #8667ff;
@@ -55,8 +55,10 @@
     font-family: 'Edu NSW ACT Foundation';
     font-size: 19px;
     margin-bottom: 5px;
-    color: #888;
-    text-align: center;
+    color: white;
+        text-align: center;
+        animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
+        transition: color 0.3s ease; /* Transição suave para mudança de cor */
 }
 
 @keyframes neonGlow {
@@ -86,4 +88,90 @@
     src: url('Fonts/Kalam-Regular.ttf') format('truetype');
   }
 
-  
+  .continuar-lendo {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(/img/fundo-14.png);
+    border-bottom: none;
+}
+
+  @media screen and (min-width: 1300px) {
+    #slideshow-container {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        min-width: 100%;
+        overflow: hidden;
+        min-height: auto;
+    }
+    
+    .mySlides img {
+        display: flex;
+        justify-content: center;
+        min-width: 100%;
+        min-height: auto;
+    }
+
+    .capa-miniatura {
+        width: 100%;
+        min-width: 240px;
+        border-radius: 15px;
+        overflow: hidden;
+        height: auto;
+        margin-bottom: 5px;
+    }
+    
+    .capa-miniatura img {
+        min-width: 240px;
+        height: auto;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
+        border-radius: 15px;
+    }
+
+/* Efeito hover para a div "adicionados" */
+.capa-miniatura:hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: scale(1.05); /* Aumentar ligeiramente */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+}
+    
+    .nome-manga {
+        font-weight: 500;
+        font-family: 'Galada';
+        font-size: 24px;
+        margin-bottom: 1.5px;
+        color: white;
+        text-align: center;
+        animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
+        transition: color 0.3s ease; /* Transição suave para mudança de cor */
+    }
+    
+    .capitulo_manga {
+        font-style: italic;
+        font-weight: 520;
+        font-family: 'Edu NSW ACT Foundation';
+        font-size: 22px;
+        margin-bottom: 5px;
+        color: white;
+        text-align: center;
+        animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
+        transition: color 0.3s ease; /* Transição suave para mudança de cor */
+    }
+
+    .continue-lendo {
+        color: white;
+        font-size: 19px;
+        margin-bottom: 10px;
+        animation: neonGlow 2s infinite alternate;
+        transition: color 0.3s ease; 
+    }
+
+    .continuar-lendo {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url(/img/fundo-14.png);
+        border-bottom: none;
+    }
+}

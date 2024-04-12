@@ -116,3 +116,20 @@ body {
     }
 }
 
+@media screen and (min-width: 1300px) {
+    #slideshow-container {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        min-width: 100%;
+        overflow: hidden;
+        min-height: auto;
+    }
+    
+    .mySlides img {
+        display: flex;
+        justify-content: center;
+        min-width: 100%;
+        min-height: auto;
+    }
+}

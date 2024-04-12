@@ -146,3 +146,39 @@ nav a i {
 nav a img {
     display: none; /* Oculta as imagens de backup */
 }
+
+@media screen and (min-width: 1300px) {
+    .logo {
+        display: flex;
+        justify-content: center;
+        margin-left: 3px;
+        position: relative;
+        top: 20px;
+        left: -830px;
+        transition: transform 0.3s ease; /* Transição suave para transformação */
+    }
+
+    .logo h1 {
+        margin-right: 3px;
+        font-size: 35px;
+    }
+
+    .logo-icon {
+        position: relative;
+        top: 10px;
+        margin-left: 3px;
+        margin-right: 3px;
+        transform: scale(1.2); /* Aumenta o tamanho do ícone em 1.5 vezes */
+    }
+
+    /* Estilos para os links da lista de navegação */
+nav ul li a {
+    position: relative;
+    color: #fff;
+    top: -20px;
+    left: -10px;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease; /* Transição suave para mudança de cor */
+}
+}
