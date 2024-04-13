@@ -76,6 +76,7 @@
     <script>
        // Definições manuais
 var configuracoes = {
+    numeroCapitulo: 22,
     nomeManga: "Chainsaw Man" // Nome do manga
 };
 
@@ -98,12 +99,6 @@ const intervals = [
 
 // Função principal para carregar o conteúdo quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
-    // Determinar o número do capítulo com base nos links de navegação
-    var numeroCapitulo = determinarNumeroCapitulo();
-
-    // Definir as configurações do capítulo
-    configuracoes.numeroCapitulo = numeroCapitulo;
-
     // Determinar o número do volume com base no número do capítulo
     configuracoes.numeroVolume = determinarNumeroVolume(configuracoes.numeroCapitulo);
 
@@ -122,20 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000);
 });
 
-// Função para determinar o número do capítulo com base nos links de navegação
-function determinarNumeroCapitulo() {
-    var previousLink = document.getElementById('previous-chapter').getAttribute('href');
-    var nextLink = document.getElementById('next-chapter').getAttribute('href');
-
-    var numeroCapituloPrevio = parseInt(previousLink.match(/Capitulo_(\d+)/)[1]);
-    var numeroCapituloProximo = parseInt(nextLink.match(/Capitulo_(\d+)/)[1]);
-
-    // O número do capítulo será o número imediatamente seguinte ao anterior
-    var numeroCapitulo = numeroCapituloPrevio + 1;
-    return numeroCapitulo;
-}
-
-// Função para determinar o número do volume com base no número do capítulo
+// Função para determinar o número do volume com base no intervalo do capítulo
 function determinarNumeroVolume(numeroCapitulo) {
     for (var i = 0; i < intervals.length; i++) {
         var interval = intervals[i];
@@ -223,8 +205,8 @@ function selecionarLogo() {
 
 // Função para atualizar o conteúdo do "Continue Lendo"
 function atualizarContinueLendo(configuracoes) {
-    // Definir o número do volume com base nas configurações
-    var numeroVolume = configuracoes.numeroVolume;
+    // Determinar o número do volume com base no número do capítulo
+    var numeroVolume = determinarNumeroVolume(configuracoes.numeroCapitulo);
 
     // Definir o caminho da capa do volume
     var capaContinueLendo = `/chainsaw/capas/volume_${numeroVolume}.png`;

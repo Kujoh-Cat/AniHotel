@@ -61,9 +61,9 @@
     <nav>
         <img id="logo" src="" alt="Logo"/>
         <div class="navigation-icons">
-            <a href="/chainsaw_capitulos/Capitulo_22/ler.html" id="previous-chapter"><i class="fas fa-backward"></i></a>
+            <a href="#" id="previous-chapter"><i class="fas fa-backward"></i></a>
             <a href="/chainsaw/selecionar.html" id="select-volume"><i class="fas fa-bars"></i></a>
-            <a href="/chainsaw_capitulos/Capitulo_24/ler.html" id="next-chapter"><i class="fas fa-forward"></i></a>
+            <a href="#" id="next-chapter"><i class="fas fa-forward"></i></a>
         </div>
     </nav>
     <section>
@@ -74,9 +74,9 @@
     <script src="/clonar_link.js"></script>
 
     <script>
-       // Definições manuais
+      // Definições manuais
 var configuracoes = {
-    numeroCapitulo: 23,
+    numeroCapitulo: 25, // Defina aqui o número do capítulo
     nomeManga: "Chainsaw Man" // Nome do manga
 };
 
@@ -99,6 +99,9 @@ const intervals = [
 
 // Função principal para carregar o conteúdo quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
+    // Atualizar os links "Anterior" e "Próximo" com os números de capítulo correspondentes
+    atualizarLinksCapitulo(configuracoes.numeroCapitulo);
+
     // Determinar o número do volume com base no número do capítulo
     configuracoes.numeroVolume = determinarNumeroVolume(configuracoes.numeroCapitulo);
 
@@ -232,6 +235,15 @@ function atualizarContinueLendo(configuracoes) {
     }
 }
 
+// Função para atualizar os links "Anterior" e "Próximo" com os números de capítulo correspondentes
+function atualizarLinksCapitulo(numeroCapitulo) {
+    var previousChapterLink = document.getElementById('previous-chapter');
+    var nextChapterLink = document.getElementById('next-chapter');
+
+    previousChapterLink.href = `/chainsaw_capitulos/Capitulo_${numeroCapitulo - 1}/ler.html`;
+    nextChapterLink.href = `/chainsaw_capitulos/Capitulo_${numeroCapitulo + 1}/ler.html`;
+}
+
 // Adicionar um manipulador de eventos para o evento 'error' do objeto window
 window.addEventListener('error', function(event) {
     // Verificar se o erro está relacionado a uma solicitação GET
@@ -240,7 +252,6 @@ window.addEventListener('error', function(event) {
         console.clear();
     }
 });
-
 </script>
 
     <script src="/favicons.js"></script> 
