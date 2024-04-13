@@ -130,8 +130,8 @@ function determinarNumeroCapitulo() {
     var numeroCapituloPrevio = parseInt(previousLink.match(/Capitulo_(\d+)/)[1]);
     var numeroCapituloProximo = parseInt(nextLink.match(/Capitulo_(\d+)/)[1]);
 
-    // O número do capítulo será a média aritmética dos capítulos previo e próximo
-    var numeroCapitulo = Math.round((numeroCapituloPrevio + numeroCapituloProximo) / 2);
+    // O número do capítulo será o número imediatamente seguinte ao anterior
+    var numeroCapitulo = numeroCapituloPrevio + 1;
     return numeroCapitulo;
 }
 
