@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#181818">
+    <link rel="stylesheet" href="/header_vol.css">
+    <link rel="stylesheet" href="/chainsaw_capitulos/cap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/retornar_pagina.js"></script>
+    <title>AniHotel+</title>
+    <style>
+        body {
+            background: #181818;
+        }
+        
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        nav .navigation-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        nav .navigation-icons a {
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/index.html">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/catalogo/catalogo.html">
+                            <i class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <nav>
+        <img id="logo" src="" alt="Logo"/>
+        <div class="navigation-icons">
+            <a href="/chainsaw_capitulos/Capitulo_8/ler.html" id="previous-chapter"><i class="fas fa-backward"></i></a>
+            <a href="/chainsaw/selecionar.html" id="select-volume"><i class="fas fa-bars"></i></a>
+            <a href="#" id="next-chapter"><i class="fas fa-forward"></i></a>
+        </div>
+    </nav>
+    <section>
+        <div class="capitulo">
+        </div>        
+    </section>
+
+    <script src="/clonar_link.js"></script>
+
+    <script>
+        // Definições manuais
+var numeroCapitulo = 9;
+var inicioImagem = 3;
+var fimImagem = 21;
+
+// Função principal para carregar o conteúdo quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    // Carregar as imagens do capítulo
+    carregarImagensCapitulo();
+
+    // Selecionar aleatoriamente e definir o logo
+    selecionarLogo();
+
+    // Atualizar o "Continue Lendo"
+    atualizarContinueLendo();
+});
+
+// Função para carregar as imagens do capítulo
+function carregarImagensCapitulo() {
+    // Localize o elemento div.capitulo
+    var capituloDiv = document.querySelector('.capitulo');
+
+    // Verifique se o elemento foi encontrado
+    if (capituloDiv) {
+        // Lista de caminhos das imagens do capítulo
+        var caminhosImagens = [];
+        for (var i = inicioImagem; i <= fimImagem; i++) {
+            caminhosImagens.push("/chainsaw_capitulos/Capitulo_" + numeroCapitulo + "/" + i + ".jpg");
+        }
+
+        // Adicionar as imagens ao elemento div.capitulo
+        caminhosImagens.forEach(function(caminhoImagem) {
+            var novaImg = document.createElement('img');
+            novaImg.src = caminhoImagem;
+            capituloDiv.appendChild(novaImg);
+        });
+    } else {
+        console.error("Div '.capitulo' não encontrada.");
+    }
+}
+
+// Função para selecionar aleatoriamente e definir o logo
+function selecionarLogo() {
+    // Lista de imagens disponíveis para o logo
+    var imagensLogo = ["/img/chainsaw_logo.png", "/img/chainsaw-yellowlogo.png"];
+
+    // Selecionar aleatoriamente uma imagem da lista
+    var randomIndex = Math.floor(Math.random() * imagensLogo.length);
+    var selectedImage = imagensLogo[randomIndex];
+
+    // Definir o src da imagem do logo no HTML
+    document.getElementById("logo").src = selectedImage;
+}
+
+// Função para atualizar o conteúdo do "Continue Lendo"
+function atualizarContinueLendo() {
+    // Definições manuais para o "Continue Lendo"
+    var capaContinueLendo = "/chainsaw/capas/volume_2.png";
+    var nomeMangaContinueLendo = "Chainsaw Man";
+
+    // Salvar o estado do capítulo no localStorage
+    var continuarLendo = {
+        capa: capaContinueLendo,
+        nomeManga: nomeMangaContinueLendo,
+        capitulo: numeroCapitulo
+    };
+    localStorage.setItem('continueLendo', JSON.stringify(continuarLendo));
+
+    // Verificar se o elemento .continuar-lendo existe na página
+    var continuarLendoDiv = document.querySelector('.continuar-lendo');
+    if (continuarLendoDiv) {
+        // Atualizar a exibição do "Continue Lendo" apenas se o elemento existir
+        continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<img src="' + capaContinueLendo + '" alt="Capa">';
+        continuarLendoDiv.querySelector('.nome-manga').textContent = nomeMangaContinueLendo;
+        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + numeroCapitulo;
+    } else {
+        console.log("Div '.continuar-lendo' não encontrada.");
+    }
+}
+
+</script>
+
+    <script src="/favicons.js"></script> 
+    <script src="/caso_icones.js"></script>
+</body>
+</html>
