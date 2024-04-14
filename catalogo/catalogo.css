@@ -135,3 +135,20 @@ section {
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 }
+
+@media screen and (min-width: 1300px) {
+    body {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .manga-capitulos,
+    .manga-nome,
+    .manga-criador,
+    .manga-capa,
+    .manga-capa img {
+        opacity: 100;
+    }
+
+}

@@ -31,6 +31,7 @@
     <title>AniHotel+</title>
     <link rel="stylesheet" href="/header.css">
     <link rel="stylesheet" href="catalogo.css">
+    <link rel="stylesheet" href="/miniatura_perfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -44,8 +45,14 @@
                 <ul>
                     <li>
                         <a href="/index.html">
-                            <i class="fas fa-home"></i>
+                            <i id="inicio_icone" class="fas fa-home"></i>
                             <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/perfil/perfil.html">
+                            <div class="perfil-thumbnail" id="perfil-thumbnail"></div>
+                            <span class="nav-text">Perfil</span>
                         </a>
                     </li>
                 </ul>
@@ -118,5 +125,22 @@
     <script src="catalogo.js"></script>
     
     <footer></footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const perfilThumbnail = document.getElementById('perfil-thumbnail');
+            const perfilData = JSON.parse(localStorage.getItem('perfil'));
+
+            // Verifica se há uma foto de perfil salva localmente
+            if (perfilData && perfilData.perfilFoto) {
+                const img = document.createElement('img');
+                img.src = perfilData.perfilFoto;
+                perfilThumbnail.appendChild(img);
+            } else {
+                // Se não houver foto de perfil, usa o ícone padrão
+                perfilThumbnail.innerHTML = '<i class="fas fa-user"></i>';
+            }
+        });
+    </script>
 </body>
 </html>    
