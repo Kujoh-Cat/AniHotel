@@ -34,8 +34,13 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="adicionados.css">
+    <link rel="stylesheet" href="miniatura_perfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        body {
+            overflow-x: hidden;
+        }
+
         /* Adiciona um cursor indicando que a imagem pode ser arrastada */
         .slideshow-container {
             cursor: grab;
@@ -50,6 +55,16 @@
             opacity: 1;
             transition: opacity 0.5s ease; /* Adiciona uma transição suave para a opacidade */
         }
+
+        .slideshow-container {
+            position: absolute;
+            top: -3px;
+        }
+
+        header {
+            position: fixed;
+            top: -2px;
+        }
     </style>
 </head>
 <body>
@@ -60,22 +75,21 @@
                 <h1>AniHotel+</h1>
             </div>
             <nav>
-    <ul>
-        <li>
-            <a href="catalogo/catalogo.html">
-                <i class="fas fa-bars"></i>
-                <span class="nav-text">Catálogo</span>
-            </a>
-        </li>
-        <li>
-            <a href="info/info.html">
-                <i class="fas fa-info-circle"></i>
-                <span class="nav-text">Info</span>
-            </a>
-        </li>
-    </ul>
-</nav>
-
+                <ul>
+                    <li>
+                        <a href="catalogo/catalogo.html">
+                            <i id="catalogo_icone" class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="perfil/perfil.html">
+                            <div class="perfil-thumbnail" id="perfil-thumbnail"></div>
+                            <span class="nav-text">Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -100,6 +114,24 @@
     <script src="script.js"></script>
     <script src="favicons.js"></script>
     <script src="caso_icones.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const perfilThumbnail = document.getElementById('perfil-thumbnail');
+            const perfilData = JSON.parse(localStorage.getItem('perfil'));
+
+            // Verifica se há uma foto de perfil salva localmente
+            if (perfilData && perfilData.perfilFoto) {
+                const img = document.createElement('img');
+                img.src = perfilData.perfilFoto;
+                perfilThumbnail.appendChild(img);
+            } else {
+                // Se não houver foto de perfil, usa o ícone padrão
+                perfilThumbnail.innerHTML = '<i class="fas fa-user"></i>';
+            }
+        });
+    </script>
 
     <script>
         window.onload = function() {

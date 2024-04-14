@@ -14,7 +14,7 @@ header {
     padding: 10px 0;
     position: fixed;
     width: 100%;
-    top: -5px;
+    top: -10px;
     left: 0; /* Adicionando left: 0 para garantir que a header ocupe toda a largura */
     z-index: 1000;
     text-align:center;
@@ -22,7 +22,7 @@ header {
     border-image: linear-gradient(0.25turn, rgba(255,249,34), rgba(255,0,128), rgba(56,2,155,0));
     border-image-slice: 1;
     width: 100%;
-    margin: 0; /* Removendo margem para garantir que a header cubra totalmente a largura da página */
+    margin: 0 auto; /* Removendo margem para garantir que a header cubra totalmente a largura da página */
     transition: background-color 0.3s ease; /* Transição suave para mudança de cor de fundo */
     animation: rainbow 5s infinite;
 }
@@ -40,8 +40,9 @@ header {
     justify-content: center;
     margin-left: 3px;
     position: relative;
-    top: 30px;
-    right: -5px;
+    top: 40px;
+    left: -105px;
+    margin-left: 3px;
     transition: transform 0.3s ease; /* Transição suave para transformação */
 }
 
@@ -60,7 +61,7 @@ header {
 .logo h1 {
     font-family: 'Kalam', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    font-size: 28px;
+    font-size: 30px;
     margin-left: 10px;
     margin-right: 10px;
     animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
@@ -69,9 +70,11 @@ header {
 
 /* Estilos para o ícone do logo */
 .logo i {
+    position: relative;
+    top: 1px;
     animation: neonGlow 2s infinite alternate;
     transition: color 0.3s ease; 
-    font-size: 32px;
+    font-size: 34px;
     color: rgb(255, 255, 255);
 }
 
@@ -98,9 +101,12 @@ nav ul li {
 
 /* Estilos para os links da lista de navegação */
 nav ul li a {
+    position: relative;
+    top: -15px;
+    left: -5px;
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 23px;
     transition: color 0.3s ease; /* Transição suave para mudança de cor */
 }
 
@@ -181,4 +187,11 @@ nav ul li a {
     font-size: 20px;
     transition: color 0.3s ease; /* Transição suave para mudança de cor */
 }
+}
+
+@media only screen and (orientation: landscape) {
+    .logo {
+        position: relative;
+        left: -350px;
+    }
 }

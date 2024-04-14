@@ -1,0 +1,147 @@
+body {
+    -webkit-user-select: none;
+    user-select: none;
+    color: white;
+    background: #181818;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centraliza na vertical */
+}
+
+.container-perfil {
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%; /* Ajusta-se responsivamente */
+    max-width: 800px; /* Aumenta em 30% */
+    border-radius: 15px; /* Aumenta em 30% */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Aumenta em 30% */
+    padding: 30px; /* Aumenta em 30% */
+    animation: fadeIn 1s forwards;
+}
+
+.perfil {
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    bottom: -30px;
+    width: 270px; /* Aumenta em 30% */
+    height: 270px; /* Aumenta em 30% */
+    margin: 0 auto 30px; /* Aumenta em 30% */
+    object-fit: cover;
+    object-position: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 110px; /* Aumenta em 30% */
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1s forwards;
+}
+
+.foto-label {
+    margin-bottom: 7px;
+    position: absolute;
+    bottom: 10px;
+    left: 0%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    cursor: pointer;
+    display: none;
+    border: none;
+}
+
+.perfil:hover .foto-label {
+    display: block;
+}
+
+.foto-label i {
+    margin-right: 5px;
+}
+
+.dados input[type="text"],
+.dados textarea {
+    width: calc(100% - 60px); /* Aumenta em 30% */
+    margin-bottom: 30px; /* Aumenta em 30% */
+    border-radius: 7.5px; /* Aumenta em 30% */
+    font-family: 'Galada', cursive;
+    background-color: transparent;
+    border: none;
+    padding: 15px; /* Aumenta em 30% */
+    animation: fadeIn 1s forwards;
+    outline: none; /* Remove a borda de seleção */
+}
+
+.dados textarea {
+    height: 210px; /* Aumenta em 30% */
+}
+
+#nome {
+    font-family: 'Galada', cursive;
+    font-size: 13.2vw; /* Aumenta em 30% */
+    text-align: center;
+    color: white;
+    padding: 15px 30px; /* Aumenta em 30% */
+    border-radius: 7.5px; /* Aumenta em 30% */
+    animation: neonGlow 1.5s infinite alternate;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+}
+
+#bio {
+    animation: neonGlow 1.5s infinite alternate;
+    margin-top: -80px;
+    font-family: 'Kalam', cursive;
+    right: -50px;
+    font-size: 27px; /* Aumenta em 30% */
+    color: white;
+    padding: 15px 30px; /* Aumenta em 30% */
+    border-radius: 7.5px; /* Aumenta em 30% */
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+/* Adiciona estilos para os elementos adicionados diretamente no HTML */
+.animate {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+#perfil input[type="file"] {
+    display: none;
+}
+
+#perfil {
+    cursor: pointer;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes neonGlow {
+    0% {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Aumenta em 30% */
+    }
+    50% {
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.7); /* Aumenta em 30% */
+    }
+    100% {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Aumenta em 30% */
+    }
+}
