@@ -128,19 +128,25 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const perfilThumbnail = document.getElementById('perfil-thumbnail');
-            const perfilData = JSON.parse(localStorage.getItem('perfil'));
+    const perfilThumbnail = document.getElementById('perfil-thumbnail');
+    const perfilData = JSON.parse(localStorage.getItem('perfil'));
 
-            // Verifica se há uma foto de perfil salva localmente
-            if (perfilData && perfilData.perfilFoto) {
-                const img = document.createElement('img');
-                img.src = perfilData.perfilFoto;
-                perfilThumbnail.appendChild(img);
-            } else {
-                // Se não houver foto de perfil, usa o ícone padrão
-                perfilThumbnail.innerHTML = '<i class="fas fa-user"></i>';
-            }
-        });
+    // Caminho da imagem padrão
+    const imagemPadrao = '/img/perfil_padrao.png';
+
+    // Verifica se há uma foto de perfil salva localmente
+    if (perfilData && perfilData.perfilFoto) {
+        // Se houver uma foto de perfil, cria um elemento de imagem e define a imagem como fonte
+        const img = document.createElement('img');
+        img.src = perfilData.perfilFoto;
+        img.style.objectFit = 'cover';
+        img.style.objectPosition = 'center';
+        perfilThumbnail.appendChild(img);
+    } else {
+        // Se não houver foto de perfil, usa o ícone padrão
+        perfilThumbnail.innerHTML = `<img src="${imagemPadrao}" style="object-fit: cover; object-position: center;">`;
+    }
+});
     </script>
 </body>
 </html>    

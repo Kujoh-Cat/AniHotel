@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const perfilData = JSON.parse(localStorage.getItem('perfil'));
         if (perfilData) {
             perfil.style.backgroundImage = `url(${perfilData.perfilFoto || '/img/perfil_padrao.png'})`;
-            nomeInput.value = perfilData.perfilNome;
-            bioInput.value = perfilData.perfilBio;
+            nomeInput.value = perfilData.perfilNome || ''; // Verifica se o nome está definido
+            bioInput.value = perfilData.perfilBio || ''; // Verifica se a bio está definida
             if (perfilData.perfilFoto) {
                 perfil.style.opacity = '1';
                 perfil.style.filter = ''; // Removendo o filtro de brilho
@@ -106,4 +106,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     fadeIn();
+
+    // Aplicar object-fit: cover e object-position: center a todas as imagens da miniatura
+    const imagensMiniatura = document.querySelectorAll('#perfil-thumbnail img');
+    imagensMiniatura.forEach(function(img) {
+        img.style.objectFit = 'cover';
+        img.style.objectPosition = 'center';
+    });
 });
+
+// Função para processar a imagem de perfil com os ajustes desejados e convertê-la para PNG
+async function processarImagem(imagem, qualidade, contraste, saturacao) {
+    // Cria um canvas para manipular a imagem
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Define as dimensões do canvas para as dimensões da imagem
+    canvas.width = imagem.width;
+    canvas.height = imagem.height;
+
+    // Desenha a imagem original no canvas
+    ctx.drawImage(imagem, 0, 0);
+
+    // Aplica o ajuste de contraste
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    ajustarContraste(imageData.data, contraste);
+    ctx.putImageData(imageData, 0, 0);
+
+    // Aplica o ajuste de saturação
+    await ajustarSaturacao(canvas, saturacao);
+
+    // Converte o canvas para uma imagem com qualidade máxima e formato PNG
+    return new Promise(resolve => {
+        canvas.toBlob(blob => {
+            resolve(blob);
+        }, 'image/png', qualidade);
+    });
+}
