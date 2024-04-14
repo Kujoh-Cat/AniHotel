@@ -94,7 +94,6 @@ body {
 }
 
 #bio {
-    animation: neonGlow 1.5s infinite alternate;
     margin-top: -75px;
     font-family: 'Kalam', cursive;
     font-size: 27px; /* Aumenta em 30% */
