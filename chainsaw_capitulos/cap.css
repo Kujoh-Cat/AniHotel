@@ -34,6 +34,11 @@ header {
     }
 }
 
+nav #logo,
+.navigation-icons a {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra ao texto */
+}
+
 nav #logo {
     position: relative;
     max-width: 100%;
