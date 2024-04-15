@@ -6,6 +6,21 @@ document.querySelectorAll('.logo-icon, nav a i').forEach(function(icon) {
     };
 });
 
+// Função para formatar números com zeros à esquerda
+function formatarNumero(numero, tamanho) {
+    var numeroFormatado = String(numero);
+    var numeroSemZeros = parseInt(numeroFormatado, 10).toString(); // Remover zeros à esquerda
+    var zerosEsquerda = numeroFormatado.length - numeroSemZeros.length; // Contar zeros à esquerda
+    if (zerosEsquerda > 0) {
+        return numeroFormatado; // Se já tiver zeros à esquerda, retornar o número formatado original
+    } else {
+        while (numeroFormatado.length < tamanho) {
+            numeroFormatado = '0' + numeroFormatado;
+        }
+        return numeroFormatado;
+    }
+}
+
 // Função para carregar as imagens do capítulo
 function carregarImagensCapitulo(configuracoes) {
     // Localize o elemento div.capitulo
@@ -21,11 +36,14 @@ function carregarImagensCapitulo(configuracoes) {
 
                 // Crie um loop para adicionar imagens
                 for (var i = 1; i <= quantidade; i++) {
+                    // Formatar o número do capítulo com zeros à esquerda
+                    var numeroCapituloFormatado = formatarNumero(i, 2);
+
                     // Crie um novo elemento img
                     var novaImg = document.createElement('img');
 
                     // Defina o atributo src para o caminho da imagem
-                    novaImg.src = obterCaminhoImagem(i);
+                    novaImg.src = obterCaminhoImagem(numeroCapituloFormatado, configuracoes);
 
                     // Adicione um manipulador de eventos para o evento 'error'
                     novaImg.addEventListener('error', function(event) {
@@ -47,18 +65,3 @@ function carregarImagensCapitulo(configuracoes) {
         console.error("Div '.capitulo' não encontrada.");
     }
 }
-
-// Função para obter a quantidade de imagens na pasta do capítulo
-function obterQuantidadeImagens(numeroCapitulo) {
-    return Promise.resolve(30); // Simula a obtenção da quantidade de imagens como 30
-}
-
-// Função para obter o caminho da imagem do capítulo
-function obterCaminhoImagem(indice) {
-    // Formatar o índice da imagem com zeros à esquerda se necessário
-    var indiceFormatado = indice.toString().padStart(2, '0');
-    return indiceFormatado;
-}
-
-// Chamada da função para carregar as imagens do capítulo
-carregarImagensCapitulo(configuracoes);
