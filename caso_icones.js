@@ -9,18 +9,18 @@ document.querySelectorAll('.logo-icon, nav a i').forEach(function(icon) {
 // Função para formatar números com zeros à esquerda
 function formatarNumero(numero, tamanho) {
     var numeroFormatado = String(numero);
-    var numeroSemZeros = parseInt(numeroFormatado, 10).toString(); // Remover zeros à esquerda
-    var zerosEsquerda = numeroFormatado.length - numeroSemZeros.length; // Contar zeros à esquerda
-    if (zerosEsquerda > 0) {
-        return numeroFormatado; // Se já tiver zeros à esquerda, retornar o número formatado original
-    } else {
-        var numeroAtualizado = numeroSemZeros; // Inicialmente, assume que não há zeros à esquerda
-        while (numeroAtualizado.length < tamanho) {
-            numeroAtualizado = '0' + numeroAtualizado; // Adicionar zeros à esquerda conforme necessário
+
+    // Verificar se o número já possui zeros à esquerda
+    if (numeroFormatado.length < tamanho) {
+        // Adicionar zeros à esquerda para números menores que 10
+        while (numeroFormatado.length < tamanho) {
+            numeroFormatado = '0' + numeroFormatado;
         }
-        return numeroAtualizado;
     }
+
+    return numeroFormatado;
 }
+
 
 // Função para carregar as imagens do capítulo
 function carregarImagensCapitulo(configuracoes) {
