@@ -14,10 +14,11 @@ function formatarNumero(numero, tamanho) {
     if (zerosEsquerda > 0) {
         return numeroFormatado; // Se já tiver zeros à esquerda, retornar o número formatado original
     } else {
-        while (numeroFormatado.length < tamanho) {
-            numeroFormatado = '0' + numeroFormatado;
+        var numeroAtualizado = numeroSemZeros; // Inicialmente, assume que não há zeros à esquerda
+        while (numeroAtualizado.length < tamanho) {
+            numeroAtualizado = '0' + numeroAtualizado; // Adicionar zeros à esquerda conforme necessário
         }
-        return numeroFormatado;
+        return numeroAtualizado;
     }
 }
 
