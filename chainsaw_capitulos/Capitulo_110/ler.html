@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#181818">
+    <link rel="stylesheet" href="/header_vol.css">
+    <link rel="stylesheet" href="/chainsaw_capitulos/cap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/retornar_pagina.js"></script>
+    <title>AniHotel+</title>
+    <style>
+        body {
+            background: #181818;
+        }
+        
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        nav .navigation-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        nav .navigation-icons a {
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/index.html">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/catalogo/catalogo.html">
+                            <i class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <nav>
+        <img id="logo" src="" alt="Logo"/>
+        <div class="navigation-icons">
+            <a href="#" id="previous-chapter"><i class="fas fa-backward"></i></a>
+            <a href="/chainsaw/selecionar.html" id="select-volume"><i class="fas fa-bars"></i></a>
+            <a href="#" id="next-chapter"><i class="fas fa-forward"></i></a>
+        </div>
+    </nav>
+
+    <section>
+        <div class="capitulo">
+        </div>        
+    </section>
+
+    <script>
+      // Definições manuais
+var configuracoes = {
+    numeroCapitulo: 110, // Defina aqui o número do capítulo
+    nomeManga: "Chainsaw Man" // Nome do manga
+};
+
+// Intervalos de capítulos para determinar o número do volume
+const intervals = [
+            { start: 1, end: 7 },
+            { start: 8, end: 16 },
+            { start: 17, end: 25 },
+            { start: 26, end: 34 },
+            { start: 35, end: 43 },
+            { start: 44, end: 52 },
+            { start: 53, end: 61 },
+            { start: 62, end: 70 },
+            { start: 71, end: 79 },
+            { start: 80, end: 88 },
+            { start: 89, end: 97 },
+            { start: 98, end: 103 },
+            { start: 104, end: 112 },
+            { start: 113, end: 122 },
+            { start: 123, end: 133 },
+            { start: 134, end: 143 },
+            { start: 144, end: 162 }
+        ];
+
+// Função principal para carregar o conteúdo quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    // Atualizar os links "Anterior" e "Próximo" com os números de capítulo correspondentes
+    atualizarLinksCapitulo(configuracoes.numeroCapitulo);
+
+    // Determinar o número do volume com base no número do capítulo
+    configuracoes.numeroVolume = determinarNumeroVolume(configuracoes.numeroCapitulo);
+
+    // Carregar as imagens do capítulo
+    carregarImagensCapitulo(configuracoes);
+
+    // Selecionar aleatoriamente e definir o logo
+    selecionarLogo();
+
+    // Atualizar o "Continue Lendo"
+    atualizarContinueLendo(configuracoes);
+
+    // Limpar o console após 20 segundos
+    setTimeout(function() {
+        console.clear();
+    }, 1000);
+});
+
+// Função para determinar o número do volume com base no intervalo do capítulo
+function determinarNumeroVolume(numeroCapitulo) {
+    for (var i = 0; i < intervals.length; i++) {
+        var interval = intervals[i];
+        if (numeroCapitulo >= interval.start && numeroCapitulo <= interval.end) {
+            return i + 1; // Os volumes começam em 1, não em 0
+        }
+    }
+    // Se o capítulo estiver além dos intervalos fornecidos, o número do volume será calculado com base no último intervalo
+    var ultimoIntervalo = intervals[intervals.length - 1];
+    var numeroVolume = Math.ceil((numeroCapitulo - ultimoIntervalo.end) / (ultimoIntervalo.end - ultimoIntervalo.start + 1)) + intervals.length;
+    return numeroVolume;
+}
+
+// Função para carregar as imagens do capítulo
+function carregarImagensCapitulo(configuracoes) {
+    // Localize o elemento div.capitulo
+    var capituloDiv = document.querySelector('.capitulo');
+
+    // Verifique se o elemento foi encontrado
+    if (capituloDiv) {
+        // Obter a quantidade de imagens na pasta
+        obterQuantidadeImagens(configuracoes.numeroCapitulo)
+            .then(function(quantidade) {
+                // Limitar a quantidade máxima de imagens para 30
+                quantidade = Math.min(quantidade, 30);
+
+                // Crie um loop para adicionar imagens
+                for (var i = 1; i <= quantidade; i++) {
+                    // Crie um novo elemento img
+                    var novaImg = document.createElement('img');
+
+                    // Defina o atributo src para o caminho da imagem
+                    novaImg.src = obterCaminhoImagem(i, configuracoes);
+
+                    // Adicione um manipulador de eventos para o evento 'error'
+                    novaImg.addEventListener('error', function(event) {
+                        // Verificar se o erro está relacionado a uma imagem (jpg)
+                        if (event.target.tagName.toLowerCase() === 'img') {
+                            // Remover a imagem corrompida do DOM
+                            event.target.remove();
+                        }
+                    });
+
+                    // Adicione a nova imagem ao elemento div.capitulo
+                    capituloDiv.appendChild(novaImg);
+                }
+            })
+            .catch(function(error) {
+                console.error("Erro ao carregar imagens do capítulo:", error);
+            });
+    } else {
+        console.error("Div '.capitulo' não encontrada.");
+    }
+}
+
+// Função para obter a quantidade de imagens na pasta do capítulo
+function obterQuantidadeImagens(numeroCapitulo) {
+    return Promise.resolve(30); // Simula a obtenção da quantidade de imagens como 30
+}
+
+// Função para obter o caminho da imagem do capítulo
+function obterCaminhoImagem(indice, configuracoes) {
+    return `/chainsaw_capitulos/Capitulo_${configuracoes.numeroCapitulo}/${indice}.jpg`;
+}
+
+// Função para selecionar aleatoriamente e definir o logo
+function selecionarLogo() {
+    // Lista de imagens disponíveis para o logo
+    var imagensLogo = ["/img/chainsaw_logo.png", "/img/chainsaw-yellowlogo.png"];
+
+    // Excluir o logo atual da lista (se existir)
+    var logoAtual = document.getElementById("logo").src;
+    var indexAtual = imagensLogo.indexOf(logoAtual);
+    if (indexAtual !== -1) {
+        imagensLogo.splice(indexAtual, 1);
+    }
+
+    // Selecionar aleatoriamente uma imagem da lista restante
+    var randomIndex = Math.floor(Math.random() * imagensLogo.length);
+    var selectedImage = imagensLogo[randomIndex];
+
+    // Definir o src da imagem do logo no HTML
+    document.getElementById("logo").src = selectedImage;
+}
+
+// Função para atualizar o conteúdo do "Continue Lendo"
+function atualizarContinueLendo(configuracoes) {
+    // Determinar o número do volume com base no número do capítulo
+    var numeroVolume = determinarNumeroVolume(configuracoes.numeroCapitulo);
+
+    // Definir o caminho da capa do volume
+    var capaContinueLendo = `/chainsaw/capas/volume_${numeroVolume}.png`;
+    var nomeMangaContinueLendo = configuracoes.nomeManga;
+
+    // Salvar o estado do capítulo no localStorage
+    var continuarLendo = {
+        capa: capaContinueLendo,
+        nomeManga: nomeMangaContinueLendo,
+        capitulo: configuracoes.numeroCapitulo
+    };
+    localStorage.setItem('continueLendo', JSON.stringify(continuarLendo));
+
+    // Verificar se o elemento .continuar-lendo existe na página
+    var continuarLendoDiv = document.querySelector('.continuar-lendo');
+    if (continuarLendoDiv) {
+        // Atualizar a exibição do "Continue Lendo" apenas se o elemento existir
+        continuarLendoDiv.querySelector('.capa-miniatura').innerHTML = '<img src="' + capaContinueLendo + '" alt="Capa">';
+        continuarLendoDiv.querySelector('.nome-manga').textContent = nomeMangaContinueLendo;
+        continuarLendoDiv.querySelector('.capitulo_manga').textContent = "Capítulo " + configuracoes.numeroCapitulo;
+    } else {
+        console.log("Div '.continuar-lendo' não encontrada.");
+    }
+}
+
+// Função para atualizar os links "Anterior" e "Próximo" com os números de capítulo correspondentes
+function atualizarLinksCapitulo(numeroCapitulo) {
+    var previousChapterLink = document.getElementById('previous-chapter');
+    var nextChapterLink = document.getElementById('next-chapter');
+
+    previousChapterLink.href = `/chainsaw_capitulos/Capitulo_${numeroCapitulo - 1}/ler.html`;
+    nextChapterLink.href = `/chainsaw_capitulos/Capitulo_${numeroCapitulo + 1}/ler.html`;
+}
+
+// Adicionar um manipulador de eventos para o evento 'error' do objeto window
+window.addEventListener('error', function(event) {
+    // Verificar se o erro está relacionado a uma solicitação GET
+    if (event.message.startsWith('GET')) {
+        // Limpar o console se o erro estiver relacionado a uma solicitação GET
+        console.clear();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Verifica se a navegação inferior já existe no documento
+    var bottomNavigationExists = document.querySelector('.bottom-navigation');
+
+    // Se a navegação inferior não existir, adiciona manualmente abaixo da seção
+    if (!bottomNavigationExists) {
+        // Encontra a seção
+        var section = document.querySelector('section');
+
+        // Verifica se a seção foi encontrada
+        if (section) {
+            // Cria a navegação inferior
+            var bottomNavigation = document.createElement('nav');
+            bottomNavigation.classList.add('bottom-navigation');
+
+            // Cria a div de ícones de navegação
+            var navigationIconsDiv = document.createElement('div');
+            navigationIconsDiv.classList.add('navigation-icons');
+            navigationIconsDiv.id = 'nav_ico-baixo';
+
+            // Adiciona os links de navegação à div de ícones de navegação
+            var previousChapterLink = document.createElement('a');
+            previousChapterLink.id = 'previous-chapter';
+            previousChapterLink.href = `/chainsaw_capitulos/Capitulo_${configuracoes.numeroCapitulo - 1}/ler.html`;
+            var previousChapterIcon = document.createElement('i');
+            previousChapterIcon.classList.add('fas', 'fa-backward');
+            previousChapterLink.appendChild(previousChapterIcon);
+            navigationIconsDiv.appendChild(previousChapterLink);
+
+            var selectVolumeLink = document.createElement('a');
+            selectVolumeLink.id = 'select-volume';
+            selectVolumeLink.href = '/chainsaw/selecionar.html';
+            var selectVolumeIcon = document.createElement('i');
+            selectVolumeIcon.classList.add('fas', 'fa-bars');
+            selectVolumeLink.appendChild(selectVolumeIcon);
+            navigationIconsDiv.appendChild(selectVolumeLink);
+
+            var nextChapterLink = document.createElement('a');
+            nextChapterLink.id = 'next-chapter';
+            nextChapterLink.href = `/chainsaw_capitulos/Capitulo_${configuracoes.numeroCapitulo + 1}/ler.html`;
+            var nextChapterIcon = document.createElement('i');
+            nextChapterIcon.classList.add('fas', 'fa-forward');
+            nextChapterLink.appendChild(nextChapterIcon);
+            navigationIconsDiv.appendChild(nextChapterLink);
+
+            // Adiciona a div de ícones de navegação à navegação inferior
+            bottomNavigation.appendChild(navigationIconsDiv);
+
+            // Insere a navegação inferior após a seção
+            section.parentNode.insertBefore(bottomNavigation, section.nextSibling);
+        } else {
+            console.error('Seção não encontrada no documento.');
+        }
+    } else {
+        console.log('Navegação inferior já existe no documento. Nenhuma ação necessária.');
+    }
+});
+
+</script>
+
+    <script src="/favicons.js"></script> 
+    <script src="/caso_icones.js"></script>
+</body>
+</html>
