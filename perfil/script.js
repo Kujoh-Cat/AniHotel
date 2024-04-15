@@ -143,3 +143,46 @@ async function processarImagem(imagem, qualidade, contraste, saturacao) {
         }, 'image/png', qualidade);
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Seletor para o elemento de perfil
+    const perfil = document.getElementById('perfil');
+
+    // Adiciona um evento de colagem ao elemento de perfil
+    perfil.addEventListener('paste', function(event) {
+        // Previne o comportamento padrão de colagem
+        event.preventDefault();
+        
+        // Obtém os dados da área de transferência
+        const clipboardData = event.clipboardData || window.clipboardData;
+        
+        // Verifica se há imagens na área de transferência
+        if (clipboardData && clipboardData.files && clipboardData.files.length) {
+            // Obtém a primeira imagem da área de transferência
+            const imageFile = clipboardData.files[0];
+            
+            // Verifica se o arquivo é uma imagem
+            if (imageFile.type.startsWith('image/')) {
+                // Cria um leitor de arquivos para ler a imagem
+                const reader = new FileReader();
+                
+                // Define a função de carga para quando o leitor terminar de ler o arquivo
+                reader.onload = function(event) {
+                    // Obtém a URL dos dados da imagem
+                    const imageUrl = event.target.result;
+                    
+                    // Define a imagem de fundo do perfil com a imagem colada
+                    perfil.style.backgroundImage = `url(${imageUrl})`;
+                    perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+                    perfil.style.filter = ''; // Removendo o filtro de brilho
+                    
+                    // Salva os dados localmente, se necessário
+                    salvarDadosLocalmente({perfilFoto: imageUrl});
+                };
+                
+                // Lê o arquivo da imagem
+                reader.readAsDataURL(imageFile);
+            }
+        }
+    });
+});

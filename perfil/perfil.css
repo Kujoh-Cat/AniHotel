@@ -2,7 +2,10 @@ body {
     -webkit-user-select: none;
     user-select: none;
     color: white;
-    background: #181818;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(/img/fundo-14.png);
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -20,7 +23,6 @@ body {
     width: 100%; /* Ajusta-se responsivamente */
     max-width: 800px; /* Aumenta em 30% */
     border-radius: 15px; /* Aumenta em 30% */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Aumenta em 30% */
     padding: 30px; /* Aumenta em 30% */
     animation: fadeIn 1s forwards;
 }
@@ -121,6 +123,14 @@ body {
 #perfil {
     cursor: pointer;
 }
+
+.dados input[type="text"],
+.dados textarea,
+#nome,
+#bio {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra ao texto */
+}
+
 
 /* Animação de entrada */
 @keyframes fadeIn {
