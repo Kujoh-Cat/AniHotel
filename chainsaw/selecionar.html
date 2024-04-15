@@ -72,7 +72,11 @@
             { start: 80, end: 88 },
             { start: 89, end: 97 },
             { start: 98, end: 103 },
-            { start: 104, end: 116 }
+            { start: 104, end: 112 },
+            { start: 113, end: 122 },
+            { start: 123, end: 133 },
+            { start: 134, end: 143 },
+            { start: 144, end: 162 }
         ];
 
         function atualizarCapaVolume() {
@@ -126,7 +130,7 @@ document.getElementById("volume").addEventListener("change", function() {
             if (diff > 1) {
                 let currentChapter = parseInt(document.getElementById("volume").value);
                 let nextChapter = currentChapter + 1;
-                if (nextChapter > 116) {
+                if (nextChapter > 162) {
                     nextChapter = 1;
                 }
                 document.getElementById("volume").value = nextChapter;
@@ -135,7 +139,7 @@ document.getElementById("volume").addEventListener("change", function() {
                 let currentChapter = parseInt(document.getElementById("volume").value);
                 let prevChapter = currentChapter - 1;
                 if (prevChapter < 1) {
-                    prevChapter = 116;
+                    prevChapter = 162;
                 }
                 document.getElementById("volume").value = prevChapter;
                 atualizarCapaVolume();
@@ -154,7 +158,7 @@ document.getElementById("volume").addEventListener("change", function() {
         }
 
         const select = document.getElementById("volume");
-        for (let i = 1; i <= 116; i++) {
+        for (let i = 1; i <= 162; i++) {
             const option = document.createElement("option");
             option.value = i;
             option.text = "Capítulo " + i;

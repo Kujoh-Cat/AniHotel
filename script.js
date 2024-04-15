@@ -1,116 +1,188 @@
-// Definir um array com os slides aleatórios
-const slides = [
-    { src: "/img/Hokkaido-1.jpg", alt: "Hokkaido Gals Are Super Adorable!", url: "/hokkaido/selecionar.html" },
-    { src: "/img/sonobisque.jpg", alt: "My Dress-Up Darling", url: "/dressup/selecionar.html" },
-    { src: "/img/bluelock.jpg", alt: "Blue Lock", url: "/bluelock/selecionar.html" },
-    { src: "/img/chainsaw_man.png", alt: "Chainsaw Man", url: "/chainsaw/selecionar.html" },
-    { src: "/img/jujutsu_kaisen.png", alt: "Jujutsu Kaisen", url: "/jujutsu/selecionar.html" },
-    { src: "/img/berserk_2.png", alt: "Berserk", url: "/berserk/selecionar.html" }
-];
+document.addEventListener('DOMContentLoaded', function() {
+    const fotoInput = document.getElementById('foto');
+    const nomeInput = document.getElementById('nome');
+    const bioInput = document.getElementById('bio');
+    const perfil = document.getElementById('perfil');
 
-// Embaralhar os slides aleatórios
-const shuffledSlides = slides.sort(() => Math.random() - 0.5);
+    // Carregar dados salvos localmente
+    carregarDados();
 
-// Obter o container do slideshow
-const container = document.getElementById("slideshow-container");
-
-// Criar os elementos de slide e adicioná-los ao container
-shuffledSlides.forEach(slide => {
-    const slideElement = document.createElement("div");
-    slideElement.classList.add("mySlides", "fade");
-    slideElement.innerHTML = `
-        <a href="${slide.url}">
-            <img src="${slide.src}" alt="${slide.alt}" style="width: 100%;">
-        </a>
-    `;
-    container.appendChild(slideElement);
-});
-
-// Obter os slides
-const slidesDOM = document.querySelectorAll(".mySlides");
-let interval;
-
-// Definir o índice inicial do slide
-let slideIndex = 0;
-let previousIndex = slides.length - 1; // Índice do slide anterior
-
-// Função principal para controlar o slideshow
-function showSlides() {
-    // Ocultar todos os slides, exceto o slide atual
-    slidesDOM.forEach((slide, index) => {
-        slide.style.display = index === slideIndex ? "block" : "none";
+    // Evento de clique na imagem de perfil para acionar o clique no input de arquivo
+    perfil.addEventListener('click', function() {
+        fotoInput.click();
     });
 
-    // Agendar a próxima mudança de slide após 5 segundos
-    interval = setTimeout(() => {
-        plusSlides(1);
-    }, 5000);
-}
+    // Evento de alteração no input de arquivo para carregar a foto
+    fotoInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataURL = e.target.result;
+                perfil.style.backgroundImage = `url(${dataURL})`;
+                perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+                perfil.style.filter = ''; // Removendo o filtro de brilho
+                salvarDadosLocalmente({perfilFoto: dataURL});
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
-// Função para avançar ou retroceder nos slides
-function plusSlides(n) {
-    // Limpar o intervalo atual
-    clearTimeout(interval);
+    // Evento de alteração nos inputs de nome e bio para salvar localmente
+    nomeInput.addEventListener('input', function() {
+        salvarDadosLocalmente({perfilNome: nomeInput.value});
+    });
 
-    // Atualizar o índice do slide anterior
-    previousIndex = slideIndex;
+    bioInput.addEventListener('input', function() {
+        salvarDadosLocalmente({perfilBio: bioInput.value});
+    });
 
-    // Escolher aleatoriamente o próximo slide
-    let nextIndex;
-    do {
-        nextIndex = Math.floor(Math.random() * slides.length);
-    } while (nextIndex === slideIndex || nextIndex === previousIndex);
-
-    // Atualizar o índice do slide
-    slideIndex = nextIndex;
-
-    // Exibir o slide correspondente
-    showSlides();
-}
-
-// Iniciar o slideshow ao carregar a página
-showSlides();
-
-// Atrasar a passagem automática após a interação do usuário
-document.addEventListener("mousemove", delayAutoSlide);
-document.addEventListener("touchstart", delayAutoSlide);
-
-// Função para atrasar a passagem automática após a interação do usuário
-function delayAutoSlide() {
-    setTimeout(() => {
-        clearTimeout(interval);
-        interval = setTimeout(() => {
-            plusSlides(1);
-        }, 5000);
-    }, 2500);
-}
-
-// Adicionar tratamento de eventos de arrastar para dispositivos de toque e mouse
-let startX;
-container.addEventListener("touchstart", (event) => {
-    startX = event.touches[0].clientX;
-});
-
-container.addEventListener("touchend", (event) => {
-    const endX = event.changedTouches[0].clientX;
-    const diffX = endX - startX;
-    if (diffX > 25) {
-        plusSlides(-1); // Slide para a esquerda
-    } else if (diffX < -25) {
-        plusSlides(1); // Slide para a direita
+    // Função para carregar dados salvos localmente
+    function carregarDados() {
+        const perfilData = JSON.parse(localStorage.getItem('perfil'));
+        if (perfilData) {
+            perfil.style.backgroundImage = `url(${perfilData.perfilFoto || '/img/perfil_padrao.png'})`;
+            nomeInput.value = perfilData.perfilNome || ''; // Verifica se o nome está definido
+            bioInput.value = perfilData.perfilBio || ''; // Verifica se a bio está definida
+            if (perfilData.perfilFoto) {
+                perfil.style.opacity = '1';
+                perfil.style.filter = ''; // Removendo o filtro de brilho
+            } else {
+                perfil.style.opacity = '0.5';
+                perfil.style.filter = 'brightness(50%)'; // Aplicando o filtro de brilho
+            }
+        } else {
+            perfil.style.backgroundImage = `url('/img/perfil_padrao.png')`; // Definindo a imagem padrão
+            perfil.style.opacity = '0.5';
+            perfil.style.filter = 'brightness(50%)'; // Aplicando o filtro de brilho
+        }
     }
-});
 
-container.addEventListener("mousedown", (event) => {
-    startX = event.clientX;
-});
-
-container.addEventListener("mouseup", (event) => {
-    const endX = event.clientX;
-    const diffX = endX - startX;
-    if (diffX > 25) {
-        plusSlides(-1); // Slide para a esquerda
-    } else if (diffX < -25) {
-        plusSlides(1); // Slide para a direita
+    // Função para salvar dados localmente
+    function salvarDadosLocalmente(dados) {
+        const perfilData = JSON.parse(localStorage.getItem('perfil')) || {};
+        localStorage.setItem('perfil', JSON.stringify({...perfilData, ...dados}));
     }
+
+    // Sistema de arrastamento de imagem
+    perfil.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        perfil.classList.add('dragover');
+    });
+
+    perfil.addEventListener('dragleave', function() {
+        perfil.classList.remove('dragover');
+    });
+
+    perfil.addEventListener('drop', function(e) {
+        e.preventDefault();
+        perfil.classList.remove('dragover');
+        
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataURL = e.target.result;
+                perfil.style.backgroundImage = `url(${dataURL})`;
+                perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+                perfil.style.filter = ''; // Removendo o filtro de brilho
+                salvarDadosLocalmente({perfilFoto: dataURL});
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Animação de entrada
+    const elementosAnimados = document.querySelectorAll('.animate');
+    elementosAnimados.forEach(function(elemento) {
+        elemento.style.opacity = 0;
+        elemento.style.transform = 'translateY(20px)';
+    });
+
+    function fadeIn() {
+        elementosAnimados.forEach(function(elemento) {
+            elemento.style.animation = 'fadeIn 0.5s forwards';
+        });
+    }
+
+    fadeIn();
+
+    // Aplicar object-fit: cover e object-position: center a todas as imagens da miniatura
+    const imagensMiniatura = document.querySelectorAll('#perfil-thumbnail img');
+    imagensMiniatura.forEach(function(img) {
+        img.style.objectFit = 'cover';
+        img.style.objectPosition = 'center';
+    });
+});
+
+// Função para processar a imagem de perfil com os ajustes desejados e convertê-la para PNG
+async function processarImagem(imagem, qualidade, contraste, saturacao) {
+    // Cria um canvas para manipular a imagem
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Define as dimensões do canvas para as dimensões da imagem
+    canvas.width = imagem.width;
+    canvas.height = imagem.height;
+
+    // Desenha a imagem original no canvas
+    ctx.drawImage(imagem, 0, 0);
+
+    // Aplica o ajuste de contraste
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    ajustarContraste(imageData.data, contraste);
+    ctx.putImageData(imageData, 0, 0);
+
+    // Aplica o ajuste de saturação
+    await ajustarSaturacao(canvas, saturacao);
+
+    // Converte o canvas para uma imagem com qualidade máxima e formato PNG
+    return new Promise(resolve => {
+        canvas.toBlob(blob => {
+            resolve(blob);
+        }, 'image/png', qualidade);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Seletor para o elemento de perfil
+    const perfil = document.getElementById('perfil');
+
+    // Adiciona um evento de colagem ao elemento de perfil
+    perfil.addEventListener('paste', function(event) {
+        // Previne o comportamento padrão de colagem
+        event.preventDefault();
+        
+        // Obtém os dados da área de transferência
+        const clipboardData = event.clipboardData || window.clipboardData;
+        
+        // Verifica se há imagens na área de transferência
+        if (clipboardData && clipboardData.files && clipboardData.files.length) {
+            // Obtém a primeira imagem da área de transferência
+            const imageFile = clipboardData.files[0];
+            
+            // Verifica se o arquivo é uma imagem
+            if (imageFile.type.startsWith('image/')) {
+                // Cria um leitor de arquivos para ler a imagem
+                const reader = new FileReader();
+                
+                // Define a função de carga para quando o leitor terminar de ler o arquivo
+                reader.onload = function(event) {
+                    // Obtém a URL dos dados da imagem
+                    const imageUrl = event.target.result;
+                    
+                    // Define a imagem de fundo do perfil com a imagem colada
+                    perfil.style.backgroundImage = `url(${imageUrl})`;
+                    perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+                    perfil.style.filter = ''; // Removendo o filtro de brilho
+                    
+                    // Salva os dados localmente, se necessário
+                    salvarDadosLocalmente({perfilFoto: imageUrl});
+                };
+                
+                // Lê o arquivo da imagem
+                reader.readAsDataURL(imageFile);
+            }
+        }
+    });
 });
