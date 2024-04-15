@@ -6,12 +6,12 @@ document.querySelectorAll('.logo-icon, nav a i').forEach(function(icon) {
     };
 });
 
-// Função para formatar números com zeros à esquerda
+// Função para formatar números com zeros à esquerda apenas se necessário
 function formatarNumero(numero, tamanho) {
     var numeroFormatado = String(numero);
 
-    // Forçar adicionar zero à esquerda se o número for menor que 10
-    if (parseInt(numeroFormatado, 10) < 10) {
+    // Adicionar zero à esquerda apenas se o número for menor que 10 e não tiver zeros à esquerda
+    if (parseInt(numeroFormatado, 10) < 10 && numeroFormatado.length === 1) {
         numeroFormatado = '0' + numeroFormatado;
     }
 
