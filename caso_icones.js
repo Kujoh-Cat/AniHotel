@@ -10,12 +10,9 @@ document.querySelectorAll('.logo-icon, nav a i').forEach(function(icon) {
 function formatarNumero(numero, tamanho) {
     var numeroFormatado = String(numero);
 
-    // Verificar se o número já possui zeros à esquerda
-    if (numeroFormatado.length < tamanho) {
-        // Adicionar zeros à esquerda para números menores que 10
-        while (numeroFormatado.length < tamanho) {
-            numeroFormatado = '0' + numeroFormatado;
-        }
+    // Adicionar zero à esquerda se o número for menor que 10 e não tiver zero à esquerda
+    if (numeroFormatado.length === 1 && parseInt(numeroFormatado, 10) < 10) {
+        numeroFormatado = '0' + numeroFormatado;
     }
 
     return numeroFormatado;
