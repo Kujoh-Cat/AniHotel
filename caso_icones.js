@@ -25,7 +25,7 @@ function carregarImagensCapitulo(configuracoes) {
                     var novaImg = document.createElement('img');
 
                     // Defina o atributo src para o caminho da imagem
-                    novaImg.src = obterCaminhoImagem(i, configuracoes);
+                    novaImg.src = obterCaminhoImagem(i);
 
                     // Adicione um manipulador de eventos para o evento 'error'
                     novaImg.addEventListener('error', function(event) {
@@ -54,12 +54,10 @@ function obterQuantidadeImagens(numeroCapitulo) {
 }
 
 // Função para obter o caminho da imagem do capítulo
-function obterCaminhoImagem(indice, configuracoes) {
+function obterCaminhoImagem(indice) {
     // Formatar o índice da imagem com zeros à esquerda se necessário
     var indiceFormatado = indice.toString().padStart(2, '0');
-
-    // Retornar o caminho completo da imagem
-    return `/chainsaw_capitulos/Capitulo_${configuracoes.numeroCapitulo}/${indiceFormatado}.jpg`;
+    return indiceFormatado;
 }
 
 // Chamada da função para carregar as imagens do capítulo
