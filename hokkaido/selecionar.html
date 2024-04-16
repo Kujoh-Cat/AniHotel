@@ -4,10 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site De Mangás Em Alta Qualidade!">
-    <link rel="stylesheet" href="/header.css">
     <link rel="stylesheet" href="/hokkaido/selecionar.css">
+    <link rel="stylesheet" href="/header_vol.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>AniHotel+</title>
+    <style>
+        .volume-container {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .volume-cover {
+            transition: transform 0.3s ease;
+        }
+
+        #catalogo_icone,
+#inicio_icone {
+    position: relative;
+    font-size: 6vw;
+    left: -2px;
+    top: 15px;
+}
+    </style>
 </head>
 <body>
     <header>
@@ -20,13 +38,13 @@
                 <ul>
                     <li>
                         <a href="/catalogo/catalogo.html">
-                            <i class="fas fa-bars"></i>
+                            <i id="catalogo_icone" class="fas fa-bars"></i>
                             <span class="nav-text">Catálogo</span>
                         </a>
                     </li>
                     <li>
                         <a href="/index.html">
-                            <i class="fas fa-home"></i>
+                            <i id="inicio_icone" class="fas fa-home"></i>
                             <span class="nav-text">Início</span>
                         </a>
                     </li>
