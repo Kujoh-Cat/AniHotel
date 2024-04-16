@@ -6,15 +6,9 @@ document.querySelectorAll('.logo-icon, nav a i').forEach(function(icon) {
     };
 });
 
-// Verificar se o número do capítulo está dentro do intervalo especificado e o nome do manga é "Chainsaw Man"
-function verificarConfiguracoesEspeciais(configuracoes) {
-    var numeroCapitulo = configuracoes.numeroCapitulo;
-    var nomeManga = configuracoes.nomeManga;
-    return numeroCapitulo >= 148 && numeroCapitulo <= 159 && nomeManga === "Chainsaw Man";
-}
-
 // Função para carregar as imagens do capítulo com consideração especial para índices com zero à esquerda
 function carregarImagensCapitulo(configuracoes) {
+    // Verificar se as configurações especiais são atendidas
     if (verificarConfiguracoesEspeciais(configuracoes)) {
         // Localize o elemento div.capitulo
         var capituloDiv = document.querySelector('.capitulo');
@@ -29,11 +23,11 @@ function carregarImagensCapitulo(configuracoes) {
 
                     // Crie um loop para adicionar imagens
                     for (var i = 1; i <= quantidade; i++) {
-                        // Crie um novo elemento img
-                        var novaImg = document.createElement('img');
-
                         // Formatar o número do capítulo com zeros à esquerda, se necessário
                         var numeroFormatado = i < 10 ? '0' + i : i;
+
+                        // Crie um novo elemento img
+                        var novaImg = document.createElement('img');
 
                         // Defina o atributo src para o caminho da imagem
                         novaImg.src = obterCaminhoImagem(numeroFormatado, configuracoes);
@@ -60,4 +54,22 @@ function carregarImagensCapitulo(configuracoes) {
     } else {
         console.log("Não são necessárias configurações especiais para este capítulo.");
     }
-                });
+}
+
+// Função para obter o caminho da imagem do capítulo
+function obterCaminhoImagem(indice, configuracoes) {
+    return `/chainsaw_capitulos/Capitulo_${configuracoes.numeroCapitulo}/${indice}.jpg`;
+}
+
+// Verificar se as configurações especiais são atendidas
+function verificarConfiguracoesEspeciais(configuracoes) {
+    var numeroCapitulo = configuracoes.numeroCapitulo;
+    var nomeManga = configuracoes.nomeManga;
+
+    // Verificar se o número do capítulo está dentro do intervalo especificado e o nome do manga é "Chainsaw Man"
+    if (numeroCapitulo >= 148 && numeroCapitulo <= 159 && nomeManga === "Chainsaw Man") {
+        return true;
+    } else {
+        return false;
+    }
+}
