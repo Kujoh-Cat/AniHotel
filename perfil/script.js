@@ -16,26 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
     fotoInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataURL = e.target.result;
-                perfil.style.backgroundImage = `url(${dataURL})`;
-                perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
-                perfil.style.filter = ''; // Removendo o filtro de brilho
-                salvarDadosLocalmente({perfilFoto: dataURL});
-            };
-            reader.readAsDataURL(file);
+            carregarImagem(file);
         }
     });
 
     // Evento de alteração nos inputs de nome e bio para salvar localmente
-    nomeInput.addEventListener('input', function() {
-        salvarDadosLocalmente({perfilNome: nomeInput.value});
-    });
-
-    bioInput.addEventListener('input', function() {
-        salvarDadosLocalmente({perfilBio: bioInput.value});
-    });
+    nomeInput.addEventListener('input', salvarNomeLocalmente);
+    bioInput.addEventListener('input', salvarBioLocalmente);
 
     // Função para carregar dados salvos localmente
     function carregarDados() {
@@ -44,13 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             perfil.style.backgroundImage = `url(${perfilData.perfilFoto || '/img/perfil_padrao.png'})`;
             nomeInput.value = perfilData.perfilNome || ''; // Verifica se o nome está definido
             bioInput.value = perfilData.perfilBio || ''; // Verifica se a bio está definida
-            if (perfilData.perfilFoto) {
-                perfil.style.opacity = '1';
-                perfil.style.filter = ''; // Removendo o filtro de brilho
-            } else {
-                perfil.style.opacity = '0.5';
-                perfil.style.filter = 'brightness(50%)'; // Aplicando o filtro de brilho
-            }
+            atualizarEstiloPerfil(perfilData.perfilFoto);
         } else {
             perfil.style.backgroundImage = `url('/img/perfil_padrao.png')`; // Definindo a imagem padrão
             perfil.style.opacity = '0.5';
@@ -58,10 +39,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Função para salvar o nome localmente
+    function salvarNomeLocalmente() {
+        const nome = nomeInput.value.trim();
+        salvarDadosLocalmente({perfilNome: nome});
+    }
+
+    // Função para salvar a bio localmente
+    function salvarBioLocalmente() {
+        const bio = bioInput.value.trim();
+        salvarDadosLocalmente({perfilBio: bio});
+    }
+
     // Função para salvar dados localmente
     function salvarDadosLocalmente(dados) {
         const perfilData = JSON.parse(localStorage.getItem('perfil')) || {};
         localStorage.setItem('perfil', JSON.stringify({...perfilData, ...dados}));
+    }
+
+    // Função para carregar uma imagem
+    function carregarImagem(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const dataURL = e.target.result;
+            perfil.style.backgroundImage = `url(${dataURL})`;
+            perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+            perfil.style.filter = ''; // Removendo o filtro de brilho
+            salvarDadosLocalmente({perfilFoto: dataURL});
+        };
+        reader.readAsDataURL(file);
     }
 
     // Sistema de arrastamento de imagem
@@ -80,19 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const file = e.dataTransfer.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataURL = e.target.result;
-                perfil.style.backgroundImage = `url(${dataURL})`;
-                perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
-                perfil.style.filter = ''; // Removendo o filtro de brilho
-                salvarDadosLocalmente({perfilFoto: dataURL});
-            };
-            reader.readAsDataURL(file);
+            carregarImagem(file);
         }
     });
 
-    // Animação de entrada
+    // Animação de fade
     const elementosAnimados = document.querySelectorAll('.animate');
     elementosAnimados.forEach(function(elemento) {
         elemento.style.opacity = 0;
@@ -107,88 +105,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
     fadeIn();
 
-    // Aplicar object-fit: cover e object-position: center a todas as imagens da miniatura
-    const imagensMiniatura = document.querySelectorAll('#perfil-thumbnail img');
-    imagensMiniatura.forEach(function(img) {
-        img.style.objectFit = 'cover';
-        img.style.objectPosition = 'center';
+    // Função para atualizar o estilo do perfil
+    function atualizarEstiloPerfil(perfilFoto) {
+        if (perfilFoto) {
+            perfil.style.opacity = '1';
+            perfil.style.filter = ''; // Removendo o filtro de brilho
+        } else {
+            perfil.style.opacity = '0.5';
+            perfil.style.filter = 'brightness(50%)'; // Aplicando o filtro de brilho
+        }
+    }
+
+    // Evento de colagem de imagem no nome ou na bio
+    nomeInput.addEventListener('paste', function(event) {
+        processarColagemImagem(event, nomeInput);
     });
-});
 
-// Função para processar a imagem de perfil com os ajustes desejados e convertê-la para PNG
-async function processarImagem(imagem, qualidade, contraste, saturacao) {
-    // Cria um canvas para manipular a imagem
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    // Define as dimensões do canvas para as dimensões da imagem
-    canvas.width = imagem.width;
-    canvas.height = imagem.height;
-
-    // Desenha a imagem original no canvas
-    ctx.drawImage(imagem, 0, 0);
-
-    // Aplica o ajuste de contraste
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    ajustarContraste(imageData.data, contraste);
-    ctx.putImageData(imageData, 0, 0);
-
-    // Aplica o ajuste de saturação
-    await ajustarSaturacao(canvas, saturacao);
-
-    // Converte o canvas para uma imagem com qualidade máxima e formato PNG
-    return new Promise(resolve => {
-        canvas.toBlob(blob => {
-            resolve(blob);
-        }, 'image/png', qualidade);
+    bioInput.addEventListener('paste', function(event) {
+        processarColagemImagem(event, bioInput);
     });
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Seletor para o elemento de perfil
-    const perfil = document.getElementById('perfil');
-
-    // Adiciona um evento de colagem ao elemento de perfil
-    perfil.addEventListener('paste', function(event) {
-        // Previne o comportamento padrão de colagem
+    // Função para processar a colagem de imagem
+    function processarColagemImagem(event, input) {
         event.preventDefault();
-        
-        // Obtém os dados da área de transferência
         const clipboardData = event.clipboardData || window.clipboardData;
-        
-        // Verifica se há imagens na área de transferência
-        if (clipboardData && clipboardData.items) {
-            // Itera sobre os itens da área de transferência
-            for (const item of clipboardData.items) {
-                // Verifica se o item é uma imagem
-                if (item.type.startsWith('image/')) {
-                    // Obtém a imagem como um arquivo
-                    const imageFile = item.getAsFile();
-                    
-                    // Cria um leitor de arquivos para ler a imagem
-                    const reader = new FileReader();
-                    
-                    // Define a função de carga para quando o leitor terminar de ler o arquivo
-                    reader.onload = function(event) {
-                        // Obtém a URL dos dados da imagem
-                        const imageUrl = event.target.result;
-                        
-                        // Define a imagem de fundo do perfil com a imagem colada
-                        perfil.style.backgroundImage = `url(${imageUrl})`;
-                        perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
-                        perfil.style.filter = ''; // Removendo o filtro de brilho
-                        
-                        // Salva os dados localmente, se necessário
-                        salvarDadosLocalmente({perfilFoto: imageUrl});
-                    };
-                    
-                    // Lê o arquivo da imagem
-                    reader.readAsDataURL(imageFile);
-                    
-                    // Interrompe o loop depois de encontrar uma imagem
-                    break;
-                }
+        const items = clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageUrl = event.target.result;
+                    input.value = ''; // Limpa o campo de entrada para evitar a exibição do link
+                    carregarImagemUrl(imageUrl);
+                };
+                reader.readAsDataURL(blob);
             }
         }
-    });
+    }
+
+    // Função para carregar uma imagem a partir de uma URL
+    function carregarImagemUrl(imageUrl) {
+        const image = new Image();
+        image.onload = function() {
+            perfil.style.backgroundImage = `url(${imageUrl})`;
+            perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+            perfil.style.filter = ''; // Removendo o filtro de brilho
+            salvarDadosLocalmente({perfilFoto: imageUrl});
+        };
+        image.onerror = function() {
+            console.error('Erro ao carregar a imagem da URL:', imageUrl);
+            alert('Erro ao carregar a imagem da URL. Certifique-se de que o link direciona para uma imagem válida.');
+        };
+        image.src = imageUrl;
+    }
 });
