@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site De Mangás Em Alta Qualidade!">
     <meta name="theme-color" content="#181818">
-    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/header_vol.css">
     <link rel="stylesheet" href="/chainsaw/selecionar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>AniHotel+</title>
@@ -18,6 +18,14 @@
         .volume-cover {
             transition: transform 0.3s ease;
         }
+
+        #catalogo_icone,
+#inicio_icone {
+    position: relative;
+    font-size: 6vw;
+    left: -2px;
+    top: 15px;
+}
     </style>
 </head>
 <body>
@@ -31,20 +39,20 @@
                 <ul>
                     <li>
                         <a href="/catalogo/catalogo.html">
-                            <i class="fas fa-bars"></i>
+                            <i id="catalogo_icone" class="fas fa-bars"></i>
                             <span class="nav-text">Catálogo</span>
                         </a>
                     </li>
                     <li>
                         <a href="/index.html">
-                            <i class="fas fa-home"></i>
+                            <i id="inicio_icone" class="fas fa-home"></i>
                             <span class="nav-text">Início</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-    </header>    
+    </header>   
     <!-- Container para o volume selecionado -->
     <div class="volume-container" id="volume-container">
         <!-- Imagem da capa do volume selecionado -->
@@ -60,110 +68,123 @@
     <script src="/caso_icones.js"></script>
     <script>
           const intervals = [
-            { start: 1, end: 7 },
-            { start: 8, end: 16 },
-            { start: 17, end: 25 },
-            { start: 26, end: 34 },
-            { start: 35, end: 43 },
-            { start: 44, end: 52 },
-            { start: 53, end: 61 },
-            { start: 62, end: 70 },
-            { start: 71, end: 79 },
-            { start: 80, end: 88 },
-            { start: 89, end: 97 },
-            { start: 98, end: 103 },
-            { start: 104, end: 112 },
-            { start: 113, end: 122 },
-            { start: 123, end: 133 },
-            { start: 134, end: 143 },
-            { start: 144, end: 162 }
-        ];
+    { start: 1, end: 7 },
+    { start: 8, end: 16 },
+    { start: 17, end: 25 },
+    { start: 26, end: 34 },
+    { start: 35, end: 43 },
+    { start: 44, end: 52 },
+    { start: 53, end: 61 },
+    { start: 62, end: 70 },
+    { start: 71, end: 79 },
+    { start: 80, end: 88 },
+    { start: 89, end: 97 },
+    { start: 98, end: 103 },
+    { start: 104, end: 112 },
+    { start: 113, end: 122 },
+    { start: 123, end: 133 },
+    { start: 134, end: 143 },
+    { start: 144, end: 162 }
+];
 
-        function atualizarCapaVolume() {
-            const selectedChapter = parseInt(document.getElementById("volume").value);
-            let selectedCover;
-            for (let i = 0; i < intervals.length; i++) {
-                if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
-                    selectedCover = i + 1;
-                    break;
-                }
-            }
-            const imagePath = "/chainsaw/capas/volume_" + selectedCover + ".png";
+function atualizarCapaVolume() {
+    const selectedChapter = parseInt(document.getElementById("volume").value);
+    let selectedCover;
+    
+    // Encontrar o intervalo correspondente ao capítulo selecionado
+    for (let i = 0; i < intervals.length; i++) {
+        if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
+            selectedCover = i + 1;
+            break;
+        }
+    }
+    
+    // Construir o caminho da imagem da capa do volume
+    const imagePath = `/chainsaw/capas/volume_${selectedCover}.png`;
+
+    // Selecionar o elemento da capa do volume e atualizar a imagem instantaneamente
     const volumeCover = document.getElementById("volume-cover");
     volumeCover.src = imagePath;
+
+    // Definir o evento de clique na capa do volume
     volumeCover.onclick = function() {
-        const nextPagePath = "/chainsaw_capitulos/Capitulo_" + selectedChapter + "/ler.html";
-        // Verificar se o próximo caminho existe
+        const nextPagePath = `/chainsaw_capitulos/Capitulo_${selectedChapter}/ler.html`;
+
+        // Verificar se a próxima página existe antes de redirecionar
         fetch(nextPagePath)
             .then(response => {
-                // Se o caminho existe, redirecione para ele
                 if (response.ok) {
                     window.location.href = nextPagePath;
                 } else {
-                    // Caso contrário, redirecione para /index.html
-                    window.location.href = "/index.html";
+                    window.location.href = "/index.html"; // Redirecionar para a página inicial se o capítulo não existir
                 }
             })
             .catch(error => {
-                // Se houver algum erro, redirecione para /index.html
                 console.error("Erro ao verificar o caminho:", error);
-                window.location.href = "/index.html";
+                window.location.href = "/index.html"; // Redirecionar para a página inicial em caso de erro
             });
     };
+
+    // Salvar o capítulo selecionado no localStorage
     const pageIdentifier = window.location.pathname;
-    localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+    localStorage.setItem(`selectedChapter_${pageIdentifier}`, selectedChapter);
 }
 
-document.getElementById("volume").addEventListener("change", function() {
-    atualizarCapaVolume();
+document.getElementById("volume").addEventListener("change", atualizarCapaVolume);
+
+const volumeContainer = document.querySelector(".volume-container");
+let touchStartX;
+let touchEndX;
+
+volumeContainer.addEventListener("touchstart", function(event) {
+    touchStartX = event.touches[0].clientX;
 });
 
-        const volumeContainer = document.querySelector(".volume-container");
-        let touchStartX;
-        let touchEndX;
-        volumeContainer.addEventListener("touchstart", function(event) {
-            touchStartX = event.touches[0].clientX;
-        });
-        volumeContainer.addEventListener("touchend", function(event) {
-            touchEndX = event.changedTouches[0].clientX;
-            const diff = touchStartX - touchEndX;
-            if (diff > 1) {
-                let currentChapter = parseInt(document.getElementById("volume").value);
-                let nextChapter = currentChapter + 1;
-                if (nextChapter > 162) {
-                    nextChapter = 1;
-                }
-                document.getElementById("volume").value = nextChapter;
-                atualizarCapaVolume();
-            } else if (diff < -1) {
-                let currentChapter = parseInt(document.getElementById("volume").value);
-                let prevChapter = currentChapter - 1;
-                if (prevChapter < 1) {
-                    prevChapter = 162;
-                }
-                document.getElementById("volume").value = prevChapter;
-                atualizarCapaVolume();
-            }
-        });
-
-        window.onload = function() {
-            const pageIdentifier = window.location.pathname;
-            const storedChapter = localStorage.getItem("selectedChapter_" + pageIdentifier);
-            if (storedChapter) {
-                document.getElementById("volume").value = storedChapter;
-            } else {
-                document.getElementById("volume").value = "1";
-            }
-            atualizarCapaVolume();
+volumeContainer.addEventListener("touchend", function(event) {
+    touchEndX = event.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    
+    // Deslizar para a esquerda para ir para o próximo capítulo
+    if (diff > 1) {
+        let currentChapter = parseInt(document.getElementById("volume").value);
+        let nextChapter = currentChapter + 1;
+        if (nextChapter > 162) {
+            nextChapter = 1;
         }
-
-        const select = document.getElementById("volume");
-        for (let i = 1; i <= 162; i++) {
-            const option = document.createElement("option");
-            option.value = i;
-            option.text = "Capítulo " + i;
-            select.appendChild(option);
+        document.getElementById("volume").value = nextChapter;
+        atualizarCapaVolume();
+    } 
+    // Deslizar para a direita para ir para o capítulo anterior
+    else if (diff < -1) {
+        let currentChapter = parseInt(document.getElementById("volume").value);
+        let prevChapter = currentChapter - 1;
+        if (prevChapter < 1) {
+            prevChapter = 162;
         }
+        document.getElementById("volume").value = prevChapter;
+        atualizarCapaVolume();
+    }
+});
+
+window.onload = function() {
+    const pageIdentifier = window.location.pathname;
+    const storedChapter = localStorage.getItem(`selectedChapter_${pageIdentifier}`);
+    if (storedChapter) {
+        document.getElementById("volume").value = storedChapter;
+    } else {
+        document.getElementById("volume").value = "1";
+    }
+    atualizarCapaVolume();
+};
+
+const select = document.getElementById("volume");
+for (let i = 1; i <= 162; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.text = `Capítulo ${i}`;
+    select.appendChild(option);
+}
+
     </script>
 </body>
 </html>

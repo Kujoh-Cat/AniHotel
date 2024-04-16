@@ -6,9 +6,9 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-image: url(/img/fundo-14.png);
-    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    font-family: 'Arial', sans-serif;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -153,3 +153,111 @@ body {
         text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Aumenta em 30% */
     }
 }
+
+@media screen and (min-width: 1225px) {
+    .perfil {
+        position: relative;
+        left: -300px;
+        bottom: -250px;
+        min-width: 425px;
+        min-height: 425px;
+    }
+
+    .container-perfil {
+        position: relative;
+        right: -50px;
+        bottom: -22.5px;
+       
+        margin: 0 auto;
+        display: inline-block;
+        justify-content: center;
+        overflow: hidden;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%; /* Ajusta-se responsivamente */
+        max-width: 1000px; /* Aumenta em 30% */
+        border-radius: 15px; /* Aumenta em 30% */
+    }
+
+    .dados input[type="text"],
+.dados textarea {
+    width: calc(100% - 60px); /* Aumenta em 30% */
+    margin-bottom: 30px; /* Aumenta em 30% */
+    border-radius: 7.5px; /* Aumenta em 30% */
+    font-family: 'Galada', cursive;
+    background-color: transparent;
+    border: none;
+    padding: 15px; /* Aumenta em 30% */
+    animation: fadeIn 1s forwards;
+    outline: none; /* Remove a borda de seleção */
+}
+
+.dados textarea {
+    height: 210px; /* Aumenta em 30% */
+}
+
+#nome {
+    position: relative;
+    top: -245px;
+    right: -200px;
+    font-family: 'Galada', cursive;
+    font-size: 12.5vw; /* Aumenta em 30% */
+    text-align: center;
+    color: white;
+    border-radius: 7.5px; /* Aumenta em 30% */
+    animation: neonGlow 1.5s infinite alternate;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+}
+
+#bio {
+    position: relative;
+    top: -300px;
+    right: -200px;
+    font-family: 'Kalam', cursive;
+    font-size: 3vw; /* Aumenta em 30% */
+    color: white;
+    border-radius: 7.5px; /* Aumenta em 30% */
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.logo {
+    top: 25px;
+    left: -810px;
+}
+
+#catalogo_icone,
+#inicio_icone {
+    position: relative;
+    font-size: 30px;
+    left: -5px;
+}
+
+.logo h1 {
+    font-family: 'Kalam', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    font-size: 40px;
+    margin-left: 15px;
+    margin-right: 10px;
+    animation: neonGlow 2s infinite alternate; /* Adicionando animação de brilho pulsante */
+    transition: color 0.3s ease; /* Transição suave para mudança de cor */
+}
+
+/* Estilos para o ícone do logo */
+.logo i {
+    position: relative;
+    top: 10px;
+    animation: neonGlow 2s infinite alternate;
+    margin: 0;
+    transition: color 0.3s ease; 
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    position: relative;
+}
+
+  }

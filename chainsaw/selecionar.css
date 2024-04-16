@@ -1,17 +1,23 @@
 /* Estilos gerais */
 body {
     overflow: hidden;
-    background: #181818;
     color: white;
     font-family: 'Galada'; /* Utiliza a fonte Kalam para todo o corpo do texto */
-    margin: 0; /* Remove margens padrão do corpo */
-    padding: 0; /* Remove preenchimentos padrão do corpo */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(/img/fundo-14.png);
+    margin: 0 auto;
+    padding: 0;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
 }
 
-/* Estilo para o seletor de volume */
+/* Estiliza o seletor */
 select {
+    font-family: 'Kalam';
     padding: 15px;
-    font-size: 16px;
     border: none;
     border-radius: 5px;
     background-color: #272727;
@@ -19,37 +25,36 @@ select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: 80%; /* Define a largura do seletor */
-    max-width: 300px; /* Define a largura máxima do seletor */
-    margin: 20px auto; /* Centraliza o seletor na tela */
+    width: 80%;
+    max-width: 300px;
+    margin: 20px auto;
+    font-size: 18px; /* Aumenta o tamanho da fonte */
+    transition: transform 0.3s;
 }
 
-/* Estilo para as opções do seletor de volume */
+/* Estiliza as opções do seletor */
 select option {
-    background-color: #272727;
-    color: #fff;
     text-align: center;
-}
-
-/* Estilo para o botão */
-button {
     font-family: 'Kalam';
-    padding: 10px 50px;
-    font-size: 16px;
-    background-color: #5a22ff;
-    border: none;
-    border-radius: 5px;
     color: #fff;
-    cursor: pointer;
-    display: block; /* Faz o botão ocupar toda a largura disponível */
-    margin: 20px auto; /* Centraliza o botão na tela e adiciona uma margem inferior */
-    transition: background-color 0.3s ease; /* Adiciona uma transição suave de cor de fundo */
+    background: linear-gradient(90deg, #272727, #383838);
+    border: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px; /* Aumenta o tamanho da fonte */
 }
 
-/* Estilo para o botão ao passar o mouse */
-button:hover {
-    background-color: #45a049;
+/* Efeito de hover nas opções */
+select option:hover {
+    background: linear-gradient(90deg, #383838, #272727);
 }
+
+/* Adiciona um efeito de transição suave ao seletor */
+select:focus {
+    outline: none; /* Remove o contorno ao focar */
+    box-shadow: 0 0 10px rgba(38, 38, 38, 0.5), 0 0 20px rgba(82, 82, 82, 0.5); /* Adiciona uma sombra ao focar */
+    transition: box-shadow 0.3s ease; /* Adiciona uma transição suave para a sombra */
+}
+
 
 /* Estilo para o container do volume */
 .volume-container {
@@ -67,8 +72,13 @@ button:hover {
     max-height: 50%;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra à capa */
-    transition: transform 0.3s ease-in-out; /* Adiciona uma transição suave de transformação */
+    transition: transform 0.5s ease; /* Adiciona uma transição suave de transformação */
     margin-top: 20px; /* Adiciona uma margem superior para a capa */
+}
+
+/* Efeito de escala ao passar o mouse sobre a capa do volume */
+.volume-cover:hover {
+    transform: scale(1.1); /* Aumenta ligeiramente o tamanho da capa */
 }
 
 /* Estilo para o texto de escolha */
