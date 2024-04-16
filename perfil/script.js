@@ -157,31 +157,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const clipboardData = event.clipboardData || window.clipboardData;
         
         // Verifica se há imagens na área de transferência
-        if (clipboardData && clipboardData.files && clipboardData.files.length) {
-            // Obtém a primeira imagem da área de transferência
-            const imageFile = clipboardData.files[0];
-            
-            // Verifica se o arquivo é uma imagem
-            if (imageFile.type.startsWith('image/')) {
-                // Cria um leitor de arquivos para ler a imagem
-                const reader = new FileReader();
-                
-                // Define a função de carga para quando o leitor terminar de ler o arquivo
-                reader.onload = function(event) {
-                    // Obtém a URL dos dados da imagem
-                    const imageUrl = event.target.result;
+        if (clipboardData && clipboardData.items) {
+            // Itera sobre os itens da área de transferência
+            for (const item of clipboardData.items) {
+                // Verifica se o item é uma imagem
+                if (item.type.startsWith('image/')) {
+                    // Obtém a imagem como um arquivo
+                    const imageFile = item.getAsFile();
                     
-                    // Define a imagem de fundo do perfil com a imagem colada
-                    perfil.style.backgroundImage = `url(${imageUrl})`;
-                    perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
-                    perfil.style.filter = ''; // Removendo o filtro de brilho
+                    // Cria um leitor de arquivos para ler a imagem
+                    const reader = new FileReader();
                     
-                    // Salva os dados localmente, se necessário
-                    salvarDadosLocalmente({perfilFoto: imageUrl});
-                };
-                
-                // Lê o arquivo da imagem
-                reader.readAsDataURL(imageFile);
+                    // Define a função de carga para quando o leitor terminar de ler o arquivo
+                    reader.onload = function(event) {
+                        // Obtém a URL dos dados da imagem
+                        const imageUrl = event.target.result;
+                        
+                        // Define a imagem de fundo do perfil com a imagem colada
+                        perfil.style.backgroundImage = `url(${imageUrl})`;
+                        perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
+                        perfil.style.filter = ''; // Removendo o filtro de brilho
+                        
+                        // Salva os dados localmente, se necessário
+                        salvarDadosLocalmente({perfilFoto: imageUrl});
+                    };
+                    
+                    // Lê o arquivo da imagem
+                    reader.readAsDataURL(imageFile);
+                    
+                    // Interrompe o loop depois de encontrar uma imagem
+                    break;
+                }
             }
         }
     });
