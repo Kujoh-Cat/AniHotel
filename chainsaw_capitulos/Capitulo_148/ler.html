@@ -73,7 +73,7 @@
     </section>
 
     <script>
-      // Definições manuais
+     // Definições manuais
 var configuracoes = {
     numeroCapitulo: 148, // Defina aqui o número do capítulo
     nomeManga: "Chainsaw Man" // Nome do manga
@@ -81,24 +81,24 @@ var configuracoes = {
 
 // Intervalos de capítulos para determinar o número do volume
 const intervals = [
-            { start: 1, end: 7 },
-            { start: 8, end: 16 },
-            { start: 17, end: 25 },
-            { start: 26, end: 34 },
-            { start: 35, end: 43 },
-            { start: 44, end: 52 },
-            { start: 53, end: 61 },
-            { start: 62, end: 70 },
-            { start: 71, end: 79 },
-            { start: 80, end: 88 },
-            { start: 89, end: 97 },
-            { start: 98, end: 103 },
-            { start: 104, end: 112 },
-            { start: 113, end: 122 },
-            { start: 123, end: 133 },
-            { start: 134, end: 143 },
-            { start: 144, end: 162 }
-        ];
+    { start: 1, end: 7 },
+    { start: 8, end: 16 },
+    { start: 17, end: 25 },
+    { start: 26, end: 34 },
+    { start: 35, end: 43 },
+    { start: 44, end: 52 },
+    { start: 53, end: 61 },
+    { start: 62, end: 70 },
+    { start: 71, end: 79 },
+    { start: 80, end: 88 },
+    { start: 89, end: 97 },
+    { start: 98, end: 103 },
+    { start: 104, end: 112 },
+    { start: 113, end: 122 },
+    { start: 123, end: 133 },
+    { start: 134, end: 143 },
+    { start: 144, end: 162 }
+];
 
 // Função principal para carregar o conteúdo quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
@@ -180,6 +180,11 @@ function carregarImagensCapitulo(configuracoes) {
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
+}
+
+// Função para obter a quantidade de imagens na pasta do capítulo
+function obterQuantidadeImagens(numeroCapitulo) {
+    return Promise.resolve(30); // Simula a obtenção da quantidade de imagens como 30
 }
 
 // Função para obter o caminho da imagem do capítulo
@@ -311,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Navegação inferior já existe no documento. Nenhuma ação necessária.');
     }
 });
+
 
 </script>
 
