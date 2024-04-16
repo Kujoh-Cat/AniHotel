@@ -153,11 +153,14 @@ function carregarImagensCapitulo(configuracoes) {
 
                 // Crie um loop para adicionar imagens
                 for (var i = 1; i <= quantidade; i++) {
+                    // Formatar o índice com zeros à esquerda, se necessário
+                    var indiceFormatado = i < 10 ? '0' + i : i;
+
                     // Crie um novo elemento img
                     var novaImg = document.createElement('img');
 
                     // Defina o atributo src para o caminho da imagem
-                    novaImg.src = obterCaminhoImagem(i, configuracoes);
+                    novaImg.src = obterCaminhoImagem(indiceFormatado, configuracoes);
 
                     // Adicione um manipulador de eventos para o evento 'error'
                     novaImg.addEventListener('error', function(event) {
@@ -178,11 +181,6 @@ function carregarImagensCapitulo(configuracoes) {
     } else {
         console.error("Div '.capitulo' não encontrada.");
     }
-}
-
-// Função para obter a quantidade de imagens na pasta do capítulo
-function obterQuantidadeImagens(numeroCapitulo) {
-    return Promise.resolve(30); // Simula a obtenção da quantidade de imagens como 30
 }
 
 // Função para obter o caminho da imagem do capítulo
