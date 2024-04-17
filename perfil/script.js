@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nomeInput = document.getElementById('nome');
     const bioInput = document.getElementById('bio');
     const perfil = document.getElementById('perfil');
+    let perfilData = JSON.parse(localStorage.getItem('perfil')) || {};
 
     // Carregar dados salvos localmente
     carregarDados();
@@ -16,58 +17,54 @@ document.addEventListener('DOMContentLoaded', function() {
     fotoInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
-            carregarImagem(file);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataURL = e.target.result;
+                fadeIn(perfil, dataURL); // Aplica fadeIn para a nova imagem
+                if (perfilData.perfilFoto2) {
+                    perfilData.perfilFoto = perfilData.perfilFoto2;
+                }
+                perfilData.perfilFoto2 = dataURL;
+                localStorage.setItem('perfil', JSON.stringify(perfilData));
+                carregarDados(); // Carrega os dados salvos localmente imediatamente após adicionar a imagem
+            };
+            reader.readAsDataURL(file);
         }
     });
 
     // Evento de alteração nos inputs de nome e bio para salvar localmente
-    nomeInput.addEventListener('input', salvarNomeLocalmente);
-    bioInput.addEventListener('input', salvarBioLocalmente);
+    nomeInput.addEventListener('input', function() {
+        salvarDadosLocalmente({perfilNome: nomeInput.value});
+    });
+
+    bioInput.addEventListener('input', function() {
+        salvarDadosLocalmente({perfilBio: bioInput.value});
+    });
 
     // Função para carregar dados salvos localmente
     function carregarDados() {
-        const perfilData = JSON.parse(localStorage.getItem('perfil'));
-        if (perfilData) {
-            perfil.style.backgroundImage = `url(${perfilData.perfilFoto || '/img/perfil_padrao.png'})`;
-            nomeInput.value = perfilData.perfilNome || ''; // Verifica se o nome está definido
-            bioInput.value = perfilData.perfilBio || ''; // Verifica se a bio está definida
-            atualizarEstiloPerfil(perfilData.perfilFoto);
+        if (perfilData.perfilFoto) {
+            perfil.style.backgroundImage = `url(${perfilData.perfilFoto})`;
+            perfil.style.opacity = '1';
+            if (!perfilData.perfilFoto2) { // Verifica se não há uma segunda imagem definida
+                perfil.style.filter = ''; // Remove o filtro de brilho se não houver imagem padrão
+            }
         } else {
-            perfil.style.backgroundImage = `url('/img/perfil_padrao.png')`; // Definindo a imagem padrão
-            perfil.style.opacity = '0.5';
-            perfil.style.filter = 'brightness(50%)'; // Aplicando o filtro de brilho
+            if (!perfilData.perfilFoto2) { // Verifica se não há nenhuma imagem definida
+                perfil.style.backgroundImage = `url('/img/perfil_padrao.png')`;
+                perfil.style.opacity = '0.5';
+                perfil.style.filter = 'brightness(50%)';
+            }
         }
-    }
-
-    // Função para salvar o nome localmente
-    function salvarNomeLocalmente() {
-        const nome = nomeInput.value.trim();
-        salvarDadosLocalmente({perfilNome: nome});
-    }
-
-    // Função para salvar a bio localmente
-    function salvarBioLocalmente() {
-        const bio = bioInput.value.trim();
-        salvarDadosLocalmente({perfilBio: bio});
+        
+        nomeInput.value = perfilData.perfilNome || '';
+        bioInput.value = perfilData.perfilBio || '';
     }
 
     // Função para salvar dados localmente
     function salvarDadosLocalmente(dados) {
-        const perfilData = JSON.parse(localStorage.getItem('perfil')) || {};
-        localStorage.setItem('perfil', JSON.stringify({...perfilData, ...dados}));
-    }
-
-    // Função para carregar uma imagem
-    function carregarImagem(file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const dataURL = e.target.result;
-            perfil.style.backgroundImage = `url(${dataURL})`;
-            perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
-            perfil.style.filter = ''; // Removendo o filtro de brilho
-            salvarDadosLocalmente({perfilFoto: dataURL});
-        };
-        reader.readAsDataURL(file);
+        perfilData = {...perfilData, ...dados};
+        localStorage.setItem('perfil', JSON.stringify(perfilData));
     }
 
     // Sistema de arrastamento de imagem
@@ -86,77 +83,62 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const file = e.dataTransfer.files[0];
         if (file) {
-            carregarImagem(file);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataURL = e.target.result;
+                fadeIn(perfil, dataURL); // Aplica fadeIn para a nova imagem
+                if (perfilData.perfilFoto2) {
+                    perfilData.perfilFoto = perfilData.perfilFoto2;
+                }
+                perfilData.perfilFoto2 = dataURL;
+                localStorage.setItem('perfil', JSON.stringify(perfilData));
+                carregarDados(); // Carrega os dados salvos localmente imediatamente após adicionar a imagem
+            };
+            reader.readAsDataURL(file);
         }
     });
 
-    // Animação de fade
-    const elementosAnimados = document.querySelectorAll('.animate');
-    elementosAnimados.forEach(function(elemento) {
-        elemento.style.opacity = 0;
-        elemento.style.transform = 'translateY(20px)';
-    });
+    // Evento de deslize para alternar entre as imagens
+    perfil.addEventListener('touchstart', function(event) {
+        const initialX = event.touches[0].clientX;
+        
+        perfil.addEventListener('touchend', function(event) {
+            const currentX = event.changedTouches[0].clientX;
+            const diffX = initialX - currentX;
 
-    function fadeIn() {
-        elementosAnimados.forEach(function(elemento) {
-            elemento.style.animation = 'fadeIn 0.5s forwards';
-        });
-    }
-
-    fadeIn();
-
-    // Função para atualizar o estilo do perfil
-    function atualizarEstiloPerfil(perfilFoto) {
-        if (perfilFoto) {
-            perfil.style.opacity = '1';
-            perfil.style.filter = ''; // Removendo o filtro de brilho
-        } else {
-            perfil.style.opacity = '0.5';
-            perfil.style.filter = 'brightness(50%)'; // Aplicando o filtro de brilho
-        }
-    }
-
-    // Evento de colagem de imagem no nome ou na bio
-    nomeInput.addEventListener('paste', function(event) {
-        processarColagemImagem(event, nomeInput);
-    });
-
-    bioInput.addEventListener('paste', function(event) {
-        processarColagemImagem(event, bioInput);
-    });
-
-    // Função para processar a colagem de imagem
-    function processarColagemImagem(event, input) {
-        event.preventDefault();
-        const clipboardData = event.clipboardData || window.clipboardData;
-        const items = clipboardData.items;
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].type.indexOf('image') !== -1) {
-                const blob = items[i].getAsFile();
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const imageUrl = event.target.result;
-                    input.value = ''; // Limpa o campo de entrada para evitar a exibição do link
-                    carregarImagemUrl(imageUrl);
-                };
-                reader.readAsDataURL(blob);
+            if (Math.abs(diffX) > 50) { // Define um limite de 50 pixels para considerar como deslize
+                if (diffX > 0) {
+                    // Deslize para a esquerda
+                    if (perfilData.perfilFoto2) {
+                        perfil.style.backgroundImage = `url(${perfilData.perfilFoto2})`; // Altera a imagem instantaneamente
+                        [perfilData.perfilFoto, perfilData.perfilFoto2] = [perfilData.perfilFoto2, perfilData.perfilFoto]; // Troca as imagens
+                        localStorage.setItem('perfil', JSON.stringify(perfilData));
+                    }
+                } else {
+                    // Deslize para a direita
+                    if (perfilData.perfilFoto) {
+                        perfil.style.backgroundImage = `url(${perfilData.perfilFoto})`; // Altera a imagem instantaneamente
+                        [perfilData.perfilFoto, perfilData.perfilFoto2] = [perfilData.perfilFoto2, perfilData.perfilFoto]; // Troca as imagens
+                        localStorage.setItem('perfil', JSON.stringify(perfilData));
+                    }
+                }
             }
-        }
-    }
+        });
+    });
 
-    // Função para carregar uma imagem a partir de uma URL
-    function carregarImagemUrl(imageUrl) {
-        const image = new Image();
-        image.onload = function() {
-            perfil.style.backgroundImage = `url(${imageUrl})`;
-            perfil.style.opacity = '1'; // Definindo a opacidade para 1 quando uma imagem é carregada
-            perfil.style.filter = ''; // Removendo o filtro de brilho
-            salvarDadosLocalmente({perfilFoto: imageUrl});
-        };
-        image.onerror = function() {
-            console.error('Erro ao carregar a imagem da URL:', imageUrl);
-            alert('Erro ao carregar a imagem da URL. Certifique-se de que o link direciona para uma imagem válida.');
-        };
-        image.src = imageUrl;
+    // Função para aplicar fadeIn em um elemento com uma nova imagem
+    function fadeIn(elemento, novaImagem) {
+        elemento.style.transition = 'none'; // Remove a transição para uma troca instantânea
+        elemento.style.opacity = '0'; // Define a opacidade como 0 para iniciar o efeito de fadeIn
+        setTimeout(function() {
+            elemento.style.backgroundImage = `url(${novaImagem})`; // Define a nova imagem de fundo
+            elemento.style.opacity = '1'; // Define a opacidade como 1 após um curto atraso
+            if (!perfilData.perfilFoto2) { // Verifica se não há uma segunda imagem definida
+                elemento.style.filter = ''; // Remove o filtro de brilho se não houver imagem padrão
+            }
+        }, 1); // 1 milissegundo para uma troca instantânea
+        setTimeout(function() {
+            elemento.style.transition = ''; // Restaura a transição após o fadeIn
+        }, 1); // 1 milissegundo após o fadeIn
     }
 });
