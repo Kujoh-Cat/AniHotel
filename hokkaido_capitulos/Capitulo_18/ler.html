@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Limpar o console após 20 segundos
     setTimeout(function() {
         console.clear();
-    }, 1000);
+    }, 1050);
 });
 
 // Função para determinar o número do volume com base no intervalo do capítulo
@@ -143,11 +143,14 @@ function carregarImagensCapitulo(configuracoes) {
 
                 // Crie um loop para adicionar imagens
                 for (var i = 1; i <= quantidade; i++) {
+                    // Formatar o índice com zeros à esquerda, se necessário
+                    var indiceFormatado = i < 10 ? '0' + i : i;
+
                     // Crie um novo elemento img
                     var novaImg = document.createElement('img');
 
                     // Defina o atributo src para o caminho da imagem
-                    novaImg.src = obterCaminhoImagem(i, configuracoes);
+                    novaImg.src = obterCaminhoImagem(indiceFormatado, configuracoes);
 
                     // Adicione um manipulador de eventos para o evento 'error'
                     novaImg.addEventListener('error', function(event) {
@@ -177,7 +180,7 @@ function obterQuantidadeImagens(numeroCapitulo) {
 
 // Função para obter o caminho da imagem do capítulo
 function obterCaminhoImagem(indice, configuracoes) {
-    return `/hokkaido_capitulos/Capitulo_${configuracoes.numeroCapitulo}/${indice}.png`;
+    return `/hokkaido_capitulos/Capitulo_${configuracoes.numeroCapitulo}/${indice}.jpg`;
 }
 
 // Função para atualizar o conteúdo do "Continue Lendo"
@@ -189,8 +192,8 @@ function atualizarContinueLendo(configuracoes) {
     var capaContinueLendo = `/hokkaido/capas/volume_${numeroVolume}.png`;
     var nomeMangaContinueLendo = configuracoes.nomeManga;
 
-    // Salvar o estado do capítulo no localStorage
-    var continuarLendo = {
+     // Salvar o estado do capítulo no localStorage
+     var continuarLendo = {
         capa: capaContinueLendo,
         nomeManga: nomeMangaContinueLendo,
         capitulo: configuracoes.numeroCapitulo
@@ -224,6 +227,64 @@ window.addEventListener('error', function(event) {
     if (event.message.startsWith('GET')) {
         // Limpar o console se o erro estiver relacionado a uma solicitação GET
         console.clear();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Verifica se a navegação inferior já existe no documento
+    var bottomNavigationExists = document.querySelector('.bottom-navigation');
+
+    // Se a navegação inferior não existir, adiciona manualmente abaixo da seção
+    if (!bottomNavigationExists) {
+        // Encontra a seção
+        var section = document.querySelector('section');
+
+        // Verifica se a seção foi encontrada
+        if (section) {
+            // Cria a navegação inferior
+            var bottomNavigation = document.createElement('nav');
+            bottomNavigation.classList.add('bottom-navigation');
+
+            // Cria a div de ícones de navegação
+            var navigationIconsDiv = document.createElement('div');
+            navigationIconsDiv.classList.add('navigation-icons');
+            navigationIconsDiv.id = 'nav_ico-baixo';
+
+            // Adiciona os links de navegação à div de ícones de navegação
+            var previousChapterLink = document.createElement('a');
+            previousChapterLink.id = 'previous-chapter';
+            previousChapterLink.href = `/hokkaido_capitulos/Capitulo_${configuracoes.numeroCapitulo - 1}/ler.html`;
+            var previousChapterIcon = document.createElement('i');
+            previousChapterIcon.classList.add('fas', 'fa-backward');
+            previousChapterLink.appendChild(previousChapterIcon);
+            navigationIconsDiv.appendChild(previousChapterLink);
+
+            var selectVolumeLink = document.createElement('a');
+            selectVolumeLink.id = 'select-volume';
+            selectVolumeLink.href = '/hokkaido/selecionar.html';
+            var selectVolumeIcon = document.createElement('i');
+            selectVolumeIcon.classList.add('fas', 'fa-bars');
+            selectVolumeLink.appendChild(selectVolumeIcon);
+            navigationIconsDiv.appendChild(selectVolumeLink);
+
+            var nextChapterLink = document.createElement('a');
+            nextChapterLink.id = 'next-chapter';
+            nextChapterLink.href = `/hokkaido_capitulos/Capitulo_${configuracoes.numeroCapitulo + 1}/ler.html`;
+            var nextChapterIcon = document.createElement('i');
+            nextChapterIcon.classList.add('fas', 'fa-forward');
+            nextChapterLink.appendChild(nextChapterIcon);
+            navigationIconsDiv.appendChild(nextChapterLink);
+
+            // Adiciona a div de ícones de navegação à navegação inferior
+            bottomNavigation.appendChild(navigationIconsDiv);
+
+            // Insere a navegação inferior após a seção
+            section.parentNode.insertBefore(bottomNavigation, section.nextSibling);
+        } else {
+            console.error('Seção não encontrada no documento.');
+        }
+    } else {
+        console.log('Navegação inferior já existe no documento. Nenhuma ação necessária.');
     }
 });
 </script>
