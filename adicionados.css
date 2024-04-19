@@ -7,7 +7,7 @@
     text-align: center;
     padding: 20px;
     background: linear-gradient(to right,#242424, #191919); /* Cor de fundo */
-    border-radius: 10px; /* Bordas arredondadas */
+    border-radius: 1px; /* Bordas arredondadas */
     margin-bottom: 20px; /* Espaço abaixo */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
     overflow: hidden; /* Oculta conteúdo adicional */
@@ -71,8 +71,8 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
 }
 
-/* Efeito hover para a imagem do mangá */
 .adicionados-mangas img:hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     transform: scale(1.05); /* Aumentar ligeiramente */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
 }
@@ -175,11 +175,6 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
     }
     
-    /* Efeito hover para a imagem do mangá */
-    .adicionados-mangas img:hover {
-        transform: scale(1.05); /* Aumentar ligeiramente */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
-    }
     
     /* Estilos para o título do mangá */
     .adicionados-mangas h2 {
