@@ -105,9 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carregar as imagens do capítulo
     carregarImagensCapitulo(configuracoes);
 
-    // Selecionar aleatoriamente e definir o logo
-    selecionarLogo();
-
     // Atualizar o "Continue Lendo"
     atualizarContinueLendo(configuracoes);
 
@@ -142,7 +139,7 @@ function carregarImagensCapitulo(configuracoes) {
         obterQuantidadeImagens(configuracoes.numeroCapitulo)
             .then(function(quantidade) {
                 // Limitar a quantidade máxima de imagens para 30
-                quantidade = Math.min(quantidade, 30);
+                quantidade = Math.min(quantidade, 35);
 
                 // Crie um loop para adicionar imagens
                 for (var i = 1; i <= quantidade; i++) {
@@ -178,7 +175,7 @@ function carregarImagensCapitulo(configuracoes) {
 
 // Função para obter a quantidade de imagens na pasta do capítulo
 function obterQuantidadeImagens(numeroCapitulo) {
-    return Promise.resolve(30); // Simula a obtenção da quantidade de imagens como 30
+    return Promise.resolve(35); // Simula a obtenção da quantidade de imagens como 30
 }
 
 // Função para obter o caminho da imagem do capítulo
