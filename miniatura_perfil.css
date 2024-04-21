@@ -1,5 +1,9 @@
 /* Estilos para a miniatura do perfil */
 .perfil-thumbnail {
+    object-fit: cover;
+    object-position: center;
+    background-size: cover;
+    background-position: center;
     position: relative;
     max-width: 3vw; 
     max-height: 3vw; 
@@ -19,10 +23,28 @@
 }
 
 .perfil-thumbnail img {
+    object-fit: cover;
+    object-position: center;
+    background-size: cover;
+    background-position: center;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block; /* Certifica-se de que a imagem seja exibida como um bloco */
+}
+
+/* Estilos para a miniatura do perfil */
+.perfil-thumbnail {
+    width: 100px; /* Largura da miniatura */
+    height: 100px; /* Altura da miniatura */
+    overflow: hidden; /* Esconder conteúdo que ultrapassa a miniatura */
+    position: relative; /* Permitir posicionamento absoluto dos elementos internos */
+}
+
+.perfil-thumbnail img {
+    width: 100%; /* A imagem preenche toda a miniatura */
+    height: 100%; /* A imagem preenche toda a miniatura */
+    object-fit: cover; /* A imagem é redimensionada para preencher a miniatura, mantendo sua proporção */
 }
 
 #inicio_icone,
