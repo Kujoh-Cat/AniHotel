@@ -22,11 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (file.size > maxFileSizeMB * 1024 * 1024) {
                 alert('O tamanho do arquivo excede o limite máximo permitido.');
             } else if (isVideo(file)) {
-                if (file.size > maxVideoSizeMB * 1024 * 1024) {
-                    alert('O tamanho do vídeo excede o limite máximo permitido.');
-                } else {
-                    carregarVideo(file);
-                }
+                alert('Ainda não suportamos upload de vídeos. Por favor, carregue apenas imagens.');
             } else {
                 carregarArquivo(file);
             }
@@ -69,11 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (file.size > maxFileSizeMB * 1024 * 1024) {
                 alert('O tamanho do arquivo excede o limite máximo permitido.');
             } else if (isVideo(file)) {
-                if (file.size > maxVideoSizeMB * 1024 * 1024) {
-                    alert('O tamanho do vídeo excede o limite máximo permitido.');
-                } else {
-                    carregarVideo(file);
-                }
+                alert('Ainda não suportamos upload de vídeos. Por favor, carregue apenas imagens.');
             } else {
                 carregarArquivo(file);
             }
@@ -87,17 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert('Formato de arquivo não suportado. Por favor, carregue uma imagem.');
         }
-    }
-
-    // Função para carregar um vídeo
-    function carregarVideo(file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const dataURL = e.target.result;
-            perfil.innerHTML = `<video autoplay loop muted playsinline style="object-fit: cover; object-position: center; width: 100%; height: 100%;"><source src="${dataURL}" type="${file.type}"></video>`;
-            salvarNovoVideo(dataURL);
-        };
-        reader.readAsDataURL(file);
     }
 
     // Função para verificar se o arquivo é uma imagem
@@ -133,24 +114,14 @@ document.addEventListener('DOMContentLoaded', function() {
         carregarDados(); // Carrega os dados salvos localmente imediatamente após adicionar a imagem
     }
 
-    // Função para salvar um novo vídeo
-    function salvarNovoVideo(dataURL) {
-        if (perfilData.perfilFoto2) {
-            perfilData.perfilFoto = perfilData.perfilFoto2;
-        }
-        perfilData.perfilVideo = dataURL;
-        localStorage.setItem('perfil', JSON.stringify(perfilData));
-        carregarDados(); // Carrega os dados salvos localmente imediatamente após adicionar o vídeo
-    }
-
     // Função para carregar dados salvos localmente
     function carregarDados() {
-        if (perfilData.perfilFoto2) {
-            perfil.style.backgroundImage = `url(${perfilData.perfilFoto2})`;
+        if (perfilData.perfilFoto) {
+            perfil.style.backgroundImage = `url(${perfilData.perfilFoto})`;
             perfil.style.opacity = '1';
-            perfil.style.filter = ''; // Remove o filtro de brilho
-        } else if (perfilData.perfilVideo) {
-            perfil.innerHTML = `<video autoplay loop muted playsinline style="object-fit: cover; object-position: center; width: 100%; height: 100%;"><source src="${perfilData.perfilVideo}" type="video/mp4"></video>`;
+            if (!perfilData.perfilFoto2) { // Verifica se não há uma segunda imagem definida
+                perfil.style.filter = ''; // Remove o filtro de brilho se não houver imagem padrão
+            }
         } else {
             perfil.style.backgroundImage = `url('/img/perfil_padrao.png')`;
             perfil.style.opacity = '0.5';
