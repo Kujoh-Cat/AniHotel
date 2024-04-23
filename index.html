@@ -163,7 +163,7 @@
                 imagem: getRandomImageUrl('/jujutsu/capas', 'volume_', 0, 26, 'png'),
                 titulo: 'Jujutsu Kaisen',
                 url: '/jujutsu/selecionar.html',
-                capitulos: '257 Capítulos'
+                capitulos: '256 Capítulos'
             },
             {
                 id: 'chainsaw',
@@ -191,9 +191,22 @@
                 imagem: getRandomImageUrl('/bluelock/capas', 'volume_', 1, 28, 'png'),
                 titulo: 'Blue Lock',
                 url: '/bluelock/selecionar.html',
-                capitulos: '257 Capítulos'
+                capitulos: '256 Capítulos'
+            },
+            {
+                id: 'nagatoro',
+                imagem: getRandomImageUrl('/nagatoro/capas', 'volume_', 1, 19, 'png'),
+                titulo: "Don't Toy With Me, Miss Nagatoro",
+                url: '/nagatoro/selecionar.html',
+                capitulos: '148 Capítulos'
+            },
+            {
+                id: 'kanojo_mo_kanojo',
+                imagem: getRandomImageUrl('/kanojo-mo-kanojo/capas', 'volume_', 1, 16, 'png'),
+                titulo: "Confissões & Namoradas",
+                url: "#",
+                capitulos: '144 Capítulos'
             }
-            // Adicione mais mangás recomendados conforme necessário
         ];
 
         var adicionadosMangas = document.getElementById('adicionados-mangas');
@@ -340,6 +353,12 @@ function obterLinkManga(nomeManga, capitulo) {
             break;
         case 'Berserk':
             linkBase = '/berserk_capitulos/Capitulo_';
+            break;
+        case "Don't Toy With Me, Miss Nagatoro":
+            linkBase = '/nagatoro_capitulos/Capitulo_';
+            break;
+        case "Confissões & Namoradas":
+            linkBase = '/kanojo_capitulos/Capitulo_';
             break;
         default:
             console.error('Nome de manga desconhecido:', nomeManga);

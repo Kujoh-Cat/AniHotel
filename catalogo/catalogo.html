@@ -62,6 +62,13 @@
 
     <div class="nav-h1"><h1>Mangás</h1></div>
 
+    <div class="pesquisa">
+        <div class="pesquisar">
+            <input type="text" id="inputPesquisa" class="input-pesquisa" placeholder="">
+            <i class="fas fa-search icone-pesquisa" id="iconePesquisa"></i>
+        </div>
+    </div>     
+    
     <section>
         <div class="catalogo">
             <div class="mangá" id="berserk">
@@ -79,7 +86,7 @@
                 </div></a>
                 <div class="manga-nome">Jujutsu Kaisen</div>
                 <div class="manga-criador">Gege Akutami</div>
-                <div class="manga-capitulos">257 Capitulos</div>
+                <div class="manga-capitulos">256 Capitulos</div>
             </div>
     
             <div class="mangá" id="chainsaw">
@@ -97,7 +104,7 @@
                 </div></a>
                 <div class="manga-nome">Blue Lock</div>
                 <div class="manga-criador">Muneyuki Kaneshiro</div>
-                <div class="manga-capitulos">257 Capitulos</div>
+                <div class="manga-capitulos">256 Capitulos</div>
             </div>
 
             <div class="mangá" id="hokkaido">
@@ -117,6 +124,24 @@
                 <div class="manga-criador">Shinichi Fukuda</div>
                 <div class="manga-capitulos">102 Capitulos</div>
             </div>
+
+            <div class="mangá" id="nagatoro">
+                <a href="/nagatoro/selecionar.html"><div class="manga-capa">
+                        <img src="" alt="" class="nagatoro-imagem">
+                    </div></a>
+                    <div class="manga-nome">Don't Toy With Me, Miss Nagatoro</div>
+                    <div class="manga-criador">Nanashi</div>
+                    <div class="manga-capitulos">148 Capitulos</div>
+                </div>
+
+            <div class="mangá" id="kanojo-mo-kanojo">
+                    <a href="#"><div class="manga-capa">
+                            <img src="" alt="" class="kanojo-imagem">
+                        </div></a>
+                        <div class="manga-nome">Confissões & Namoradas</div>
+                        <div class="manga-criador">Hiroyuki</div>
+                        <div class="manga-capitulos">144 Capitulos</div>
+                    </div>
         </div>
     </section>
     
@@ -127,6 +152,126 @@
     <footer></footer>
 
     <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputPesquisa = document.getElementById('inputPesquisa');
+    const mangas = document.querySelectorAll('.mangá');
+    const iconePesquisa = document.getElementById('iconePesquisa');
+    let termoPesquisa = ''; // Variável para armazenar o termo de pesquisa
+    let timer; // Variável para armazenar o timer de inatividade
+
+    const placeholders = [
+        "Ex: Blue Lock",
+        "Ex: Berserk",
+        "Ex: Jujutsu",
+        "Ex: Nagatoro",
+        "Ex: DressUp",
+        "Ex: Hokkaido",
+        "Ex: Chainsaw",
+        "Ex: Confissões e Namoradas",
+    ];
+
+    // Define um placeholder aleatório ao carregar a página
+    inputPesquisa.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
+
+    // Objeto com palavras-chave para cada manga
+const palavrasChave = {
+        'berserk': '1989 mortes demonios furioso eclipse porradaria renan guts grafite estupro dark morte sangue tragédia trauma griffith',
+        'jujutsu': '2018 mortes demonios porradaria selado batalha de feiticeiros magos shibuya kenjaku getou satoru JK renan maki yuta shojo fetos subuxa go-jo gojo itadori nobara sukuna morte sangue tragédia dark',
+        'chainsaw': '2018 quanxi massacre inferno mortes bombas controle capeta motoserra porradaria CM vitor day202X sexo denji gostosas safadas lindas serra delicia futuro é pika power makima nayuta yoru asa fami reze peitos bunda buceta aki demonios comedia ação',
+        'bluelock': '2018 partidas faltas escanteio trave seleção neo egoist league NEL bastard barcha PXG ubers manshine city sub-20 BL noel noa loki craque copa vitor day202X muralha gabriel broderagem isagi yoichi bachira meguru barou nagi leo reo kaiser henri ego kurona ness hiori charles sae rin itoshis viados ryusei shidou gagamaru goleiro atacante zaga zagueiro cadeado azul gays encoxadas bolas pegação femboys japão machos homens garotos esporte futebol',
+        'hokkaido': '2019 peitudas cringe paia As garotas de Hokkaido são super adoráveis! Hokkaido Gals Are Super Adorable! Dosanko Gal wa Namara Menkoi gyaru HG DG virjola vitor day202X escolar colegial muralha gabriel romance enrolados fanservice viciar recomendados recomendacao chatos lesbicas yuri peitos peitao gostosas lindas safadas harem fuyuki minami sayuri akino rena tsubasa shiki comedia',
+        'dressup': '2018 sujuna camera ensaio dressup cringe paia vestir Sono Bisque Doll wa Koi wo Suru virjola muralha gabriel escolar colegial marin kitagawa wakana gojo romance enrolados chatos peitos fanservice gostosa linda safada comedia cosplay gojo',
+        'nagatoro': '2017 cringe paia Não Brinque Comigo, Senhorita Nagatoro Ijiranaide, Nagatoro-san virjola romance escolar colegial enrolados peitos fanservice bullying',
+        'kanojo-mo-kanojo': '2020 kanojo mo kanojo Girlfriend, Girlfriend Confissões & Namoradas Confissões e Namoradas romance escolar colegial harem gostosas peitos fanservice life hozhizaki rika kiryuu shino saki saki minase nagisa safadas comedia lindas',
+    };
+
+// Adiciona evento de clique no ícone de pesquisa
+    iconePesquisa.addEventListener('click', togglePesquisa);
+
+    // Adiciona evento de pressionar tecla no campo de pesquisa
+    inputPesquisa.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            realizarPesquisa(); // Executar a função de pesquisa ao pressionar Enter
+        }
+    });
+
+    // Adiciona evento de entrada no campo de pesquisa
+    inputPesquisa.addEventListener('input', function() {
+        termoPesquisa = inputPesquisa.value.trim().toLowerCase(); // Atualiza o termo de pesquisa em minúsculas
+        atualizarPesquisa(); // Atualiza a exibição dos mangás de acordo com o termo de pesquisa
+        reiniciarTimer(); // Reinicia o timer de inatividade
+    });
+
+    // Função para alternar a exibição da caixa de pesquisa
+    function togglePesquisa() {
+        if (!inputPesquisa.classList.contains('active')) {
+            inputPesquisa.classList.add('active'); // Adiciona a classe 'active' se não estiver presente
+            inputPesquisa.focus(); // Dá foco ao campo de pesquisa
+            iconePesquisa.style.color = '#181818'; // Muda a cor do ícone para preto
+            inputPesquisa.value = termoPesquisa; // Define o valor do campo de pesquisa como o termo armazenado
+        } else {
+            inputPesquisa.classList.remove('active'); // Remove a classe 'active'
+            inputPesquisa.blur(); // Remove o foco do campo de pesquisa
+            termoPesquisa = ''; // Limpa o termo de pesquisa
+            iconePesquisa.style.color = '#fff'; // Retorna a cor do ícone para branco
+        }
+        atualizarPesquisa(); // Atualiza a exibição dos mangás ao alternar a caixa de pesquisa
+        reiniciarTimer(); // Reinicia o timer de inatividade
+    }
+
+    // Função para executar a pesquisa
+    function realizarPesquisa() {
+        termoPesquisa = inputPesquisa.value.trim().toLowerCase(); // Atualiza o termo de pesquisa em minúsculas
+        atualizarPesquisa(); // Atualiza a exibição dos mangás ao pressionar Enter
+        reiniciarTimer(); // Reinicia o timer de inatividade
+    }
+
+    // Função para atualizar a exibição dos mangás de acordo com o termo de pesquisa
+    function atualizarPesquisa() {
+        mangas.forEach(function(manga) {
+            const nomeManga = removerAcentos(manga.querySelector('.manga-nome').textContent.toLowerCase()); // Obtém e remove acentos do nome do manga em minúsculas
+            const criadorManga = removerAcentos(manga.querySelector('.manga-criador').textContent.toLowerCase()); // Obtém e remove acentos do criador do manga em minúsculas
+            const capitulosManga = manga.querySelector('.manga-capitulos').textContent.toLowerCase(); // Obtém os capítulos do manga em minúsculas
+            const termoFormatado = formatarTermo(termoPesquisa); // Formata o termo de pesquisa
+            const regex = new RegExp(termoFormatado, 'i'); // Cria uma expressão regular insensível a maiúsculas e minúsculas
+            if (
+                regex.test(removerAcentos(nomeManga)) ||
+                regex.test(removerAcentos(criadorManga)) ||
+                regex.test(capitulosManga) ||
+                (manga.id && palavrasChave[manga.id] && regex.test(removerAcentos(palavrasChave[manga.id])))
+            ) {
+                manga.style.display = 'block'; // Exibe o manga se algum dos campos ou palavras-chave contiver o termo de pesquisa
+            } else {
+                manga.style.display = 'none'; // Esconde o manga se nenhum dos campos ou palavras-chave contiver o termo de pesquisa
+            }
+        });
+    }
+
+    // Função para formatar o termo de pesquisa como uma expressão regular
+    function formatarTermo(termo) {
+        // Escapa caracteres especiais para evitar problemas com expressões regulares
+        return termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    // Função para remover acentos de uma string
+    function removerAcentos(texto) {
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    // Função para reiniciar o timer de inatividade
+    function reiniciarTimer() {
+        clearTimeout(timer); // Limpa o timer existente
+        timer = setTimeout(function() {
+            inputPesquisa.classList.remove('active'); // Fecha a barra de pesquisa
+            inputPesquisa.blur(); // Remove o foco do campo de pesquisa
+            iconePesquisa.style.color = '#fff'; // Retorna a cor do ícone para branco
+        }, 30000); // Tempo de inatividade: 30 segundos (30000 milissegundos)
+    }
+
+    // Inicia o timer de inatividade ao carregar a página
+    reiniciarTimer();
+});
+
         document.addEventListener('DOMContentLoaded', function() {
     const perfilThumbnail = document.getElementById('perfil-thumbnail');
     const perfilData = JSON.parse(localStorage.getItem('perfil'));

@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0 auto;
     padding: 0 auto;
+    overflow-x: hidden;
 }
 
 
@@ -124,6 +125,16 @@ section {
     margin-bottom: 30px;
 }
 
+#nagatoro {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#kanojo-mo-kanojo {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 @keyframes neonGlow {
     0% {
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
@@ -133,6 +144,106 @@ section {
     }
     100% {
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.pesquisa {
+    margin-top: 10px;
+    position: relative;
+    top: 40px;
+    margin: 20px auto;
+}
+
+.pesquisar {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Largura máxima da barra de pesquisa */
+    margin: 0 auto;
+}
+
+.pesquisa {
+    position: relative;
+    top: 40px;
+    margin: 20px auto;
+}
+
+.pesquisar {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Largura máxima da barra de pesquisa */
+    margin: 0 auto;
+}
+
+.input-pesquisa {
+    text-align: center;
+    font-family: 'Kalam', cursive;
+    width: calc(100% - 40px); /* Largura inicial ajustada para o ícone de pesquisa */
+    padding: 14px 20px;
+    border: 2px solid transparent; /* Borda transparente inicialmente */
+    border-radius: 25px; /* Borda arredondada */
+    font-size: 17.5px;
+    outline: none;
+    transition: border-color 0.3s ease, width 0.5s ease; /* Transição para a cor da borda e largura */
+}
+
+.input-pesquisa:focus {
+    border-color: white; /* Cor da borda ao receber foco */
+    border: 2px solid lightblue;
+}
+
+.icone-pesquisa {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #fff; /* Cor da lupa inicialmente */
+    padding: 10px; /* Espaçamento interno para a lupa */
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease; /* Transição para a cor do ícone, fundo e transformação */
+}
+
+/* Efeito de fundo branco e lupa preta */
+.icone-pesquisa.active {
+    color: #181818; /* Cor da lupa quando ativa */
+}
+
+/* Efeito de expansão do campo de pesquisa */
+.input-pesquisa {
+    width: 0; /* Inicialmente escondido */
+    padding: 14px 0; /* Zero padding inicial */
+    overflow: hidden; /* Esconde o conteúdo excedente */
+    transition: width 0.5s ease, padding 0.3s ease; /* Transição para largura e padding */
+}
+
+.input-pesquisa.active {
+    width: calc(100% - 40px); /* Exibe o campo de pesquisa */
+    padding: 14px 20px; /* Aplica o padding adequado */
+}
+
+/* Efeito de digitação */
+.input-pesquisa.active::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #007bff, #ff00ff, #00ff00, #ffff00, #ff0000); /* Gradiente de cores */
+    animation: digitar 0.5s forwards; /* Animação de digitação */
+}
+
+@keyframes digitar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .pesquisar {
+        max-width: 90%; /* Reduz a largura máxima em telas menores */
     }
 }
 

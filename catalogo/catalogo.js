@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var bluelockImages = document.querySelectorAll('.bluelock-imagem');
     var hokkaidoImages = document.querySelectorAll('.hokkaido-imagem');
     var dressupImages = document.querySelectorAll('.dressup-imagem');
+    var nagatoroImages = document.querySelectorAll('.nagatoro-imagem');
+    var kanojoImages = document.querySelectorAll('.kanojo-imagem');
 
     // Para cada imagem, define uma URL de imagem aleatória
     jujutsuImages.forEach(function(image) {
@@ -39,6 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dressupImages.forEach(function(image) {
         image.src = getRandomImageUrl('/dressup/capas', 'volume_', 1, 12, 'png');
+    });
+
+    nagatoroImages.forEach(function(image) {
+        image.src = getRandomImageUrl('/nagatoro/capas', 'volume_', 1, 19, 'png');
+    });
+
+    kanojoImages.forEach(function(image) {
+        image.src = getRandomImageUrl('/kanojo-mo-kanojo/capas', 'volume_', 1, 16, 'png');
     });
 
     // Seleciona o container do catálogo
