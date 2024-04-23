@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site De Mangás Em Alta Qualidade!">
+    <link rel="stylesheet" href="/nagatoro/selecionar.css">
+    <link rel="stylesheet" href="/header_vol.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>AniHotel+</title>
+    <style>
+        .volume-container {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .volume-cover {
+            transition: transform 0.3s ease;
+        }
+
+        #catalogo_icone,
+#inicio_icone {
+    position: relative;
+    font-size: 6vw;
+    left: -2px;
+    top: 15px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">    
+                <i class="fas fa-book-open logo-icon"></i>
+                <h1>AniHotel+</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/catalogo/catalogo.html">
+                            <i id="catalogo_icone" class="fas fa-bars"></i>
+                            <span class="nav-text">Catálogo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/index.html">
+                            <i id="inicio_icone" class="fas fa-home"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>    
+    <!-- Container para o volume selecionado -->
+    <div class="volume-container">
+        <!-- Imagem da capa do volume selecionado -->
+        <img id="volume-cover" src="" alt="Capa do Volume Selecionado" class="volume-cover">
+        
+        <!-- Seletor de volumes -->
+        <label for="volume">Escolha o Capítulo</label>
+        <select id="volume" name="volume">
+            <!-- Options serão adicionadas dinamicamente pelo JavaScript -->
+        </select>
+
+    <script src="/favicons.js"></script>
+    <script src="/caso_icones.js"></script>
+    <script>
+        // Definição dos intervalos de capítulos para cada capa
+const intervals = [
+    { start: 0, end: 8 },
+    { start: 9, end: 14 },
+    { start: 15, end: 23 },
+    { start: 24, end: 30 },
+    { start: 31, end: 38 },
+    { start: 39, end: 46 },
+    { start: 47, end: 53 },
+    { start: 54, end: 62 },
+    { start: 63, end: 70 },
+    { start: 71, end: 78 },
+    { start: 79, end: 86 },
+    { start: 87, end: 94 },
+    { start: 95, end: 102 },
+    { start: 103, end: 109 },
+    { start: 110, end: 116 },
+    { start: 117, end: 124 },
+    { start: 125, end: 131 },
+    { start: 132, end: 138 },
+    { start: 139, end: 148 }
+];
+
+// Função para atualizar a capa do volume selecionado
+function atualizarCapaVolume() {
+    const selectedChapter = parseInt(document.getElementById("volume").value);
+
+    // Encontrando a capa correspondente ao capítulo selecionado
+    let selectedCover = 1;
+    for (let i = 0; i < intervals.length; i++) {
+        if (selectedChapter >= intervals[i].start && selectedChapter <= intervals[i].end) {
+            selectedCover = i + 1; // As capas começam do número 1
+            break;
+        }
+    }
+
+    const imagePath = "/nagatoro/capas/volume_" + selectedCover + ".png";
+    const volumeCover = document.getElementById("volume-cover");
+    volumeCover.src = imagePath;
+    volumeCover.onclick = function() {
+        const nextPagePath = "/nagatoro_capitulos/Capitulo_" + selectedChapter + "/ler.html";
+        // Verificar se o próximo caminho existe
+        fetch(nextPagePath)
+            .then(response => {
+                // Se o caminho existe, redirecione para ele
+                if (response.ok) {
+                    window.location.href = nextPagePath;
+                } else {
+                    // Caso contrário, redirecione para /index.html
+                    window.location.href = "/index.html";
+                }
+            })
+            .catch(error => {
+                // Se houver algum erro, redirecione para /index.html
+                console.error("Erro ao verificar o caminho:", error);
+                window.location.href = "/index.html";
+            });
+    };
+    const pageIdentifier = window.location.pathname;
+    localStorage.setItem("selectedChapter_" + pageIdentifier, selectedChapter);
+}
+
+document.getElementById("volume").addEventListener("change", function() {
+    atualizarCapaVolume();
+});
+
+// Adiciona um ouvinte de eventos para permitir arrastar a capa para o próximo e o volume anterior
+const volumeContainer = document.querySelector(".volume-container");
+let touchStartX;
+let touchEndX;
+volumeContainer.addEventListener("touchstart", function(event) {
+    touchStartX = event.touches[0].clientX;
+});
+volumeContainer.addEventListener("touchend", function(event) {
+    touchEndX = event.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 1) { // Defina a sensibilidade do arrasto para o próximo volume
+        // Avançar para o próximo volume
+        let currentChapter = parseInt(document.getElementById("volume").value);
+        currentChapter++;
+        if (currentChapter > 148) {
+            currentChapter = 1; // Volta para o primeiro capítulo
+        }
+        document.getElementById("volume").value = currentChapter;
+        atualizarCapaVolume();
+    } else if (diff < -1) { // Defina a sensibilidade do arrasto para o volume anterior
+        // Voltar para o volume anterior
+        let currentChapter = parseInt(document.getElementById("volume").value);
+        currentChapter--;
+        if (currentChapter < 1) {
+            currentChapter = 148; // Vai para o último capítulo
+        }
+        document.getElementById("volume").value = currentChapter;
+        atualizarCapaVolume();
+    }
+});
+
+// Chama a função para atualizar a capa do volume quando a página carregar
+window.onload = function() {
+    // Verifica se há um capítulo selecionado armazenado no localStorage para esta página específica
+    const pageIdentifier = window.location.pathname; // Obtém o caminho da URL da página
+    const storedChapter = localStorage.getItem("selectedChapter_" + pageIdentifier);
+    if (storedChapter) {
+        // Define o capítulo selecionado no seletor de volumes
+        document.getElementById("volume").value = storedChapter;
+    } else {
+        // Caso não haja nada salvo, o capítulo padrão será o Capítulo 1
+        document.getElementById("volume").value = "1";
+    }
+    // Atualiza a capa do volume
+    atualizarCapaVolume();
+}
+
+// Obtém o elemento select
+const select = document.getElementById("volume");
+
+// Loop para adicionar as opções de 1 a 103
+for (let i = 1; i <= 148; i++) {
+    // Cria um novo elemento option
+    const option = document.createElement("option");
+    // Define o valor e o texto da opção como o número do capítulo
+    option.value = i;
+    option.text = "Capítulo " + i;
+    // Adiciona a opção ao select
+    select.appendChild(option);
+}
+    </script>
+</body>
+</html>

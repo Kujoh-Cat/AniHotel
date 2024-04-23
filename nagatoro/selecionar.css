@@ -1,0 +1,202 @@
+/* Estilos gerais */
+body {
+    overflow: hidden;
+    color: white;
+    font-family: 'Galada'; /* Utiliza a fonte Kalam para todo o corpo do texto */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(/img/fundo-14.png);
+    margin: 0 auto;
+    padding: 0;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+/* Estiliza o seletor */
+select {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #272727;
+    color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 20px auto;
+    font-size: 100%; /* Aumenta o tamanho da fonte */
+    transition: transform 0.3s;
+}
+
+/* Estiliza as opções do seletor */
+select option {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: #fff;
+    background: linear-gradient(90deg, #272727, #383838);
+    border: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+}
+
+/* Efeito de hover nas opções */
+select option:hover {
+    background: linear-gradient(90deg, #383838, #272727);
+}
+
+/* Adiciona um efeito de transição suave ao seletor */
+select:focus {
+    outline: none; /* Remove o contorno ao focar */
+    box-shadow: 0 0 10px #181818; /* Adiciona uma sombra ao focar */
+    transition: box-shadow 0.3s ease; /* Adiciona uma transição suave para a sombra */
+}
+
+
+/* Estilo para o container do volume */
+.volume-container {
+    position: relative;
+    bottom: -60px;
+    height: 900px;
+    text-align: center;
+    margin-top: 10%; /* Centraliza o container verticalmente */
+}
+
+/* Estilo para a capa do volume */
+.volume-cover {
+    position: relative;
+    max-width: 50%;
+    max-height: 50%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra à capa */
+    transition: transform 0.5s ease; /* Adiciona uma transição suave de transformação */
+    margin-top: 20px; /* Adiciona uma margem superior para a capa */
+}
+
+/* Efeito de escala ao passar o mouse sobre a capa do volume */
+.volume-cover:hover {
+    transform: scale(1.1); /* Aumenta ligeiramente o tamanho da capa */
+}
+
+/* Estilo para o texto de escolha */
+.choose-text {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo para o texto ao lado do seletor */
+.volume-container label {
+    position: relative;
+    display: block;
+    font-size: 25px;
+    bottom: -10px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+/* Estilo para tornar a página responsiva em telas menores */
+@media screen and (max-width: 768px) {
+    select, button {
+        font-size: 14px;
+    }
+
+    .volume-cover {
+        max-width: 90%; /* Ajusta a largura máxima da capa para telas menores */
+    }
+}
+
+/* Estilo para telas deitadas */
+@media screen and (orientation: landscape) {
+    body {
+        overflow: auto;
+    }
+
+    .volume-container {
+        bottom: -120px;
+        margin: 0;
+        position: relative;
+        max-width: 450px;
+        margin-top: 13%; /* Ajusta a margem superior para telas deitadas */
+    }
+
+    .volume-cover {
+        position: relative;
+        margin: 0;
+        margin-top: -10px;
+        top: -105px;
+        max-width: 40%; /* Ajusta a largura máxima da capa para telas deitadas */
+    }
+
+    .choose-text {
+        margin-top: 2px;
+        position: relative;
+        right: 50px;
+        font-size: 50px; /* Reduz o tamanho do texto de escolha para telas deitadas */
+    }
+
+    .volume-container label {
+        margin-bottom: 2px;
+        margin-top: 2px;
+        position: relative;
+        right: -270px;
+        font-size: 25px;
+        top: -330px;
+    }
+
+    select {
+        margin-bottom: 20px;
+        margin-top: 2px;
+        position: relative;
+        right: -270px;
+        font-size: 16px;
+        top: -330px;
+    }
+
+    button {
+        margin-bottom: 2px;
+        margin-top: 2px;
+        position: relative;
+        right: -270px;
+        top: -330px;
+    }
+}
+
+@font-face {
+    font-family: 'Edu NSW ACT Foundation';
+    src: url('/Fonts/Edu.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Galada';
+    src: url('/Fonts/Galada-Regular.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Kalam';
+    src: url('/Fonts/Kalam-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Bangers';
+    src: url('/Fonts/Bangers-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Pacifico';
+    src: url('/Fonts/Pacifico-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Protest Guerrilla';
+    src: url('/Fonts/ProtestGuerrilla-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Jersey';
+    src: url('/Fonts/Jersey25-Regular.ttf') format('truetype');
+  }
