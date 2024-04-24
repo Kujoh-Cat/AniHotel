@@ -16,7 +16,7 @@ body {
 
 /* Estiliza o seletor */
 select {
-    font-family: 'Kalam';
+    font-family: 'Times New Roman', Times, serif;
     padding: 15px;
     border: none;
     border-radius: 5px;
@@ -28,14 +28,14 @@ select {
     width: 80%;
     max-width: 300px;
     margin: 20px auto;
-    font-size: 18px; /* Aumenta o tamanho da fonte */
+    font-size: 100%; /* Aumenta o tamanho da fonte */
     transition: transform 0.3s;
 }
 
 /* Estiliza as opções do seletor */
 select option {
     text-align: center;
-    font-family: 'Kalam';
+    font-family: 'Times New Roman', Times, serif;
     color: #fff;
     background: linear-gradient(90deg, #272727, #383838);
     border: none;
@@ -51,7 +51,7 @@ select option:hover {
 /* Adiciona um efeito de transição suave ao seletor */
 select:focus {
     outline: none; /* Remove o contorno ao focar */
-    box-shadow: 0 0 10px rgba(38, 38, 38, 0.5), 0 0 20px rgba(82, 82, 82, 0.5); /* Adiciona uma sombra ao focar */
+    box-shadow: 0 0 10px #181818; /* Adiciona uma sombra ao focar */
     transition: box-shadow 0.3s ease; /* Adiciona uma transição suave para a sombra */
 }
 
@@ -180,3 +180,24 @@ select:focus {
     font-family: 'Kalam';
     src: url('/Fonts/Kalam-Regular.ttf') format('truetype');
   }
+
+  @font-face {
+    font-family: 'Bangers';
+    src: url('/Fonts/Bangers-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Pacifico';
+    src: url('/Fonts/Pacifico-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Protest Guerrilla';
+    src: url('/Fonts/ProtestGuerrilla-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Jersey';
+    src: url('/Fonts/Jersey25-Regular.ttf') format('truetype');
+  }
+

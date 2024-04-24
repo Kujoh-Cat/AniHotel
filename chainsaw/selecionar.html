@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site De Mangás Em Alta Qualidade!">
     <meta name="theme-color" content="#181818">
-    <link rel="stylesheet" href="/header_vol.css">
     <link rel="stylesheet" href="/chainsaw/selecionar.css">
+    <link rel="stylesheet" href="/header_vol.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>AniHotel+</title>
     <style>
@@ -67,6 +67,9 @@
     <script src="/arrastar_capa.js"></script>
     <script src="/caso_icones.js"></script>
     <script>
+
+var capFinal = 163;
+
           const intervals = [
     { start: 1, end: 7 },
     { start: 8, end: 16 },
@@ -84,7 +87,7 @@
     { start: 113, end: 122 },
     { start: 123, end: 133 },
     { start: 134, end: 143 },
-    { start: 144, end: 162 }
+    { start: 144, end: capFinal }
 ];
 
 function atualizarCapaVolume() {
@@ -148,7 +151,7 @@ volumeContainer.addEventListener("touchend", function(event) {
     if (diff > 1) {
         let currentChapter = parseInt(document.getElementById("volume").value);
         let nextChapter = currentChapter + 1;
-        if (nextChapter > 162) {
+        if (nextChapter > capFinal) {
             nextChapter = 1;
         }
         document.getElementById("volume").value = nextChapter;
@@ -159,7 +162,7 @@ volumeContainer.addEventListener("touchend", function(event) {
         let currentChapter = parseInt(document.getElementById("volume").value);
         let prevChapter = currentChapter - 1;
         if (prevChapter < 1) {
-            prevChapter = 162;
+            prevChapter = capFinal;
         }
         document.getElementById("volume").value = prevChapter;
         atualizarCapaVolume();
@@ -178,7 +181,7 @@ window.onload = function() {
 };
 
 const select = document.getElementById("volume");
-for (let i = 1; i <= 162; i++) {
+for (let i = 1; i <= capFinal; i++) {
     const option = document.createElement("option");
     option.value = i;
     option.text = `Capítulo ${i}`;
