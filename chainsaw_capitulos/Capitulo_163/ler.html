@@ -63,7 +63,7 @@
         <div class="navigation-icons">
             <a href="#" id="previous-chapter"><i class="fas fa-backward"></i></a>
             <a href="/chainsaw/selecionar.html" id="select-volume"><i class="fas fa-bars"></i></a>
-            <a href="#" id="next-chapter"><i class="fas fa-forward"></i></a>
+            <a href="#" id="next-chapter" style="display: none;"><i class="fas fa-forward"></i></a>
         </div>
     </nav>
 
@@ -73,11 +73,25 @@
     </section>
 
     <script>
-     // Definições manuais
+// Definições manuais
 var configuracoes = {
-    numeroCapitulo: 162, // Defina aqui o número do capítulo
+    numeroCapitulo: 163, // Defina aqui o número do capítulo
     nomeManga: "Chainsaw Man" // Nome do manga
 };
+
+// Definição das variáveis booleanas para controlar a visibilidade dos botões de navegação
+var proximoCap = false;
+var anteriorCap = true; // Se desejar que o botão de navegação anterior seja visível inicialmente, defina como true
+
+// Verifica a variável proximoCap para imprimir um console.log estilizado quando for false, após 1100ms
+setTimeout(function() {
+    if (!proximoCap) {
+        var gradient = 'linear-gradient(to right, #ff758c, #ff7eb3)';
+        var style = 'font-size: 20px; font-weight: bold; font-family: Kalam, cursive; background: ' + gradient + '; -webkit-background-clip: text; -webkit-text-fill-color: transparent;';
+        var mensagem = "Sem Capítulo " + (configuracoes.numeroCapitulo + 1) + ", Por Enquanto! :D";
+        console.log('%c' + mensagem, style);
+    }
+}, 1050);
 
 // Intervalos de capítulos para determinar o número do volume
 const intervals = [
@@ -152,14 +166,11 @@ function carregarImagensCapitulo(configuracoes) {
 
                 // Crie um loop para adicionar imagens
                 for (var i = 1; i <= quantidade; i++) {
-                    // Formatar o índice com zeros à esquerda, se necessário
-                    var indiceFormatado = i < 10 ? '0' + i : i;
-
                     // Crie um novo elemento img
                     var novaImg = document.createElement('img');
 
                     // Defina o atributo src para o caminho da imagem
-                    novaImg.src = obterCaminhoImagem(indiceFormatado, configuracoes);
+                    novaImg.src = obterCaminhoImagem(i, configuracoes);
 
                     // Adicione um manipulador de eventos para o evento 'error'
                     novaImg.addEventListener('error', function(event) {
@@ -247,7 +258,21 @@ function atualizarLinksCapitulo(numeroCapitulo) {
     var nextChapterLink = document.getElementById('next-chapter');
 
     previousChapterLink.href = `/chainsaw_capitulos/Capitulo_${numeroCapitulo - 1}/ler.html`;
-    nextChapterLink.href = `/chainsaw_capitulos/Capitulo_${numeroCapitulo + 1}/ler.html`;
+    nextChapterLink.href = `#`;
+
+    // Define a visibilidade do próximo capítulo com base na variável booleana
+    if (proximoCap) {
+        nextChapterLink.style.display = 'inline-block';
+    } else {
+        nextChapterLink.style.display = 'none';
+    }
+
+    // Define a visibilidade do capítulo anterior com base na variável booleana
+    if (anteriorCap) {
+        previousChapterLink.style.display = 'inline-block';
+    } else {
+        previousChapterLink.style.display = 'none';
+    }
 }
 
 // Adicionar um manipulador de eventos para o evento 'error' do objeto window
@@ -298,11 +323,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             var nextChapterLink = document.createElement('a');
             nextChapterLink.id = 'next-chapter';
-            nextChapterLink.href = `/chainsaw_capitulos/Capitulo_${configuracoes.numeroCapitulo + 1}/ler.html`;
+            nextChapterLink.href = `#`;
             var nextChapterIcon = document.createElement('i');
             nextChapterIcon.classList.add('fas', 'fa-forward');
             nextChapterLink.appendChild(nextChapterIcon);
             navigationIconsDiv.appendChild(nextChapterLink);
+
+            // Verifica a variável proximoCap para ocultar o botão de navegação inferior se for false
+            if (!proximoCap) {
+                nextChapterLink.style.display = 'none';
+            }
 
             // Adiciona a div de ícones de navegação à navegação inferior
             bottomNavigation.appendChild(navigationIconsDiv);
